@@ -6,7 +6,5 @@ export default {
   },
   size: 3,
   amplitude: 3.3,
-  frequency: 0.43,
-  radius: 15,
-  count: 10000
+  frequency: 0.43
 }

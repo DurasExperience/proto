@@ -4,7 +4,7 @@ import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../abstract/ParticlesMesh'
 import GUI from './../../../../../../../helpers/GUI'
 
-class Floor extends Object3D {
+class Mountains extends Object3D {
 
   constructor() {
 
@@ -13,19 +13,36 @@ class Floor extends Object3D {
     this.config = Config
 
     this.geometry = new BufferGeometry()
-    this.positions = new Float32Array( this.config.count * 3 );
 
-    for ( let i = 0, i3 = 0; i < this.config.count; i ++, i3 += 3 ) {
+    this.max = 0
 
-      this.positions[ i3 + 0 ] = ( Math.random() * 2 - 1 ) * this.config.radius;
-      this.positions[ i3 + 1 ] = 0;
-      this.positions[ i3 + 2 ] = ( Math.random() * 2 - 1 ) * this.config.radius;
+    const model = Store.getResource( '01_mountains' )
+    model.traverse(( child ) => {
 
-    }
-    this.geometry.addAttribute( 'position', new BufferAttribute( this.positions, 3 ) )
-    this.geometry.computeBoundingSphere()
+      if ( child instanceof THREE.Mesh ) {
 
-    this.mesh = new ParticlesMesh( 'Floor', this.geometry.attributes.position, Config )
+        this.max += child.geometry.attributes.position.count
+
+      }
+
+    })
+    this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 3 ) )
+
+    let offset = 0
+
+    model.traverse(( child ) => {
+
+      if ( child instanceof THREE.Mesh ) {
+
+        this.geometry.merge( child.geometry, offset )
+        offset += child.geometry.attributes.position.count
+
+      }
+
+    })
+
+    this.mesh = new ParticlesMesh( 'mountains', this.geometry.attributes.position, Config )
+    this.mesh.position.z = -1000
     this.add( this.mesh )
 
     this.addGUI()
@@ -34,7 +51,7 @@ class Floor extends Object3D {
 
   addGUI() {
 
-    const noiseFolder = GUI.addFolder( 'Floor' )
+    const noiseFolder = GUI.addFolder( 'Mountains' )
 
     noiseFolder.add( this.mesh.uniforms.amplitude, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'amplitude' )
     noiseFolder.add( this.mesh.uniforms.frequency, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'frequency' )
@@ -50,4 +67,4 @@ class Floor extends Object3D {
 
 }
 
-export default Floor
+export default Mountains

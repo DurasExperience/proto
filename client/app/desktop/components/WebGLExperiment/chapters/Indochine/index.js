@@ -1,4 +1,5 @@
 import { Group } from 'three'
+import Mountains from './Mountains'
 import Floor from './Floor'
 
 class Indochine extends Group {
@@ -7,8 +8,10 @@ class Indochine extends Group {
 
     super()
 
+    this.mountains = new Mountains()
     this.floor = new Floor()
 
+    this.add( this.mountains )
     this.add( this.floor )
 
 
@@ -16,6 +19,7 @@ class Indochine extends Group {
 
   update( time ) {
 
+    this.mountains.update( time )
     this.floor.update( time )
 
   }

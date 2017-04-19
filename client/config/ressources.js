@@ -10,7 +10,7 @@ export default [
   },
   {
     type: 'model',
-    id: '01_floor',
-    url: 'assets/models/01_floor.awd'
+    id: '01_mountains',
+    url: 'assets/models/01_mountains.awd'
   }
 ]
