@@ -56,7 +56,7 @@ class WebGLExperiment extends React.Component {
     this.loop = loop( this.update )
     this.loop.start()
 
-    const indochine = new Indochine()
+    const indochine = new Indochine( this.scene, this.scene.controlsContainer )
     this.chapters = [
       indochine
     ]

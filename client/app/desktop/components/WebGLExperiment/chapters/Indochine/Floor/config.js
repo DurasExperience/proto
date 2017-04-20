@@ -4,9 +4,11 @@ export default {
     y: 150,
     z: 60
   },
-  size: 3,
+  size: 10,
   amplitude: 3.3,
   frequency: 0.43,
   radius: 15,
-  count: 10000
+  count: 20000,
+  x: 100,
+  y: 100
 }

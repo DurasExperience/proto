@@ -1,10 +1,10 @@
 export default {
   scale: {
-    x: 60,
-    y: 150,
-    z: 60
+    x: 100,
+    y: 580,
+    z: 100
   },
-  size: 3,
+  size: 25,
   amplitude: 3.3,
   frequency: 0.43
 }
