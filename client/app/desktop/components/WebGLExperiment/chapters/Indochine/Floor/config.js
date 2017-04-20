@@ -5,10 +5,10 @@ export default {
     z: 60
   },
   size: 10,
-  amplitude: 3.3,
+  amplitude: 12.2,
   frequency: 0.43,
-  radius: 15,
-  count: 20000,
+  radius: 30,
+  count: 10000,
   x: 100,
   y: 100
 }

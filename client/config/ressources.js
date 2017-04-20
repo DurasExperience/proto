@@ -1,10 +1,10 @@
 export default [
   {
     type: 'audio',
-    id: 'ambient-sound',
-    url: 'assets/sounds/ambient.mp3',
+    id: '01_01',
+    url: 'assets/sounds/01_01.mp3',
     options: {
-      loop: true,
+      loop: false,
       volume: 1
     }
   },

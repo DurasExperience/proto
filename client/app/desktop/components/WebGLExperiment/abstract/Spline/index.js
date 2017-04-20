@@ -76,7 +76,7 @@ class Spline {
       const angle = Math.atan2( vector.x, vector.z )
 
       this.controlsContainer.position.x = camPos.x
-      this.controlsContainer.position.y = camPos.y + 200
+      this.controlsContainer.position.y = camPos.y
       this.controlsContainer.position.z = camPos.z
 
       this.controlsContainer.translateZ( camPos.z - prevCamPos.z )

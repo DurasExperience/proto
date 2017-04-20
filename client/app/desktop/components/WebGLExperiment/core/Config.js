@@ -1,6 +1,9 @@
 export default {
   vignettePass: {
-    boost: 1,
-    reduction: 1.4
+    boost: 0.7,
+    reduction: 1.1
+  },
+  zoomBlurPass: {
+    strength: 0.0025
   }
 }

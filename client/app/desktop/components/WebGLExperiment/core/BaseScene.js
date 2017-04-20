@@ -7,6 +7,7 @@ import Wagner from '@superguigui/wagner'
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
+import ZoomBlurPass from '@superguigui/wagner/src/passes/zoom-blur/ZoomBlurPass';
 import GUI from './../../../../../helpers/GUI'
 import Config from './Config'
 
@@ -27,7 +28,7 @@ class BaseScene extends Scene {
     this.renderer.gammaInput = true
     this.renderer.gammaOutput = true
 
-    this.camera = new PerspectiveCamera( 40, width / height, 1, 25000 )
+    this.camera = new PerspectiveCamera( 40, width / height, 1, 20000 )
     this.camera.position.set( 0, 300, 500 )
     this.camera.lookAt( new Vector3( 0, 0, 0 ) )
 
@@ -67,10 +68,13 @@ class BaseScene extends Scene {
 
     const postProcessingFolder = GUI.addFolder('Post Processing')
     // postProcessingFolder.open()
-    const vignettePassFolder = postProcessingFolder.addFolder('vignette Pass')
+    const vignettePassFolder = postProcessingFolder.addFolder('Vignette Pass')
     vignettePassFolder.add(this.vignettePass.params, 'boost').min(0).max(10).step(0.05)
     vignettePassFolder.add(this.vignettePass.params, 'reduction').min(0).max(10).step(0.05)
-    // vignettePassFolder.open()
+    vignettePassFolder.open()
+    // const zoomBlurPassFolder = postProcessingFolder.addFolder('Zoom Blur Pass')
+    // zoomBlurPassFolder.add(this.zoomBlurPass.params, 'strength').min(0).max(2).step(0.05)
+    // zoomBlurPassFolder.open()
 
   }
 
@@ -91,6 +95,7 @@ class BaseScene extends Scene {
     this.fxaaPass = new FXAAPass()
     this.boxBlurPass = new BoxBlurPass(0.3, 0.3)
     this.vignettePass = new VignettePass(this.config.vignettePass)
+    // this.zoomBlurPass = new ZoomBlurPass(this.config.zoomBlurPass)
 
   }
 
@@ -111,6 +116,7 @@ class BaseScene extends Scene {
     this.composer.pass(this.fxaaPass)
     this.composer.pass(this.boxBlurPass)
     this.composer.pass(this.vignettePass)
+    // this.composer.pass(this.zoomBlurPass)
     this.composer.toScreen()
 
   }

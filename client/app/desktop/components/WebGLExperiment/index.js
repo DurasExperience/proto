@@ -1,7 +1,6 @@
 import loop from 'raf-loop'
 import stats from 'stats.js'
 import Store from './../../../../flux/store'
-import AudioManager from './../../../../helpers/AudioManager'
 import EventsConstants from './../../../../flux/constants/EventsConstants'
 import { Clock } from 'three'
 import BaseScene from './core/BaseScene'
@@ -34,8 +33,6 @@ class WebGLExperiment extends React.Component {
 
     Store.on( EventsConstants.APP_START, () => {
 
-      this.ambient = AudioManager.play( 'ambient-sound' )
-      AudioManager.fade( 'ambient-sound', 0, 2, 1000, this.ambient )
       this.start()
 
     } )
