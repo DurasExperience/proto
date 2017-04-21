@@ -30,8 +30,8 @@ class Indochine extends Group {
   update( time ) {
 
     this.mountains.update( time )
-    this.journey.update()
     this.floor.update( time )
+    this.journey.update()
     this.floorPath.update()
 
   }

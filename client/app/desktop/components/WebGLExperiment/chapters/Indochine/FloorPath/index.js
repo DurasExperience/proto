@@ -17,7 +17,8 @@ class FloorPath extends Spline {
       new Vector3( 200, 0, 1200 ),
       new Vector3( -500, 0, -700 ),
       new Vector3( -150, 0, -6000 ),
-      new Vector3( 800, 0, -12000 )
+      new Vector3( -300,  0, -9000 ),
+      new Vector3( 800, 0, -15000 )
     ]
     super.init()
 

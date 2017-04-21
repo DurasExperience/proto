@@ -1,4 +1,7 @@
+import { Color } from 'three'
+
 export default {
+  color: new Color( 0xffffff ),
   scale: {
     x: 1,
     y: 1,

@@ -15,10 +15,11 @@ class Journey extends Spline {
   init() {
 
     this.points = [
-      new Vector3( 200, 30, 1200 ),
-      new Vector3( -500, 0, -700 ),
-      new Vector3( -150, 10, -6000 ),
-      new Vector3( 800, -300, -12000 )
+      new Vector3( 200, 3.5, 1200 ),
+      new Vector3( -500, 3.5, -700 ),
+      new Vector3( -150, 3.5, -6000 ),
+      new Vector3( -300, 3.5, -9000 ),
+      new Vector3( 800, -300, -15000 )
     ]
     this.voiceId = this.voice.play()
     AudioManager.fade( '01_01', 0, 1, 1000, this.voiceId )

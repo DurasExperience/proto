@@ -28,8 +28,8 @@ class BaseScene extends Scene {
     this.renderer.gammaInput = true
     this.renderer.gammaOutput = true
 
-    this.camera = new PerspectiveCamera( 40, width / height, 1, 20000 )
-    this.camera.position.set( 0, 300, 500 )
+    this.camera = new PerspectiveCamera( 50, width / height, 1, 15000 )
+    this.camera.position.set( 0, 0, 0 )
     this.camera.lookAt( new Vector3( 0, 0, 0 ) )
 
     this.setControls()
@@ -53,14 +53,21 @@ class BaseScene extends Scene {
       x: 0
     }
 
-    this.controls = new PointerLockControls( this.camera, controlsPosition, this.center, 0.1 )
-    this.controls.enabled = true
-    this.controlsContainer = new Object3D()
-    this.controlsContainer.add( this.controls.getObject() )
-    this.add( this.controlsContainer )
+    if ( this.config.manual ) {
 
-    // this.controls = new OrbitControls( this.camera, this.renderer.domElement )
-    // this.controls.enabled = true
+      console.log( 'manual' )
+      this.controls = new OrbitControls( this.camera, this.renderer.domElement )
+      this.controls.enabled = true
+
+    } else {
+
+      this.controls = new PointerLockControls( this.camera, controlsPosition, this.center, 0.1 )
+      this.controls.enabled = true
+      this.controlsContainer = new Object3D()
+      this.controlsContainer.add( this.controls.getObject() )
+      this.add( this.controlsContainer )
+
+    }
 
   }
 
@@ -95,7 +102,7 @@ class BaseScene extends Scene {
     this.fxaaPass = new FXAAPass()
     this.boxBlurPass = new BoxBlurPass(0.3, 0.3)
     this.vignettePass = new VignettePass(this.config.vignettePass)
-    // this.zoomBlurPass = new ZoomBlurPass(this.config.zoomBlurPass)
+    this.zoomBlurPass = new ZoomBlurPass(this.config.zoomBlurPass)
 
   }
 
@@ -116,7 +123,7 @@ class BaseScene extends Scene {
     this.composer.pass(this.fxaaPass)
     this.composer.pass(this.boxBlurPass)
     this.composer.pass(this.vignettePass)
-    // this.composer.pass(this.zoomBlurPass)
+    this.composer.pass(this.zoomBlurPass)
     this.composer.toScreen()
 
   }
