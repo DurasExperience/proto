@@ -5,9 +5,6 @@ import PointerLockControls from './../../../../../utils/webgl/PointerLockControl
 import { Scene, WebGLRenderer, PerspectiveCamera, AxisHelper, Vector3, Object3D, AmbientLight, PointLight } from 'three'
 import Wagner from '@superguigui/wagner'
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
-import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
-import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
-import ZoomBlurPass from '@superguigui/wagner/src/passes/zoom-blur/ZoomBlurPass';
 import GUI from './../../../../../helpers/GUI'
 import Config from './Config'
 
@@ -37,6 +34,8 @@ class BaseScene extends Scene {
     this.axisHelper = new AxisHelper( 200 )
     this.add( this.axisHelper )
 
+    this.passes = []
+
     this.initLights()
     this.initPostProcessing()
     this.addGUI()
@@ -44,8 +43,6 @@ class BaseScene extends Scene {
   }
 
   setControls() {
-
-
 
     if ( this.config.manual ) {
 
@@ -72,15 +69,7 @@ class BaseScene extends Scene {
 
   addGUI() {
 
-    const postProcessingFolder = GUI.addFolder('Post Processing')
-    // postProcessingFolder.open()
-    const vignettePassFolder = postProcessingFolder.addFolder('Vignette Pass')
-    vignettePassFolder.add(this.vignettePass.params, 'boost').min(0).max(10).step(0.05)
-    vignettePassFolder.add(this.vignettePass.params, 'reduction').min(0).max(10).step(0.05)
-    vignettePassFolder.open()
-    const zoomBlurPassFolder = postProcessingFolder.addFolder('Zoom Blur Pass')
-    zoomBlurPassFolder.add(this.zoomBlurPass.params, 'strength').min(0).max(2).step(0.05)
-    zoomBlurPassFolder.open()
+
 
   }
 
@@ -99,9 +88,13 @@ class BaseScene extends Scene {
 
     this.composer = new Wagner.Composer( this.renderer )
     this.fxaaPass = new FXAAPass()
-    this.boxBlurPass = new BoxBlurPass( 0.3, 0.3 )
-    this.vignettePass = new VignettePass( this.config.vignettePass )
-    this.zoomBlurPass = new ZoomBlurPass( this.config.zoomBlurPass )
+
+  }
+
+  setupPostProcessing( passes ) {
+
+    this.passes = []
+    this.passes = passes
 
   }
 
@@ -120,9 +113,11 @@ class BaseScene extends Scene {
     this.composer.reset()
     this.composer.render(this, this.camera)
     this.composer.pass(this.fxaaPass)
-    this.composer.pass(this.boxBlurPass)
-    this.composer.pass(this.vignettePass)
-    this.composer.pass(this.zoomBlurPass)
+    for ( const pass of this.passes ) {
+
+      this.composer.pass( pass )
+
+    }
     this.composer.toScreen()
 
   }

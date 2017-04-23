@@ -75,7 +75,7 @@ class Floor extends Object3D {
     noiseFolder.add( this.uniforms.shift, 'value' ).min( 0 ).max( 0.1 ).step( 0.001 ).name( 'shift' )
     noiseFolder.add( this.uniforms.size, 'value' ).min( 1 ).max( 50 ).step( 0.1 ).name( 'size' )
     noiseFolder.add( this.uniforms.amountByDegree, 'value' ).min( 0 ).max( 100 ).step( 0.1 ).name( 'amount/degree' )
-    noiseFolder.open()
+    // noiseFolder.open()
 
   }
 
