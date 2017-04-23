@@ -13,7 +13,7 @@ import Config from './Config'
 
 class BaseScene extends Scene {
 
-  constructor(width, height) {
+  constructor( width, height ) {
 
     super()
 
@@ -45,24 +45,23 @@ class BaseScene extends Scene {
 
   setControls() {
 
-    this.center = new Vector3()
 
-    const controlsPosition = {
-      z: 0,
-      y: 0,
-      x: 0
-    }
 
     if ( this.config.manual ) {
 
-      console.log( 'manual' )
       this.controls = new OrbitControls( this.camera, this.renderer.domElement )
       this.controls.enabled = true
 
     } else {
 
+      this.center = new Vector3( 0, 0, 0 )
+      const controlsPosition = {
+        x: 0,
+        y: 0,
+        z: 0
+      }
       this.controls = new PointerLockControls( this.camera, controlsPosition, this.center, 0.1 )
-      this.controls.enabled = true
+      this.controls.enabled = false
       this.controlsContainer = new Object3D()
       this.controlsContainer.add( this.controls.getObject() )
       this.add( this.controlsContainer )
@@ -79,9 +78,9 @@ class BaseScene extends Scene {
     vignettePassFolder.add(this.vignettePass.params, 'boost').min(0).max(10).step(0.05)
     vignettePassFolder.add(this.vignettePass.params, 'reduction').min(0).max(10).step(0.05)
     vignettePassFolder.open()
-    // const zoomBlurPassFolder = postProcessingFolder.addFolder('Zoom Blur Pass')
-    // zoomBlurPassFolder.add(this.zoomBlurPass.params, 'strength').min(0).max(2).step(0.05)
-    // zoomBlurPassFolder.open()
+    const zoomBlurPassFolder = postProcessingFolder.addFolder('Zoom Blur Pass')
+    zoomBlurPassFolder.add(this.zoomBlurPass.params, 'strength').min(0).max(2).step(0.05)
+    zoomBlurPassFolder.open()
 
   }
 
@@ -98,11 +97,11 @@ class BaseScene extends Scene {
 
   initPostProcessing() {
 
-    this.composer = new Wagner.Composer(this.renderer)
+    this.composer = new Wagner.Composer( this.renderer )
     this.fxaaPass = new FXAAPass()
-    this.boxBlurPass = new BoxBlurPass(0.3, 0.3)
-    this.vignettePass = new VignettePass(this.config.vignettePass)
-    this.zoomBlurPass = new ZoomBlurPass(this.config.zoomBlurPass)
+    this.boxBlurPass = new BoxBlurPass( 0.3, 0.3 )
+    this.vignettePass = new VignettePass( this.config.vignettePass )
+    this.zoomBlurPass = new ZoomBlurPass( this.config.zoomBlurPass )
 
   }
 

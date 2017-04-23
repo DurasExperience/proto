@@ -11,12 +11,12 @@ const PointerLockControls = function (camera, position, lookat, fluidity) {
 
   this.fluidity = fluidity
 
-  camera.rotation.set(0, 0, 0)
+  camera.rotation.set( 0, 0, 0 )
 
   this.pitchObject = new Object3D()
   this.pitchObject.add( camera )
 
-  this.yawObject = new Object3D();
+  this.yawObject = new Object3D()
   this.yawObject.position.z = position.z
   this.yawObject.position.y = position.y
   this.yawObject.position.x = position.x
@@ -55,7 +55,7 @@ const PointerLockControls = function (camera, position, lookat, fluidity) {
 
   this.enabled = false
 
-  if ( lookat ) camera.lookAt(lookat)
+  if ( lookat ) camera.lookAt( lookat )
 
   this.getObject = () => this.yawObject
 

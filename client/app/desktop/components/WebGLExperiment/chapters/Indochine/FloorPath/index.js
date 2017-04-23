@@ -13,6 +13,7 @@ class FloorPath extends Spline {
 
   init() {
 
+    this.scene.camera.rotation.x = 1.15
     this.points = [
       new Vector3( 200, 0, 1200 ),
       new Vector3( -500, 0, -700 ),
