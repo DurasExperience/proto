@@ -43,13 +43,14 @@ class Indochine extends Group {
     this.initPostProcessing()
     this.addGUI()
 
+    this.setupReverse()
 
 
   }
 
   bind() {
 
-    [ 'resize', 'update', 'drown' ]
+    [ 'resize', 'update', 'drown', 'reverse' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -57,6 +58,7 @@ class Indochine extends Group {
   addListeners() {
 
     global.drown = this.drown
+    global.reverse = this.reverse
 
   }
 
@@ -104,12 +106,29 @@ class Indochine extends Group {
 
     this.passes.push( this.godrayPass )
     this.drownTl = new TimelineMax()
-    this.drownTl.fromTo( this.godrayPass.params, 1, { fY: 0.5 }, { fY: 1 }, 0 )
-    this.drownTl.fromTo( this.godrayPass.params, 1, { fDensity: 0 }, { fDensity: 0.6 }, 0 )
-    this.drownTl.fromTo( this.godrayPass.params, 1, { fWeight: 0 }, { fWeight: 0.3 }, 0 )
+    this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
+    this.drownTl.to( this.godrayPass.params, 1, { fDensity: 0.6 }, 0 )
+    this.drownTl.to( this.godrayPass.params, 1, { fWeight: 0.3 }, 0 )
     this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1, { value: 0 }, 0.5 )
     this.drownTl.to( this.floor.uniforms.size, 1, { value: 50 }, 0.5 )
     this.drownTl.timeScale( 0.5 )
+
+  }
+
+  setupReverse() {
+
+    this.reverseTl = new TimelineMax({ paused: true })
+    this.reverseTl.to( this.zoomBlurPass.params, 1, { strength: 0.35 }, 0 )
+    this.reverseTl.to( this.zoomBlurPass.params, 0.5, { strength: 0.0025 }, 1.2 )
+    this.reverseTl.timeScale( 2 )
+
+  }
+
+  reverse() {
+
+    this.reverseTl.play( 0 )
+    this.journey.reverse( 2 )
+    this.floorPath.reverse( 2 )
 
   }
 

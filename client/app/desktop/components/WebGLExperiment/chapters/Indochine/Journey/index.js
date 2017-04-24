@@ -9,6 +9,14 @@ class Journey extends Spline {
     super( scene, controlsContainer )
     this.voice = AudioManager.get( '01_01' )
     this.duration = Math.ceil( this.voice.duration() ) + 5
+    this.bind()
+
+  }
+
+  bind() {
+
+    [ 'reverse', 'fadeOutSound', 'restartSound' ]
+        .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
 
@@ -30,6 +38,32 @@ class Journey extends Spline {
   createGeometry() {
 
     super.createGeometry()
+
+  }
+
+  reverse( d ) {
+
+    super.reverse( d )
+    this.d = d
+    AudioManager.fade( '01_01', 1, 0, 400, this.voiceId )
+    AudioManager.rate( '01_01', 0.75, this.voiceId )
+    setTimeout( this.restartSound, d * 500 )
+
+  }
+
+  fadeOutSound() {
+
+    AudioManager.fade( '01_01', 1, 0, 200, this.voiceId )
+
+  }
+
+  restartSound() {
+
+    const newTime = this.voice.seek() - this.d
+    AudioManager.rate( '01_01', 1, this.voiceId )
+    AudioManager.setTime( '01_01', newTime, this.voiceId )
+    AudioManager.fade( '01_01', 0, 1, 300, this.voiceId )
+
 
   }
 

@@ -39,6 +39,16 @@ class Spline {
 
   }
 
+  reverse( d ) {
+
+    const time = d / this.duration
+    const oldTime = this.time - time
+    this.time -= oldTime
+    this.tl.reverse()
+    setTimeout( () => this.tl.play(), 2000 )
+
+  }
+
   enableSpline() {
 
     this.enabled = true

@@ -138,6 +138,19 @@ class AudioManager {
 
   }
 
+  /**
+   * Rate sound at id
+   * @param {string} id
+   * @param {float} position 
+   * @param {int} soundId
+   */
+  setTime( id, position, soundId ) {
+
+    const sound = Store.getResource( id )
+    sound.seek( position, soundId )
+
+  }
+
 }
 
 export default new AudioManager()
