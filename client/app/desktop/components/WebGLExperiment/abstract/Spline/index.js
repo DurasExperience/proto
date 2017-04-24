@@ -7,6 +7,7 @@ class Spline {
     this.scene = scene
     this.controlsContainer = controlsContainer
     this.enabled = false
+    this.onComplete = this.onComplete.bind( this )
 
   }
 
@@ -21,10 +22,12 @@ class Spline {
   setupTimeline() {
 
     this.time = 0
-    this.tl = new TimelineMax({ paused: true })
+    this.tl = new TimelineMax({ paused: true, onComplete: this.onComplete })
     this.tl.to( this, this.duration, { time: 1 } )
 
   }
+
+  onComplete() {}
 
   createGeometry() {
 

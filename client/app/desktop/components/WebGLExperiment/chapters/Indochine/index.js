@@ -28,7 +28,7 @@ class Indochine extends Group {
 
     this.mountains = new Mountains()
     this.floor = new Floor()
-    this.journey = new Journey( scene, controlsContainer, this.drown )
+    this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
     this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
     this.journey.init()
     this.journey.createGeometry()
@@ -50,7 +50,7 @@ class Indochine extends Group {
 
   bind() {
 
-    [ 'resize', 'update', 'drown', 'reverse' ]
+    [ 'resize', 'update', 'drown', 'reverse', 'fadeOut' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -66,7 +66,7 @@ class Indochine extends Group {
   initPostProcessing() {
 
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
-    this.vignettePass = new VignettePass( this.config.postProcessing.vignettePass )
+    this.vignettePass = new VignettePass({ boost: 1, reduction: 0 })
     this.zoomBlurPass = new ZoomBlurPass( this.config.postProcessing.zoomBlurPass )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
     this.tiltShiftPass = new TiltShiftPass( this.config.postProcessing.tiltShiftPass )
@@ -139,6 +139,16 @@ class Indochine extends Group {
     this.journey.reverse( 2 )
     this.floorPath.reverse( 2 )
 
+  }
+
+  fadeOut() {
+
+    this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
+    this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
+    this.passes.push( this.vignettePass )
+    this.fadeOutTl = new TimelineMax()
+    this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
+  
   }
 
 

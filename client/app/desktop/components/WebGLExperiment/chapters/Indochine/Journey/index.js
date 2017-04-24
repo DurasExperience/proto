@@ -4,13 +4,14 @@ import AudioManager from './../../../../../../../helpers/AudioManager'
 
 class Journey extends Spline {
 
-  constructor( scene, controlsContainer, drown ) {
+  constructor( scene, controlsContainer, drown, fadeOut ) {
 
     super( scene, controlsContainer )
     this.drown = drown
+    this.fadeOut = fadeOut
     this.voice = AudioManager.get( '01_01' )
     // this.duration = 50
-    this.duration = Math.ceil( this.voice.duration() ) * 2
+    this.duration = Math.ceil( this.voice.duration() ) + 5
     this.bind()
     this.addListeners()
     this.willDrown = true
@@ -40,7 +41,7 @@ class Journey extends Spline {
       new Vector3( 1200, -60, -8000 )
     ]
     this.voiceId = this.voice.play()
-    AudioManager.fade( '01_01', 0, 1, 1000, this.voiceId )
+    AudioManager.fade( '01_01', 0, 1, 500, this.voiceId )
     super.init()
 
   }
@@ -87,6 +88,13 @@ class Journey extends Spline {
 
     super.disableSpline()
     
+  }
+
+  onComplete() {
+
+    super.onComplete()
+    this.fadeOut()
+
   }
 
   update() {
