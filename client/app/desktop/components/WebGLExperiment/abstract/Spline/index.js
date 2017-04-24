@@ -76,22 +76,22 @@ class Spline {
 
       const prevCamPos = this.curve.getPoint( this.time )
 
-      const camPos = this.curve.getPoint( this.time + 0.01 )
+      this.camPos = this.curve.getPoint( this.time + 0.01 )
 
       const vector = {
-        x: this.target.x - camPos.x,
-        z: this.target.z - camPos.z
+        x: this.target.x - this.camPos.x,
+        z: this.target.z - this.camPos.z
       }
 
       const angle = Math.atan2( vector.x, vector.z )
 
-      this.controlsContainer.position.x = camPos.x
-      this.controlsContainer.position.y = camPos.y
-      this.controlsContainer.position.z = camPos.z
+      this.controlsContainer.position.x = this.camPos.x
+      this.controlsContainer.position.y = this.camPos.y
+      this.controlsContainer.position.z = this.camPos.z
 
-      this.controlsContainer.translateZ( camPos.z - prevCamPos.z )
-      this.controlsContainer.translateX( camPos.x - prevCamPos.x )
-      this.controlsContainer.translateY( camPos.y - prevCamPos.y )
+      this.controlsContainer.translateZ( this.camPos.z - prevCamPos.z )
+      this.controlsContainer.translateX( this.camPos.x - prevCamPos.x )
+      this.controlsContainer.translateY( this.camPos.y - prevCamPos.y )
 
       this.controlsContainer.rotation.y = angle
 

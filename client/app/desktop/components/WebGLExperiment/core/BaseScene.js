@@ -31,8 +31,12 @@ class BaseScene extends Scene {
 
     this.setControls()
 
-    this.axisHelper = new AxisHelper( 200 )
-    this.add( this.axisHelper )
+    if ( ENV === 'DEV' ) {
+
+      this.axisHelper = new AxisHelper( 200 )
+      this.add( this.axisHelper )
+
+    }
 
     this.passes = []
 

@@ -28,7 +28,7 @@ class Indochine extends Group {
 
     this.mountains = new Mountains()
     this.floor = new Floor()
-    this.journey = new Journey( scene, controlsContainer )
+    this.journey = new Journey( scene, controlsContainer, this.drown )
     this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
     this.journey.init()
     this.journey.createGeometry()
@@ -57,6 +57,7 @@ class Indochine extends Group {
 
   addListeners() {
 
+    dom.event.on( window, 'click', this.reverse )
     global.drown = this.drown
     global.reverse = this.reverse
 
@@ -64,12 +65,17 @@ class Indochine extends Group {
 
   initPostProcessing() {
 
-    this.godrayPass = new GodrayPass( this.config.postProcessing.godrayPass )
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
     this.vignettePass = new VignettePass( this.config.postProcessing.vignettePass )
     this.zoomBlurPass = new ZoomBlurPass( this.config.postProcessing.zoomBlurPass )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
     this.tiltShiftPass = new TiltShiftPass( this.config.postProcessing.tiltShiftPass )
+    this.godrayPass = new GodrayPass()
+    this.godrayPass.params.fY = this.config.postProcessing.godrayPass.fY
+    this.godrayPass.params.fDecay = this.config.postProcessing.godrayPass.fDecay
+    this.godrayPass.params.fDensity = this.config.postProcessing.godrayPass.fDensity
+    this.godrayPass.params.fWeight = this.config.postProcessing.godrayPass.fWeight
+    this.godrayPass.params.fExposure = this.config.postProcessing.godrayPass.fExposure
     this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
 
     this.scene.setupPostProcessing( this.passes )
@@ -103,14 +109,17 @@ class Indochine extends Group {
   }
 
   drown() {
-
+    
+    // TODO : Remove Store event on pinch
     this.passes.push( this.godrayPass )
     this.drownTl = new TimelineMax()
     this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fDensity: 0.6 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fWeight: 0.3 }, 0 )
-    this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1, { value: 0 }, 0.5 )
-    this.drownTl.to( this.floor.uniforms.size, 1, { value: 50 }, 0.5 )
+    this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1.5, { value: 0 }, 0 )
+    this.drownTl.to( this.godrayPass.params, 1, { fDecay: 0.91 }, 0 )
+    this.drownTl.to( this.godrayPass.params, 1, { fExposure: 0.27 }, 0 )
+    this.drownTl.to( this.godrayPass.params, 1, { fDensity: 0.6 }, 0.1 )
+    this.drownTl.to( this.godrayPass.params, 1, { fWeight: 0.3 }, 0.1 )
+    this.drownTl.to( this.floor.uniforms.size, 1, { value: 30 }, 1 )
     this.drownTl.timeScale( 0.5 )
 
   }

@@ -19,9 +19,9 @@ export default {
     },
     godrayPass: {
       fX: 0.5,
-      fY: 0.5,
-      fExposure: 0.6,
-      fDecay: 0.9,
+      fY: 0.7,
+      fExposure: 0,
+      fDecay: 0,
       fDensity: 0,
       fWeight: 0
     },

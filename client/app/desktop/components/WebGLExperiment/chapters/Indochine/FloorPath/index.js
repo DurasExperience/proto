@@ -15,11 +15,11 @@ class FloorPath extends Spline {
 
     this.scene.camera.rotation.x = 1.15
     this.points = [
-      new Vector3( 200, 0, 1200 ),
-      new Vector3( -500, 0, -700 ),
-      new Vector3( -150, 0, -6000 ),
-      new Vector3( -300,  0, -9000 ),
-      new Vector3( 800, 0, -15000 )
+      new Vector3( 400, 0, 5000 ),
+      new Vector3( 1100, 0, -3000 ),
+      new Vector3( 1200, 0, -4000 ),
+      new Vector3( 1200, 0, -4500 ),
+      new Vector3( 1200, 0, -8000 )
     ]
     super.init()
 

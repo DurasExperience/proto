@@ -8,10 +8,10 @@ export default {
     y: 150,
     z: 60
   },
-  size: 3.8,
+  size: 7.6,
   amplitude: 3.6,
   frequency: 0.109,
   shift: 0.022,
-  amount: 30000,
-  amountByDegree: 16.5
+  amount: 40000,
+  amountByDegree: 14
 }

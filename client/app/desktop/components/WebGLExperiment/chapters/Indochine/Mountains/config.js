@@ -4,8 +4,8 @@ export default {
   color: new Color( 0xffffff ),
   alpha: 1,
   scale: {
-    x: 100,
-    y: 420,
+    x: 150,
+    y: 150,
     z: 100
   },
   size: 80,
