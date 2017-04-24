@@ -3,6 +3,8 @@ import Mountains from './Mountains'
 import Floor from './Floor'
 import Journey from './Journey'
 import FloorPath from './FloorPath'
+import HandWoman from './HandWoman'
+import HandMan from './HandMan'
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
 import ZoomBlurPass from '@superguigui/wagner/src/passes/zoom-blur/ZoomBlurPass'
@@ -26,19 +28,37 @@ class Indochine extends Group {
     this.bind()
     this.addListeners()
 
-    this.mountains = new Mountains()
-    this.floor = new Floor()
-    this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
-    this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
-    this.journey.init()
-    this.journey.createGeometry()
-    this.journey.enableSpline()
-    this.floorPath.init()
-    this.floorPath.createGeometry()
-    this.floorPath.enableSpline()
+    this.progress = 0
 
-    this.add( this.mountains )
-    this.add( this.floor )
+    // Part 1
+    // this.mountains = new Mountains()
+    // this.floor = new Floor()
+    // this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
+    // this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
+    // this.journey.init()
+    // this.journey.enableSpline()
+    // this.floorPath.init()
+    // this.floorPath.enableSpline()
+
+    // if ( ENV === 'DEV' ) {
+
+    //   this.journey.createGeometry()
+    //   this.floorPath.createGeometry()
+    
+    // }
+
+    // this.objects = [ this.mountains, this.floor, this.journey, this.floorPath ]
+
+    // Part 2
+    this.handWoman = new HandWoman()
+    this.handMan = new HandMan()
+
+    this.add( this.handWoman )
+    this.add( this.handMan )
+    this.objects = [ this.handWoman, this.handMan ]
+    // this.add( this.mountains )
+    // this.add( this.floor )
+    
 
     this.initPostProcessing()
     this.addGUI()
@@ -50,14 +70,14 @@ class Indochine extends Group {
 
   bind() {
 
-    [ 'resize', 'update', 'drown', 'reverse', 'fadeOut' ]
+    [ 'resize', 'update', 'drown', 'reverse', 'fadeIn', 'fadeOut', 'clearGroup' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
 
   addListeners() {
 
-    dom.event.on( window, 'click', this.reverse )
+    // dom.event.on( window, 'click', this.reverse )
     global.drown = this.drown
     global.reverse = this.reverse
 
@@ -111,7 +131,7 @@ class Indochine extends Group {
   drown() {
     
     // TODO : Remove Store event on pinch
-    this.passes.push( this.godrayPass )
+    this.scene.passes.push( this.godrayPass )
     this.drownTl = new TimelineMax()
     this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
     this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1.5, { value: 0 }, 0 )
@@ -141,23 +161,48 @@ class Indochine extends Group {
 
   }
 
+  fadeIn() {
+
+    console.log( 'in' )
+    this.fadeInTl = new TimelineMax()
+    this.fadeInTl.to( this.vignettePass.params, 2, { boost: 1, ease: Sine.easeIn } )
+  
+  }
+  
   fadeOut() {
 
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.passes.push( this.vignettePass )
-    this.fadeOutTl = new TimelineMax()
+    this.scene.passes.push( this.vignettePass )
+    this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
     this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
   
+  }
+
+  clearGroup() {
+
+    switch( this.progress ) {
+
+      case 0:
+        this.remove( this.mountains )
+        this.remove( this.floor )
+        this.add( this.handWoman )
+        this.fadeIn()
+        this.progress = 1
+
+    }
+
+
   }
 
 
   update( time ) {
 
-    this.mountains.update( time )
-    this.floor.update( time )
-    this.journey.update()
-    this.floorPath.update()
+    for ( let obj of this.objects ) {
+
+      obj.update( time )
+
+    }
 
   }
 

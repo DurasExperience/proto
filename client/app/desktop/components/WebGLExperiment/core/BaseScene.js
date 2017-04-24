@@ -20,13 +20,13 @@ class BaseScene extends Scene {
     this.renderer.setSize( width, height )
     this.renderer.setPixelRatio( window.devicePixelRatio )
 
-    this.renderer.setClearColor( 0x222222, 1 )
+    this.renderer.setClearColor( 0x0e0f1b, 1 )
     this.renderer.autoClear = false
     this.renderer.gammaInput = true
     this.renderer.gammaOutput = true
 
     this.camera = new PerspectiveCamera( 50, width / height, 1, 15000 )
-    this.camera.position.set( 0, 0, 0 )
+    this.camera.position.set( 0, 0, 1000 )
     this.camera.lookAt( new Vector3( 0, 0, 0 ) )
 
     this.setControls()

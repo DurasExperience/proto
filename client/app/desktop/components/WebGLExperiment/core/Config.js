@@ -1,3 +1,3 @@
 export default {
-  manual: false
+  manual: true
 }

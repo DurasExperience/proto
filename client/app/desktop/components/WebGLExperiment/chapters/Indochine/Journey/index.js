@@ -34,7 +34,7 @@ class Journey extends Spline {
   init() {
 
     this.points = [
-      new Vector3( 400, 10, 5000 ),
+      new Vector3( 400, 10, 2000 ),
       new Vector3( 1100, 10, -3000 ),
       new Vector3( 1200, -10, -4000 ),
       new Vector3( 1200, -20, -4500 ),
