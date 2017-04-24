@@ -34,8 +34,6 @@ class WebGLExperiment extends React.Component {
 
     Store.on( EventsConstants.APP_START, () => {
 
-      this.ambient = AudioManager.play( 'ambient-sound' )
-      AudioManager.fade( 'ambient-sound', 0, 2, 1000, this.ambient )
       this.start()
 
     } )
@@ -56,7 +54,7 @@ class WebGLExperiment extends React.Component {
     this.loop = loop( this.update )
     this.loop.start()
 
-    const indochine = new Indochine()
+    const indochine = new Indochine( this.scene, this.scene.controlsContainer )
     this.chapters = [
       indochine
     ]
@@ -81,6 +79,7 @@ class WebGLExperiment extends React.Component {
   resize() {
 
     this.scene.resize( Store.Size.w, Store.Size.h )
+    this.currentChapter.resize( Store.Size.w, Store.Size.h )
 
   }
 

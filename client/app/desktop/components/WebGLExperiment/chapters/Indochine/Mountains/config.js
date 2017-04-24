@@ -1,10 +1,14 @@
+import { Color } from 'three'
+
 export default {
+  color: new Color( 0xffffff ),
+  alpha: 1,
   scale: {
-    x: 60,
+    x: 150,
     y: 150,
-    z: 60
+    z: 100
   },
-  size: 3,
+  size: 80,
   amplitude: 3.3,
-  frequency: 0.43
+  frequency: 2.
 }

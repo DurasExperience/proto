@@ -1,10 +1,10 @@
 export default [
   {
     type: 'audio',
-    id: 'ambient-sound',
-    url: 'assets/sounds/ambient.mp3',
+    id: '01_01',
+    url: 'assets/sounds/01_01.mp3',
     options: {
-      loop: true,
+      loop: false,
       volume: 1
     }
   },
@@ -12,5 +12,15 @@ export default [
     type: 'model',
     id: '01_mountains',
     url: 'assets/models/01_mountains.awd'
+  },
+  {
+    type: 'model',
+    id: '01_hand_man',
+    url: 'assets/models/01_hand_man.awd'
+  },
+  {
+    type: 'model',
+    id: '01_hand_woman',
+    url: 'assets/models/01_hand_woman.awd'
   }
 ]

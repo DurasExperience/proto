@@ -21,7 +21,15 @@ class Mountains extends Object3D {
 
       if ( child instanceof THREE.Mesh ) {
 
-        this.max += child.geometry.attributes.position.count
+        const positions = child.geometry.attributes.position.count
+        this.max += positions
+        for ( let i = 0, i3 = 0; i < positions; i ++, i3 += 3 ) {
+
+          child.geometry.attributes.position.array[ i3 + 0 ] += 0.7 * Math.random()
+          child.geometry.attributes.position.array[ i3 + 1 ] += 0.1 * Math.random()
+          child.geometry.attributes.position.array[ i3 + 2 ] += 0.7 * Math.random()
+
+        }
 
       }
 
@@ -42,7 +50,8 @@ class Mountains extends Object3D {
     })
 
     this.mesh = new ParticlesMesh( 'mountains', this.geometry.attributes.position, Config )
-    this.mesh.position.z = -1000
+    // this.mesh.position.y = -10
+    // this.mesh.position.z = -200
     this.add( this.mesh )
 
     this.addGUI()
@@ -55,7 +64,7 @@ class Mountains extends Object3D {
 
     noiseFolder.add( this.mesh.uniforms.amplitude, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'amplitude' )
     noiseFolder.add( this.mesh.uniforms.frequency, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'frequency' )
-    noiseFolder.add( this.mesh.uniforms.size, 'value' ).min( 1 ).max( 20 ).step( 0.1 ).name( 'size' )
+    noiseFolder.add( this.mesh.uniforms.size, 'value' ).min( 1 ).max( 50 ).step( 0.1 ).name( 'size' )
 
   }
 

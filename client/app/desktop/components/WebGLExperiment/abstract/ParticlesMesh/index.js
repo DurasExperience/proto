@@ -1,5 +1,5 @@
 import Config from './config'
-import { Object3D, BufferGeometry, Vector3, ShaderMaterial, Color, AdditiveBlending, Points } from 'three'
+import { Object3D, BufferGeometry, Vector3, ShaderMaterial, AdditiveBlending, Points } from 'three'
 import frag from './shaders/frag.glsl'
 import vert from './shaders/vert.glsl'
 import glslify from 'glslify'
@@ -26,9 +26,9 @@ class ParticlesMesh extends Object3D {
     scaleMatrix.makeScale( this.config.scale.x, this.config.scale.y, this.config.scale.z )
     this.geometry.applyMatrix( scaleMatrix )
     this.geometry.computeVertexNormals()
-
     this.uniforms = {
-      color: { value: new Color( 0xffffff ) },
+      color: { value: this.config.color },
+      alpha: { value: this.config.alpha },
       size: { value: this.config.size },
       amplitude: { value: this.config.amplitude },
       frequency: { value: this.config.frequency },
