@@ -1,4 +1,4 @@
-import Store from './../../../../../flux/store'
+import Store from './../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 import { Scene, WebGLRenderer, PerspectiveCamera, AxisHelper, Vector3, AmbientLight, PointLight } from 'three'
 import OrbitControls from './../../../../../utils/webgl/OrbitControls'

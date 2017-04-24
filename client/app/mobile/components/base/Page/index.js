@@ -1,5 +1,5 @@
 import './Page.styl'
-import Store from './../../../../../flux/store/desktop'
+import Store from './../../../../../flux/store/mobile'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 
 class Page extends React.Component {

@@ -1,5 +1,5 @@
 import './Loader.styl'
-import Store from './../../../../../flux/store'
+import Store from './../../../../../flux/store/desktop'
 import Actions from './../../../../../flux/actions'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 

@@ -1,9 +1,9 @@
 import { EventEmitter2 } from 'eventemitter2'
 import assign from 'object-assign'
-import Dispatcher from '../dispatcher'
-import Actions from './../actions'
-import EventsConstants from '../constants/EventsConstants'
-import DeviceConstants from '../constants/DeviceConstants'
+import Dispatcher from '../../dispatcher'
+import Actions from './../../actions'
+import EventsConstants from '../../constants/EventsConstants'
+import DeviceConstants from '../../constants/DeviceConstants'
 
 
 const Store = assign({}, EventEmitter2.prototype, {

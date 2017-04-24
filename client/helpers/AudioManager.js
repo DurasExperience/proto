@@ -1,5 +1,5 @@
 import { Howl, Howler } from 'howler'
-import Store from './../flux/store'
+import Store from './../flux/store/desktop'
 import EventsConstants from './../flux/constants/EventsConstants'
 
 class AudioManager {

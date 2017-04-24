@@ -1,5 +1,5 @@
 import Config from './config'
-import Store from './../../../../../../../flux/store'
+import Store from './../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../abstract/ParticlesMesh'
 import GUI from './../../../../../../../helpers/GUI'

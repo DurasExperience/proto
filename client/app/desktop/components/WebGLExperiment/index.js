@@ -1,6 +1,6 @@
 import loop from 'raf-loop'
 import stats from 'stats.js'
-import Store from './../../../../flux/store'
+import Store from './../../../../flux/store/desktop'
 import AudioManager from './../../../../helpers/AudioManager'
 import EventsConstants from './../../../../flux/constants/EventsConstants'
 import { Clock } from 'three'
@@ -12,7 +12,7 @@ class WebGLExperiment extends React.Component {
   constructor( props ) {
 
     super()
-    
+
     this.DELTA_TIME = 0
     this.CURRENT_TIME = 0
     this.currentChapter = undefined
