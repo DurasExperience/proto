@@ -111,13 +111,13 @@ class BaseScene extends Scene {
   render() {
 
     this.composer.reset()
-    this.composer.render(this, this.camera)
-    this.composer.pass(this.fxaaPass)
+    this.composer.render( this, this.camera )
     for ( const pass of this.passes ) {
 
       this.composer.pass( pass )
 
     }
+    this.composer.pass( this.fxaaPass )
     this.composer.toScreen()
 
   }

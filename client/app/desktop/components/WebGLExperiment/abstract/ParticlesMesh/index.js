@@ -26,9 +26,10 @@ class ParticlesMesh extends Object3D {
     scaleMatrix.makeScale( this.config.scale.x, this.config.scale.y, this.config.scale.z )
     this.geometry.applyMatrix( scaleMatrix )
     this.geometry.computeVertexNormals()
-
+    console.log( this.config.alpha )
     this.uniforms = {
       color: { value: this.config.color },
+      alpha: { value: this.config.alpha },
       size: { value: this.config.size },
       amplitude: { value: this.config.amplitude },
       frequency: { value: this.config.frequency },

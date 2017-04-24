@@ -78,6 +78,7 @@ class WebGLExperiment extends React.Component {
   resize() {
 
     this.scene.resize( Store.Size.w, Store.Size.h )
+    this.currentChapter.resize( Store.Size.w, Store.Size.h )
 
   }
 
