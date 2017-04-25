@@ -31,6 +31,12 @@ class FloorPath extends Spline {
 
   }
 
+  start() {
+
+    super.start()
+
+  }
+
   enableSpline() {
 
     super.enableSpline()

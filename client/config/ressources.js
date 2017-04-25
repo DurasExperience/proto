@@ -23,11 +23,6 @@ export default [
     id: '01_hand_woman',
     url: 'assets/models/01_hand_woman.awd'
   },
-  {
-    type: 'video',
-    id: 'intro',
-    url: 'assets/videos/intro.mp4'
-  },
   // {
   //   type: 'image',
   //   id: 'chap1',

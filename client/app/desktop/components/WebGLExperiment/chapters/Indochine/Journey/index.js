@@ -11,7 +11,7 @@ class Journey extends Spline {
     this.fadeOut = fadeOut
     this.voice = AudioManager.get( '01_01' )
     // this.duration = 50
-    this.duration = Math.ceil( this.voice.duration() ) + 5
+    this.duration = Math.ceil( this.voice.duration() ) + 3
     this.bind()
     this.addListeners()
     this.willDrown = true
@@ -40,9 +40,14 @@ class Journey extends Spline {
       new Vector3( 1200, -20, -4500 ),
       new Vector3( 1200, -60, -8000 )
     ]
+    super.init()
+
+  }
+
+  play() {
+
     this.voiceId = this.voice.play()
     AudioManager.fade( '01_01', 0, 1, 500, this.voiceId )
-    super.init()
 
   }
 
@@ -75,6 +80,12 @@ class Journey extends Spline {
     AudioManager.setTime( '01_01', newTime, this.voiceId )
     AudioManager.fade( '01_01', 0, 1, 300, this.voiceId )
 
+
+  }
+
+  start() {
+
+    super.start()
 
   }
 

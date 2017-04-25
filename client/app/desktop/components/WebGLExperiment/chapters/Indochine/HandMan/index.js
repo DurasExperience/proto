@@ -51,7 +51,6 @@ class HandWoman extends Object3D {
 
     this.reverse = this.reverse.bind( this )
     this.addGUI()
-    this.init()
 
   }
 

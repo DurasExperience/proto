@@ -29,26 +29,25 @@ class Indochine extends Group {
     this.bind()
     this.addListeners()
 
-    this.progress = 1
+    this.progress = 0
 
     // Part 1
-    // this.mountains = new Mountains()
-    // this.floor = new Floor()
-    // this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
-    // this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
-    // this.journey.init()
-    // this.journey.enableSpline()
-    // this.floorPath.init()
-    // this.floorPath.enableSpline()
-
-    // if ( ENV === 'DEV' ) {
+    this.mountains = new Mountains()
+    this.floor = new Floor()
+    this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
+    this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
+    this.journey.init()
+    this.journey.enableSpline()
+    this.journey.update()
+    this.floorPath.init()
+    this.floorPath.enableSpline()
+    this.floorPath.update()
 
     //   this.journey.createGeometry()
     //   this.floorPath.createGeometry()
-    
-    // }
-
-    // this.objects = [ this.mountains, this.floor, this.journey, this.floorPath ]
+    this.add( this.mountains )
+    this.add( this.floor )
+    this.objects = [ this.mountains, this.floor ]
 
     // Part 2
     // const m = new Mesh(
@@ -57,17 +56,8 @@ class Indochine extends Group {
     // )
     // this.add( m )
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
-    this.observer.init()
-    this.observer.enableSpline()
-    // this.observer.createGeometry()
     this.handWoman = new HandWoman( this.observer.duration )
     this.handMan = new HandMan( this.observer.duration )
-
-    this.add( this.handWoman )
-    this.add( this.handMan )
-    this.objects = [ this.handWoman, this.handMan, this.observer ]
-    // this.add( this.mountains )
-    // this.add( this.floor )
     
 
     this.initPostProcessing()
@@ -80,7 +70,7 @@ class Indochine extends Group {
 
   bind() {
 
-    [ 'resize', 'update', 'drown', 'reverse', 'fadeIn', 'fadeOut', 'clearGroup' ]
+    [ 'resize', 'update', 'drown', 'reverse', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -88,8 +78,19 @@ class Indochine extends Group {
   addListeners() {
 
     dom.event.on( window, 'click', this.reverse )
+    global.play = this.play
     global.drown = this.drown
     global.reverse = this.reverse
+
+  }
+
+  play() {
+
+    this.journey.start()
+    this.floorPath.start()
+    this.journey.play()
+    this.objects.push( this.journey )
+    this.objects.push( this.floorPath )
 
   }
 
@@ -186,7 +187,7 @@ class Indochine extends Group {
   fadeIn() {
 
     this.fadeInTl = new TimelineMax()
-    this.fadeInTl.to( this.vignettePass.params, 2, { boost: 1, ease: Sine.easeIn } )
+    this.fadeInTl.to( this.vignettePass.params, 1, { boost: 1, ease: Sine.easeIn } )
   
   }
   
@@ -207,8 +208,18 @@ class Indochine extends Group {
       case 0:
         this.remove( this.mountains )
         this.remove( this.floor )
+        this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
+        this.scene.setupPostProcessing( this.passes )
         this.add( this.handWoman )
+        this.add( this.handMan )
+        // this.observer.createGeometry()
+        this.objects = [ this.handWoman, this.handMan, this.observer ]
         this.fadeIn()
+        this.observer.init()
+        this.observer.enableSpline()
+        this.observer.start()
+        this.handWoman.init()
+        this.handMan.init()
         this.progress = 1
 
     }

@@ -10,11 +10,13 @@ io.on( 'connection', ( socket ) => {
 
   socket.on( 'createRoom', ( id, cb ) => {
 
+    console.log( `Room n°${id} created` )
     rooms[ id ] = {}
     rooms[ id ].socket = io.of( `/${ id }` )
 
     rooms[ id ].socket.on( 'connection', ( socket ) => {
-
+      
+      console.log( `Connection to room n°${id}` )
       socket.emit( 'synchronisedDesktop' )
 
     })
@@ -27,8 +29,11 @@ io.on( 'connection', ( socket ) => {
 
     let authorized = false
     if( id in rooms ) {
+
+      console.log( `Someone joined room n°${id}`)
       authorized = true
       rooms[ id ].socket.emit( 'synchronisedMobile' )
+
     }
 
     cb( authorized )
@@ -38,5 +43,7 @@ io.on( 'connection', ( socket ) => {
 })
 
 http.listen( 8000, () => {
+
   console.log( 'listening on *:8000' )
+
 })

@@ -1,4 +1,5 @@
 import Page from './../../base/Page'
+import miniVideo from 'mini-video'
 
 class Indochine extends Page {
 
@@ -12,6 +13,19 @@ class Indochine extends Page {
   componentDidMount() {
 
     super.componentDidMount()
+    // this.mVideo = miniVideo({
+    //   autoplay: true,
+    //   loop: false,
+    //   volume: 1
+    // })
+    // this.mVideo.addTo( this.refs.videoContainer )
+    // this.mVideo.load( '/assets/videos/chap1.mov', () => {
+
+    //   // dom.classes.add(this.refs.parent, 'active')
+    //   this.mVideo.play( 0 )
+
+    // })
+    // this.mVideo.on('ended', () => this.history.push( '/indochine' ) )
 
   }
 
@@ -19,8 +33,8 @@ class Indochine extends Page {
 
     super.setupAnimations()
     this.tlIn.set( this.refs.parent, { visibility: 'visible' } )
-    this.tlIn.fromTo( this.refs.parent, 0.5, { opacity: 0, x: 500 }, { opacity: 1, x: 0 })
-    this.tlOut.fromTo( this.refs.parent, 0.5, { opacity: 1, x: 0 }, { opacity: 0, x: 500 })
+    this.tlIn.fromTo( this.refs.parent, 0.5, { opacity: 0 }, { opacity: 1 })
+    this.tlOut.fromTo( this.refs.parent, 0.5, { opacity: 1 }, { opacity: 0 })
 
   }
 
@@ -28,7 +42,7 @@ class Indochine extends Page {
 
     return(
       <div className="page" ref="parent">
-        <h1>Indochine</h1>
+        <div className="page__gradient"></div>
       </div>
     )
 

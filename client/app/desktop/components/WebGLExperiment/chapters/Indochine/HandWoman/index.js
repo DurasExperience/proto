@@ -49,7 +49,6 @@ class HandWoman extends Object3D {
     this.add( this.mesh )
 
     this.addGUI()
-    this.init()
 
   }
 

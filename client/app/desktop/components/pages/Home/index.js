@@ -3,6 +3,7 @@ import './Home.styl'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 import Store from './../../../../../flux/store/desktop'
 import bodymovin from 'bodymovin'
+import miniVideo from 'mini-video'
 
 class Home extends Page {
 
@@ -17,6 +18,19 @@ class Home extends Page {
   componentDidMount() {
 
     super.componentDidMount()
+    this.mVideo = miniVideo({
+      autoplay: true,
+      loop: false,
+      volume: 1
+    })
+    this.mVideo.addTo( this.refs.videoContainer )
+    this.mVideo.load( '/assets/videos/intro.mp4', () => {
+
+      // dom.classes.add(this.refs.parent, 'active')
+      this.mVideo.play( 0 )
+
+    })
+    this.mVideo.on('ended', () => this.history.push( '/indochine' ) )
 
   }
 
@@ -28,7 +42,7 @@ class Home extends Page {
 
   initSources(){
 
-    this.video = ( Store.getResource('intro') )
+    // this.video = ( Store.getResource('intro') )
     this.phone = Store.getResource('phone')
 
 
@@ -55,8 +69,8 @@ class Home extends Page {
 
     super.setupAnimations()
     this.tlIn.set( this.refs.parent, { visibility: 'visible' } )
-    this.tlIn.fromTo( this.refs.parent, 0.5, { opacity: 0, x: 500 }, { opacity: 1, x: 0 })
-    this.tlOut.fromTo( this.refs.parent, 0.5, { opacity: 1, x: 0 }, { opacity: 0, x: 500 })
+    this.tlIn.fromTo( this.refs.parent, 0.5, { opacity: 0 }, { opacity: 1 })
+    this.tlOut.fromTo( this.refs.parent, 0.5, { opacity: 1 }, { opacity: 0 })
 
   }
 
@@ -64,8 +78,7 @@ class Home extends Page {
 
     return(
       <div className="page" ref="parent" id="Home">
-        <h1>Home</h1>
-        <div ref="phone"></div>
+        <div className="video-container" ref="videoContainer"></div>
       </div>
     )
 

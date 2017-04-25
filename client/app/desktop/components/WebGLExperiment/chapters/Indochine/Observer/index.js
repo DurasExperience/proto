@@ -96,6 +96,12 @@ class Observer extends Spline {
 
   }
 
+  start() {
+
+    super.start()
+
+  }
+
   enableSpline() {
 
     super.enableSpline()

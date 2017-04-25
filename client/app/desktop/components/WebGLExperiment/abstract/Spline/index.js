@@ -55,6 +55,11 @@ class Spline {
   enableSpline() {
 
     this.enabled = true
+
+  }
+
+  start() {
+
     this.tl.play( 0 )
 
   }

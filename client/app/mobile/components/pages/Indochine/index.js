@@ -35,7 +35,7 @@ class Indochine extends Page {
 
   pinched( event ){
 
-    let throttled = _.throttle(event, 100)
+    let throttled = throttle(event, 100)
     console.log("pinch", throttled)
 
   }
