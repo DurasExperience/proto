@@ -1,8 +1,9 @@
 import './indochine.styl'
 import Page from './../../base/Page'
 import Hammer from 'hammerjs'
-import _ from 'underscore'
-import throttle from 'lodash.throttle'
+// import _ from 'underscore'
+// import throttle from 'lodash.throttle'
+import Store from './../../../../../flux/store/mobile'
 
 class Indochine extends Page {
 
@@ -16,11 +17,10 @@ class Indochine extends Page {
   componentDidMount() {
 
     super.componentDidMount()
-    let container = this.refs.parent
-    let mc = new Hammer.Manager( container )
-    let Pinch = new Hammer.Pinch()
-    mc.add(Pinch);
-    mc.on( 'pinch', this.pinched( event ) )
+    const hammer = new Hammer( this.refs.parent )
+    hammer.get( 'pinch' ).set({ enable: true  })
+    hammer.get( 'rotate' ).set({ enable: true })
+    hammer.on( 'pinchend', this.pinched )
 
   }
 
@@ -35,8 +35,10 @@ class Indochine extends Page {
 
   pinched( event ){
 
-    let throttled = throttle(event, 100)
-    console.log("pinch", throttled)
+    // let throttled = _.throttle(event, 100)
+
+    console.log( 'pinch', event)
+    Store.socketRoom.emit( 'mobilePinch', 'test' )
 
   }
 

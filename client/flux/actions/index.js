@@ -107,6 +107,15 @@ const Actions = {
       item: undefined
     })
 
+  },
+  onMobilePinch() {
+
+    console.log( 'actions pinch' )
+    Dispatcher.dispatch({
+      type: EventsConstants.MOBILE_ON_PINCH,
+      item: undefined
+    })
+
   }
 
 }

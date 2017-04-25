@@ -11,7 +11,7 @@ class Home extends Page {
 
     super( props )
     this.history = props.history
-    this.addListener()
+    // this.addListeners()
 
   }
 
@@ -34,9 +34,9 @@ class Home extends Page {
 
   }
 
-  addListener(){
+  addListeners(){
 
-    Store.on( EventsConstants.RESOURCES_READY, this.initSources )
+    // Store.on( EventsConstants.RESOURCES_READY, this.initSources )
 
   }
 

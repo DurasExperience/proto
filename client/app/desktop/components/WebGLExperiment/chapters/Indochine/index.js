@@ -14,6 +14,8 @@ import BlendPass from '@superguigui/wagner/src/passes/blend/BlendPass'
 import GodrayPass from '@superguigui/wagner/src/passes/godray/godraypass'
 import TiltShiftPass from '@superguigui/wagner/src/passes/tiltshift/tiltshiftPass'
 import Config from './config'
+import Store from './../../../../../../flux/store/desktop'
+import EventsConstants from './../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../helpers/GUI'
 
 class Indochine extends Group {
@@ -27,7 +29,6 @@ class Indochine extends Group {
     this.config = Config
 
     this.bind()
-    this.addListeners()
 
     this.progress = 0
 
@@ -77,20 +78,46 @@ class Indochine extends Group {
 
   addListeners() {
 
-    dom.event.on( window, 'click', this.reverse )
+    Store.socketRoom.on( 'pinch', this.reverse )
     global.play = this.play
     global.drown = this.drown
     global.reverse = this.reverse
 
   }
 
+  start() {
+
+    console.log( 'start ch1' )
+    console.log( Store.socketRoom )
+    Store.socketRoom.on( 'mobilePinch', () => {
+
+      console.log( 'synchronisedMobile' )
+      //todo show mobile connected
+
+    })
+    setTimeout(() => {
+
+      Store.socketRoom.emit( 'mobilePinch' )
+
+    }, 2000)
+
+  }
+
+  mdr() {
+
+    console.log( 'mdr' )
+
+  }
+
   play() {
 
+    Store.off( EventsConstants.MOBILE_ON_PINCH, this.play )
     this.journey.start()
     this.floorPath.start()
     this.journey.play()
     this.objects.push( this.journey )
     this.objects.push( this.floorPath )
+    this.addListeners()
 
   }
 

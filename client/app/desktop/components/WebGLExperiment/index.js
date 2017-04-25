@@ -106,8 +106,9 @@ class WebGLExperiment extends React.Component {
 
       case '/indochine':
         this.currentChapter = this.chapters[ 0 ]
+        this.currentChapter.start()
         this.scene.add( this.currentChapter )
-
+        
     }
 
   }

@@ -18,8 +18,10 @@ io.on( 'connection', ( socket ) => {
       
       console.log( `Connection to room n°${id}` )
       socket.emit( 'synchronisedDesktop' )
+      socket.on( 'mobilePinch', () => console.log( 'piiiinch' ) )
 
     })
+
 
     cb()
 
@@ -39,6 +41,7 @@ io.on( 'connection', ( socket ) => {
     cb( authorized )
 
   })
+
 
 })
 
