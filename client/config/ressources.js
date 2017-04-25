@@ -38,4 +38,13 @@ export default [
   //   id: 'phone',
   //   url: 'assets/bodymovin/mobile/data.json'
   // }
+  {
+    type: 'audio',
+    id: '01_02',
+    url: 'assets/sounds/01_02.mp3',
+    options: {
+      loop: false,
+      volume: 1
+    }
+  },
 ]

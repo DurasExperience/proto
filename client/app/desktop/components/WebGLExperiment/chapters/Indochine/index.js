@@ -1,10 +1,11 @@
-import { Group } from 'three'
+import { Group, Mesh, SphereBufferGeometry, MeshBasicMaterial } from 'three'
 import Mountains from './Mountains'
 import Floor from './Floor'
 import Journey from './Journey'
 import FloorPath from './FloorPath'
 import HandWoman from './HandWoman'
 import HandMan from './HandMan'
+import Observer from './Observer'
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
 import ZoomBlurPass from '@superguigui/wagner/src/passes/zoom-blur/ZoomBlurPass'
@@ -28,7 +29,7 @@ class Indochine extends Group {
     this.bind()
     this.addListeners()
 
-    this.progress = 0
+    this.progress = 1
 
     // Part 1
     // this.mountains = new Mountains()
@@ -50,12 +51,21 @@ class Indochine extends Group {
     // this.objects = [ this.mountains, this.floor, this.journey, this.floorPath ]
 
     // Part 2
-    this.handWoman = new HandWoman()
-    this.handMan = new HandMan()
+    // const m = new Mesh(
+    //   new SphereBufferGeometry( 30, 16, 16 ),
+    //   new MeshBasicMaterial({ color: 0xffffff })
+    // )
+    // this.add( m )
+    this.observer = new Observer( scene, controlsContainer, this.fadeOut )
+    this.observer.init()
+    this.observer.enableSpline()
+    // this.observer.createGeometry()
+    this.handWoman = new HandWoman( this.observer.duration )
+    this.handMan = new HandMan( this.observer.duration )
 
     this.add( this.handWoman )
     this.add( this.handMan )
-    this.objects = [ this.handWoman, this.handMan ]
+    this.objects = [ this.handWoman, this.handMan, this.observer ]
     // this.add( this.mountains )
     // this.add( this.floor )
     
@@ -77,7 +87,7 @@ class Indochine extends Group {
 
   addListeners() {
 
-    // dom.event.on( window, 'click', this.reverse )
+    dom.event.on( window, 'click', this.reverse )
     global.drown = this.drown
     global.reverse = this.reverse
 
@@ -156,14 +166,25 @@ class Indochine extends Group {
   reverse() {
 
     this.reverseTl.play( 0 )
-    this.journey.reverse( 2 )
-    this.floorPath.reverse( 2 )
+    switch( this.progress ) {
+
+      case 0:
+        this.journey.reverse( 2 )
+        this.floorPath.reverse( 2 )
+        break
+
+      case 1:
+        this.observer.reverse( 2 )
+        this.handWoman.reverse( 2 )
+        this.handMan.reverse( 2 )
+        break
+
+    }
 
   }
 
   fadeIn() {
 
-    console.log( 'in' )
     this.fadeInTl = new TimelineMax()
     this.fadeInTl.to( this.vignettePass.params, 2, { boost: 1, ease: Sine.easeIn } )
   

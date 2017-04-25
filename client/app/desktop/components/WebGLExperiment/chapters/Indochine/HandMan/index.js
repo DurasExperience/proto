@@ -6,12 +6,12 @@ import GUI from './../../../../../../../helpers/GUI'
 
 class HandWoman extends Object3D {
 
-  constructor() {
+  constructor( duration ) {
 
     super()
 
     this.config = Config
-    this.duration = 20
+    this.duration = duration
 
     this.geometry = new BufferGeometry()
 
@@ -25,13 +25,6 @@ class HandWoman extends Object3D {
 
         const positions = child.geometry.attributes.position.count
         this.max += positions
-        for ( let i = 0, i3 = 0; i < positions; i ++, i3 += 3 ) {
-
-          child.geometry.attributes.position.array[ i3 + 0 ] += 0.05 * Math.random()
-          child.geometry.attributes.position.array[ i3 + 1 ] += 0.05 * Math.random()
-          child.geometry.attributes.position.array[ i3 + 2 ] += 0.05 * Math.random()
-
-        }
 
       }
 
@@ -56,6 +49,7 @@ class HandWoman extends Object3D {
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
     this.add( this.mesh )
 
+    this.reverse = this.reverse.bind( this )
     this.addGUI()
     this.init()
 
@@ -87,23 +81,23 @@ class HandWoman extends Object3D {
 
   init() {
 
-    const tl = new TimelineMax({ paused: true })
-    // tl.to( this.mesh.uniforms.amplitude, this.duration, { value: this.config.endAmplitude }, 0 )
-    tl.to( this.mesh.position, this.duration, { x: this.config.endPosition.x }, 0 )
-    tl.to( this.mesh.position, this.duration, { y: this.config.endPosition.y }, 0 )
-    tl.to( this.mesh.position, this.duration, { z: this.config.endPosition.z }, 0 )
-    tl.to( this.mesh.rotation, this.duration, { x: this.config.endRotation.x }, 0 )
-    tl.to( this.mesh.rotation, this.duration, { y: this.config.endRotation.y }, 0 )
-    tl.to( this.mesh.rotation, this.duration, { z: this.config.endRotation.z }, 0 )
-    tl.to( this.mesh.uniforms.color.value, this.duration, { r: this.config.endColor.r }, 0 )
-    tl.to( this.mesh.uniforms.color.value, this.duration, { g: this.config.endColor.g }, 0 )
-    tl.to( this.mesh.uniforms.color.value, this.duration, { b: this.config.endColor.b }, 0 )
+    this.tl = new TimelineMax({ onComplete: () => this.mesh.uniforms.amplitude.value = this.config.endAmplitude })
+    this.tl.to( this.mesh.position, this.duration, { x: this.config.endPosition.x }, 0 )
+    this.tl.to( this.mesh.position, this.duration, { y: this.config.endPosition.y }, 0 )
+    this.tl.to( this.mesh.position, this.duration, { z: this.config.endPosition.z }, 0 )
+    this.tl.to( this.mesh.rotation, this.duration, { x: this.config.endRotation.x }, 0 )
+    this.tl.to( this.mesh.rotation, this.duration, { y: this.config.endRotation.y }, 0 )
+    this.tl.to( this.mesh.rotation, this.duration, { z: this.config.endRotation.z }, 0 )
+    this.tl.to( this.mesh.uniforms.color.value, this.duration, { r: this.config.endColor.r }, 0 )
+    this.tl.to( this.mesh.uniforms.color.value, this.duration, { g: this.config.endColor.g }, 0 )
+    this.tl.to( this.mesh.uniforms.color.value, this.duration, { b: this.config.endColor.b }, 0 )
 
-    setTimeout(function() {
+  }
 
-      tl.play( 0 )
+  reverse( d ) {
 
-    }, 1000)
+    this.tl.reverse()
+    setTimeout( () => this.tl.play(), d * 1000 )
 
   }
 

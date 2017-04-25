@@ -48,7 +48,7 @@ class Spline {
     const oldTime = this.time - time
     this.time -= oldTime
     this.tl.reverse()
-    setTimeout( () => this.tl.play(), 2000 )
+    setTimeout( () => this.tl.play(), d * 1000 )
 
   }
 

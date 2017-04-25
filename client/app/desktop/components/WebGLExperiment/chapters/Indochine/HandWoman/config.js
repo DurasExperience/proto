@@ -15,7 +15,7 @@ export default {
     z: -52
   },
   rotation: {
-    x: -1.14,
+    x: -1.52,
     y: -2.53,
     z: -0.98
   },
@@ -30,7 +30,7 @@ export default {
     z: 150
   },
   size: 20,
-  amplitude: 10.,
-  endAmplitude: 1.,
+  amplitude: 1.,
+  endAmplitude: 30.,
   frequency: 2.
 }

@@ -2,7 +2,7 @@ import { Color } from 'three'
 
 export default {
   color: new Color( 0xffffff ),
-  endColor: new Color( 0x370948 ),
+  endColor: new Color( 0xDC2F23 ),
   alpha: 1,
   position: {
     x: 650,
@@ -10,27 +10,27 @@ export default {
     z: 136
   },
   endPosition: {
-    x: 372,
-    y: -98,
-    z: 63
+    x: 254,
+    y: -114,
+    z: 34
   },
   rotation: {
-    x: 2.5,
+    x: 1.9,
     y: 0.51,
     z: -1.
   },
   endRotation: {
-    x: 1.6,
-    y: 0.31,
+    x: 1.2,
+    y: 0.17,
     z: -1.
   },
   scale: {
-    x: 150,
-    y: 150,
-    z: 150
+    x: 110,
+    y: 110,
+    z: 110
   },
   size: 20,
-  amplitude: 10.,
-  endAmplitude: 1.,
+  amplitude: 1.,
+  endAmplitude: 30.,
   frequency: 2.
 }
