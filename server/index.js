@@ -18,7 +18,12 @@ io.on( 'connection', ( socket ) => {
       
       console.log( `Connection to room n°${id}` )
       socket.emit( 'synchronisedDesktop' )
-      socket.on( 'mobilePinch', () => console.log( 'piiiinch' ) )
+      socket.on( 'mobilePinch', () => {
+
+        console.log( 'piiinch' )
+        socket.emit( 'pinch' )
+
+      } )
 
     })
 

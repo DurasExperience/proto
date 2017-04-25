@@ -41,5 +41,5 @@ export default [
       loop: false,
       volume: 1
     }
-  },
+  }
 ]

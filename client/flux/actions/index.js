@@ -116,6 +116,14 @@ const Actions = {
       item: undefined
     })
 
+  },
+  startChapter() {
+
+    Dispatcher.dispatch({
+      type: EventsConstants.START_CHAPTER,
+      item: undefined
+    })
+
   }
 
 }

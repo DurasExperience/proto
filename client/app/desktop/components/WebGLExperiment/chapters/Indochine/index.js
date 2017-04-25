@@ -78,40 +78,25 @@ class Indochine extends Group {
 
   addListeners() {
 
-    Store.socketRoom.on( 'pinch', this.reverse )
-    global.play = this.play
-    global.drown = this.drown
-    global.reverse = this.reverse
+    dom.event.on( window, 'click', this.reverse )
+    // Store.socketRoom.on( 'pinch', this.reverse )
+    // global.play = this.play
+    // global.drown = this.drown
+    // global.reverse = this.reverse
 
   }
 
   start() {
 
     console.log( 'start ch1' )
-    console.log( Store.socketRoom )
-    Store.socketRoom.on( 'mobilePinch', () => {
-
-      console.log( 'synchronisedMobile' )
-      //todo show mobile connected
-
-    })
-    setTimeout(() => {
-
-      Store.socketRoom.emit( 'mobilePinch' )
-
-    }, 2000)
-
-  }
-
-  mdr() {
-
-    console.log( 'mdr' )
+    // console.log( Store.socketRoom )
+    Store.on( EventsConstants.START_CHAPTER, this.play )
 
   }
 
   play() {
 
-    Store.off( EventsConstants.MOBILE_ON_PINCH, this.play )
+    Store.off( EventsConstants.START_CHAPTER, this.play )
     this.journey.start()
     this.floorPath.start()
     this.journey.play()
@@ -197,14 +182,14 @@ class Indochine extends Group {
     switch( this.progress ) {
 
       case 0:
-        this.journey.reverse( 2 )
-        this.floorPath.reverse( 2 )
+        this.journey.reverse( 4 )
+        this.floorPath.reverse( 4 )
         break
 
       case 1:
-        this.observer.reverse( 2 )
-        this.handWoman.reverse( 2 )
-        this.handMan.reverse( 2 )
+        this.observer.reverse( 4 )
+        this.handWoman.reverse( 4 )
+        this.handMan.reverse( 4 )
         break
 
     }

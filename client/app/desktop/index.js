@@ -7,7 +7,7 @@ export default class App {
 
   constructor(){
 
-    this.socket = io('http://192.168.0.18:8000')
+    // this.socket = io('http://172.20.10.2:8000')
     this.roomID = "0000"
 
   }
@@ -15,7 +15,7 @@ export default class App {
   init() {
 
     this.initialState = new InitialState()
-    this.createRoom()
+    // this.createRoom()
 
     ReactDOM.render(
       <AppTemplate />,
@@ -29,12 +29,17 @@ export default class App {
     const roomID = this.roomID
     this.socket.emit( 'createRoom', this.roomID, () => {
 
-      const socketRoom = io( 'http://192.168.0.18:8000/' + roomID )
+      const socketRoom = io( 'http://172.20.10.2:8000/' + roomID )
       Store.socketRoom = socketRoom
       socketRoom.on( 'synchronisedMobile', () => {
 
         console.log( 'synchronisedMobile' )
         //todo show mobile connected
+
+      })
+      socketRoom.on( 'pinch', () => {
+
+        console.log( 'desktop pinch' )
 
       })
 

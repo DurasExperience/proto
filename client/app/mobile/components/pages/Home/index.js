@@ -10,7 +10,7 @@ class Home extends Page {
     super( props )
     this.history = props.history
 
-    this.socket = io('http://192.168.0.18:8000')
+    // this.socket = io('http://172.20.10.2:8000')
 
   }
 
@@ -39,7 +39,7 @@ class Home extends Page {
 
       if( authorized === true ) {
 
-        const socketRoom = io( 'http://192.168.0.18:8000/' + id )
+        const socketRoom = io( 'http://172.20.10.2:8000/' + id )
         socketRoom.on( 'synchronisedDesktop', () => {
           
           Store.socketRoom = socketRoom
