@@ -53,7 +53,11 @@ class AssetsLoader {
             Actions.onResourceProgress( this.currentProgress / this.totalProgress )
 
             if ( this.currentProgress >= this.totalProgress ) this.load()
-            if ( this.currentProgress === this.totalProgress ) Actions.onResourceReady( this.resources )
+            if ( this.currentProgress === this.totalProgress ) {
+
+              Actions.onResourceReady( this.resources )
+
+            }
 
           },
           () => null,

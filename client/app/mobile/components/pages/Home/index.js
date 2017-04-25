@@ -41,8 +41,8 @@ class Home extends Page {
 
         let socketRoom = io( '/' + id )
         socketRoom.on( 'synchronisedDesktop', function() {
-          //todo show mobile connected
-          //TODO go indochine
+
+          this.history.push('/indochine');
 
         })
 

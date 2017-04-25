@@ -22,5 +22,20 @@ export default [
     type: 'model',
     id: '01_hand_woman',
     url: 'assets/models/01_hand_woman.awd'
-  }
+  },
+  {
+    type: 'video',
+    id: 'intro',
+    url: 'assets/videos/intro.mp4'
+  },
+  // {
+  //   type: 'image',
+  //   id: 'chap1',
+  //   url: 'assets/videos/chap1.mp4'
+  // },
+  // {
+  //   type: 'json',
+  //   id: 'phone',
+  //   url: 'assets/bodymovin/mobile/data.json'
+  // }
 ]

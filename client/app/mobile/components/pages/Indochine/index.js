@@ -1,6 +1,8 @@
 import './indochine.styl'
 import Page from './../../base/Page'
 import Hammer from 'hammerjs'
+import _ from 'underscore'
+import throttle from 'lodash.throttle'
 
 class Indochine extends Page {
 
@@ -33,7 +35,8 @@ class Indochine extends Page {
 
   pinched( event ){
 
-    console.log('pinched('+event+')')
+    let throttled = _.throttle(event, 100)
+    console.log("pinch", throttled)
 
   }
 

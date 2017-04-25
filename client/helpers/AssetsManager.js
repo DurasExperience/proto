@@ -5,7 +5,10 @@ class AssetsManager {
 
   constructor(){
 
-    this.assetsLoader = new AssetsLoader()
+    this.assetsLoader = new AssetsLoader({
+      blob: true,
+      crossOrigin: 'anonymous'
+    })
 
   }
 
@@ -14,6 +17,7 @@ class AssetsManager {
     let loader = this.assetsLoader.add(url)
       .on('error', function( error ) {
 
+        console.log(error);
         throw new Error("loading error", error );
 
       })
