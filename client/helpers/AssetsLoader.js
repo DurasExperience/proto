@@ -2,7 +2,7 @@ import AWDLoader from '../utils/webgl/AWDLoader'
 import AudioManager from './AudioManager'
 import VideoManager from './VideoManager'
 import Actions from './../flux/actions'
-import ressources from '../config/ressources'
+import ressources from '../config/resources/resources'
 import AssetsManager from './AssetsManager'
 import { TextureLoader } from 'three'
 

@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 import AppTemplate from './template'
-import InitialState from '../../config/initialState'
+import InitialState from '../../config/states/initialState'
 import Store from './../../flux/store/desktop'
 
 export default class App {

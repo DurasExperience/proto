@@ -11,7 +11,6 @@ class Home extends Page {
 
     super( props )
     this.history = props.history
-    // this.addListeners()
 
   }
 
@@ -26,7 +25,6 @@ class Home extends Page {
     this.mVideo.addTo( this.refs.videoContainer )
     this.mVideo.load( '/assets/videos/intro.mp4', () => {
 
-      // dom.classes.add(this.refs.parent, 'active')
       this.mVideo.play( 0 )
 
     })
@@ -34,19 +32,12 @@ class Home extends Page {
 
   }
 
-  addListeners(){
-
-    // Store.on( EventsConstants.RESOURCES_READY, this.initSources )
-
-  }
 
   initSources(){
 
     // this.video = ( Store.getResource('intro') )
-    this.phone = Store.getResource('phone')
-
-
-    console.log( this.video, this.phone )
+    //this.phone = Store.getResource('phone')
+    //console.log( this.video, this.phone )
 
   }
 
@@ -59,7 +50,7 @@ class Home extends Page {
       enderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'https://labs.nearpod.com/bodymovin/demo/the_lady/data.json'
+      path: ''
     }
     let anim = bodymovin.loadAnimation(animData)
 

@@ -1,5 +1,5 @@
 import AppTemplate from './template'
-import InitialState from '../../config/initialState'
+import InitialState from '../../config/states/initialState'
 
 export default class App {
 
