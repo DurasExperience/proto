@@ -18,10 +18,9 @@ io.on( 'connection', ( socket ) => {
     rooms[ id ].socket.on( 'connection', ( roomSocket ) => {
       
       console.log( `Connected to room n°${id}` )
-      roomSocket.emit( 'synchronisedDesktop' )
+      rooms[ id ].socket.emit( 'synchronisedDesktop' )
       roomSocket.on( 'mobilePinch', () => {
 
-        console.log( 'piiinch', socket )
         rooms[ id ].socket.emit( 'pinch' )
 
       } )

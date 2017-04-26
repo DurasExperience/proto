@@ -78,8 +78,8 @@ class Indochine extends Group {
 
   addListeners() {
 
-    dom.event.on( window, 'click', this.reverse )
-    // Store.socketRoom.on( 'pinch', this.reverse )
+    // dom.event.on( window, 'click', this.reverse )
+    Store.socketRoom.on( 'pinch', this.reverse )
     // global.play = this.play
     // global.drown = this.drown
     // global.reverse = this.reverse

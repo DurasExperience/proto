@@ -9,8 +9,8 @@ class Home extends Page {
 
     super( props )
     this.history = props.history
-
-    this.socket = io('http://172.20.10.2:8000', { forceNew: false })
+  
+    this.socket = io('http://172.20.10.4:8000', { forceNew: false })
     this.connectionSubmitted = this.connectionSubmitted.bind( this )
 
   }
@@ -41,7 +41,7 @@ class Home extends Page {
       console.log( socketID )
       if( authorized === true ) {
 
-        const socketRoom = io( 'http://172.20.10.2:8000/' + id )
+        const socketRoom = io( 'http://172.20.10.4:8000/' + id )
         socketRoom.on( 'synchronisedDesktop', () => {
           
           Store.socketRoom = {

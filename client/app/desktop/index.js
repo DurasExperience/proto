@@ -7,8 +7,8 @@ export default class App {
 
   constructor(){
 
-    this.socket = io('http://172.20.10.2:8000')
-    this.roomID = "0000"
+    this.socket = io('http://172.20.10.4:8000')
+    this.roomID = Math.random().toString().slice( 2, 6 )
 
   }
 
@@ -29,7 +29,7 @@ export default class App {
     const roomID = this.roomID
     this.socket.emit( 'createRoom', this.roomID, () => {
 
-      const socketRoom = io( 'http://172.20.10.2:8000/' + roomID )
+      const socketRoom = io( 'http://172.20.10.4:8000/' + roomID )
       Store.socketRoom = socketRoom
       socketRoom.on( 'synchronisedMobile', () => {
 
