@@ -20,7 +20,7 @@ class BaseScene extends Scene {
     this.renderer.setSize( width, height )
     this.renderer.setPixelRatio( window.devicePixelRatio )
 
-    this.renderer.setClearColor( 0x0e0f1b, 1 )
+    this.renderer.setClearColor( 0x07080E, 1 )
     this.renderer.autoClear = false
     this.renderer.gammaInput = true
     this.renderer.gammaOutput = true
@@ -40,7 +40,7 @@ class BaseScene extends Scene {
 
     this.passes = []
 
-    this.initLights()
+    // this.initLights()
     this.initPostProcessing()
     this.addGUI()
 
