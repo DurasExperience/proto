@@ -7,7 +7,7 @@ export default class App {
 
   constructor(){
 
-    // this.socket = io('http://172.20.10.2:8000')
+    this.socket = io('http://172.20.10.2:8000')
     this.roomID = "0000"
 
   }
@@ -15,7 +15,7 @@ export default class App {
   init() {
 
     this.initialState = new InitialState()
-    // this.createRoom()
+    this.createRoom()
 
     ReactDOM.render(
       <AppTemplate />,

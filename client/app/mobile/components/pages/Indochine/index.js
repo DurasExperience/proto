@@ -37,8 +37,8 @@ class Indochine extends Page {
 
     // let throttled = _.throttle(event, 100)
 
-    console.log( 'pinch', event)
-    Store.socketRoom.emit( 'mobilePinch', 'test' )
+    // console.log( 'pinch', event)
+    Store.socketRoom.socket.emit( 'mobilePinch', 'test' )
 
   }
 

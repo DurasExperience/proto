@@ -5,25 +5,26 @@ const io = require( 'socket.io' )( http )
 const rooms = {}
 
 app.get('/', function (req, res) { })
-
 io.on( 'connection', ( socket ) => {
-
+  
+  console.log( socket.id )
   socket.on( 'createRoom', ( id, cb ) => {
 
     console.log( `Room n°${id} created` )
     rooms[ id ] = {}
+    rooms[ id ].socketId = socket.id
     rooms[ id ].socket = io.of( `/${ id }` )
 
-    rooms[ id ].socket.on( 'connection', ( socket ) => {
+    rooms[ id ].socket.on( 'connection', ( roomSocket ) => {
       
-      console.log( `Connection to room n°${id}` )
-      socket.emit( 'synchronisedDesktop' )
-      // socket.on( 'mobilePinch', () => {
+      console.log( `Connected to room n°${id}` )
+      roomSocket.emit( 'synchronisedDesktop' )
+      roomSocket.on( 'mobilePinch', () => {
 
-      //   console.log( 'piiinch' )
-      //   socket.emit( 'pinch' )
+        console.log( 'piiinch', socket )
+        rooms[ id ].socket.emit( 'pinch' )
 
-      // } )
+      } )
 
     })
 
@@ -43,7 +44,7 @@ io.on( 'connection', ( socket ) => {
 
     }
 
-    cb( authorized )
+    cb( authorized, rooms[ id ].socketId )
 
   })
 
