@@ -1,31 +1,43 @@
 const app = require( 'express' )()
 const http = require( 'http' ).Server( app )
 const io = require( 'socket.io' )( http )
-
-const rooms = {}
+const find = require( 'lodash.find' )
+const findIndex = require( 'lodash.findindex' )
+const rooms = []
 
 app.get('/', function (req, res) { })
 io.on( 'connection', ( socket ) => {
   
-  console.log( socket.id )
   socket.on( 'createRoom', ( id, cb ) => {
 
     console.log( `Room n°${id} created` )
-    rooms[ id ] = {}
-    rooms[ id ].socketId = socket.id
-    rooms[ id ].socket = io.of( `/${ id }` )
+    const newRoom = {
+      id: id,
+      socket: io.of( `/${ id }` )
+    }
+    rooms.push( newRoom )
 
-    rooms[ id ].socket.on( 'connection', ( roomSocket ) => {
+    newRoom.socket.on( 'connection', ( roomSocket ) => {
       
       console.log( `Connected to room n°${id}` )
-      rooms[ id ].socket.emit( 'synchronisedDesktop' )
+      newRoom.socket.emit( 'synchronisedDesktop' )
       roomSocket.on( 'mobilePinch', () => {
 
-        rooms[ id ].socket.emit( 'pinch' )
+        console.log( 'pinch' )
+        newRoom.socket.emit( 'pinch' )
 
       } )
 
     })
+
+    // newRoom.socket.on( 'disconnect', () => {
+      
+    //   const roomIndex = findIndex( rooms, { id: id } )
+    //   console.log( roomIndex, rooms.length )
+    //   rooms.splice( roomIndex, 1 )
+    //   console.log( rooms.length )
+
+    // })
 
 
     cb()
@@ -35,15 +47,16 @@ io.on( 'connection', ( socket ) => {
   socket.on( 'join', ( id, cb ) => {
 
     let authorized = false
-    if( id in rooms ) {
+    const room = find( rooms, { id: id } )
+    if( room !== undefined ) {
 
       console.log( `Someone joined room n°${id}`)
       authorized = true
-      rooms[ id ].socket.emit( 'synchronisedMobile' )
+      room.socket.emit( 'synchronisedMobile' )
 
     }
 
-    cb( authorized, rooms[ id ].socketId )
+    cb( authorized )
 
   })
 

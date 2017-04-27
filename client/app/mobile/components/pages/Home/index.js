@@ -2,6 +2,7 @@ import './home.styl'
 import Page from './../../base/Page'
 import io from 'socket.io-client'
 import Store from './../../../../../flux/store/mobile'
+import Config from './../../../../../config'
 
 class Home extends Page {
 
@@ -10,7 +11,7 @@ class Home extends Page {
     super( props )
     this.history = props.history
   
-    this.socket = io('http://172.20.10.4:8000', { forceNew: false })
+    this.socket = io( Config.apiUrl )
     this.connectionSubmitted = this.connectionSubmitted.bind( this )
 
   }
@@ -36,16 +37,14 @@ class Home extends Page {
 
     const id = this.refs.field_1.value + this.refs.field_2.value + this.refs.field_3.value + this.refs.field_4.value
     console.log( id )
-    this.socket.emit( 'join', id, ( authorized, socketID ) => {
+    this.socket.emit( 'join', id, ( authorized ) => {
 
-      console.log( socketID )
       if( authorized === true ) {
 
-        const socketRoom = io( 'http://172.20.10.4:8000/' + id )
+        const socketRoom = io( Config.apiUrl + `/${id}` )
         socketRoom.on( 'synchronisedDesktop', () => {
           
           Store.socketRoom = {
-            id: socketID,
             socket: socketRoom
           }
           this.history.push( '/indochine' )

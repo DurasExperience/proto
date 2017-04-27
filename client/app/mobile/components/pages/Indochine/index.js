@@ -1,8 +1,7 @@
 import './indochine.styl'
 import Page from './../../base/Page'
 import Hammer from 'hammerjs'
-// import _ from 'underscore'
-// import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import Store from './../../../../../flux/store/mobile'
 
 class Indochine extends Page {
@@ -20,7 +19,7 @@ class Indochine extends Page {
     const hammer = new Hammer( this.refs.parent )
     hammer.get( 'pinch' ).set({ enable: true  })
     hammer.get( 'rotate' ).set({ enable: true })
-    hammer.on( 'pinchend', this.pinched )
+    hammer.on( 'pinchend', debounce( () => this.pinched(), 1000 ) )
 
   }
 
@@ -35,9 +34,8 @@ class Indochine extends Page {
 
   pinched( event ){
 
-    // let throttled = _.throttle(event, 100)
-
     // console.log( 'pinch', event)
+    console.log( Store.socketRoom.socket )
     Store.socketRoom.socket.emit( 'mobilePinch', 'test' )
 
   }
