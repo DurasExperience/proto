@@ -10,8 +10,8 @@ class Journey extends Spline {
     this.drown = drown
     this.fadeOut = fadeOut
     this.voice = AudioManager.get( '01_01' )
-    // this.duration = 50
-    this.duration = Math.ceil( this.voice.duration() ) + 3
+    this.duration = 5
+    // this.duration = Math.ceil( this.voice.duration() ) + 3
     this.bind()
     this.addListeners()
     this.willDrown = true

@@ -3,6 +3,7 @@ import Page from './../../base/Page'
 import miniVideo from 'mini-video'
 import Store from './../../../../../flux/store/desktop/index'
 import Actions from './../../../../../flux/actions'
+import Config from './../../../../../config'
 
 class Indochine extends Page {
 
@@ -18,7 +19,9 @@ class Indochine extends Page {
   componentDidMount() {
 
     super.componentDidMount()
-    Store.socketRoom.on( 'pinch', this.onPinch )
+    
+    if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.onPinch )
+    else dom.event.on( this.refs.parent, 'click', this.onPinch )
     // this.mVideo = miniVideo({
     //   autoplay: true,
     //   loop: false,

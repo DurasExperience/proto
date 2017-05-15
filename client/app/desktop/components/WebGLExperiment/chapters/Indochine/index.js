@@ -5,6 +5,7 @@ import Journey from './Journey'
 import FloorPath from './FloorPath'
 import HandWoman from './HandWoman'
 import HandMan from './HandMan'
+import BackgroundHands from './BackgroundHands'
 import Observer from './Observer'
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
@@ -59,6 +60,7 @@ class Indochine extends Group {
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
     this.handWoman = new HandWoman( this.observer.duration )
     this.handMan = new HandMan( this.observer.duration )
+    // this.backgroundHands = new BackgroundHands()
     
 
     this.initPostProcessing()
@@ -78,8 +80,8 @@ class Indochine extends Group {
 
   addListeners() {
 
-    // dom.event.on( window, 'click', this.reverse )
-    Store.socketRoom.on( 'pinch', this.reverse )
+    if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
+    else dom.event.on( window, 'click', this.reverse )
     // global.play = this.play
     // global.drown = this.drown
     // global.reverse = this.reverse
@@ -224,6 +226,7 @@ class Indochine extends Group {
         this.scene.setupPostProcessing( this.passes )
         this.add( this.handWoman )
         this.add( this.handMan )
+        // this.add( this.backgroundHands )
         // this.observer.createGeometry()
         this.objects = [ this.handWoman, this.handMan, this.observer ]
         this.fadeIn()

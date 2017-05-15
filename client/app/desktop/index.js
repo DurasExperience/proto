@@ -16,7 +16,7 @@ export default class App {
   init() {
 
     this.initialState = new InitialState()
-    this.createRoom()
+    if ( Config.mobileConnect ) this.createRoom()
 
     ReactDOM.render(
       <AppTemplate />,
