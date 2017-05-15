@@ -14,23 +14,23 @@ class AssetsManager {
 
   load( url, onLoad, onSucess, onReject, id ) {
 
-    let loader = this.assetsLoader.add(url)
+    let loader = new AssetsLoader()
+      .add( url )
       .on('error', function( error ) {
 
-        console.log(error);
-        throw new Error("loading error", error );
+        throw new Error("loading error", error )
 
       })
-      .on('complete', function( map ) {
+      .on('complete', map => {
 
-        loader.get().forEach( function( file ) {
+        loader.get().forEach( resource => {
 
-          onLoad( file )
+          onLoad( resource )
 
         })
 
       })
-    .start()
+      .start()
 
   }
 

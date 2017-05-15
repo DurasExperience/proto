@@ -23,11 +23,11 @@ export default [
     id: '01_hand_woman',
     url: 'assets/models/01_hand_woman.awd'
   },
-  // {
-  //   type: 'json',
-  //   id: 'phone',
-  //   url: 'assets/bodymovin/mobile/data.json'
-  // }
+  {
+    type: 'json',
+    id: 'phone',
+    url: '/assets/bodymovin/mobile/data.json'
+  },
   {
     type: 'audio',
     id: '01_02',
