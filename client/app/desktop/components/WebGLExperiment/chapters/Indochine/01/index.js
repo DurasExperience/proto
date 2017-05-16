@@ -47,7 +47,6 @@ class Indochine01 extends Group {
     this.objects = [ this.mountains, this.floor ]
 
     this.initPostProcessing()
-    this.addGUI()
 
     this.setupReverse()
 
@@ -72,6 +71,7 @@ class Indochine01 extends Group {
 
     this.scene.setupPostProcessing( this.passes )
     Store.on( EventsConstants.START_CHAPTER, this.play )
+    this.addGUI()
 
   }
 
@@ -105,6 +105,9 @@ class Indochine01 extends Group {
   }
 
   addGUI() {
+
+    this.mountains.addGUI()
+    this.floor.addGUI()
 
     const postProcessingFolder = GUI.addFolder( 'Post Processing Ch1.1' )
     postProcessingFolder.open()

@@ -63,8 +63,6 @@ class Floor extends Object3D {
     // this.mesh.position.z = 50
     this.add( this.mesh )
 
-    this.addGUI()
-
   }
 
   addGUI() {
