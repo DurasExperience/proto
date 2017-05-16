@@ -48,8 +48,6 @@ class HandWoman extends Object3D {
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
     this.add( this.mesh )
 
-    this.addGUI()
-
   }
 
   addGUI() {

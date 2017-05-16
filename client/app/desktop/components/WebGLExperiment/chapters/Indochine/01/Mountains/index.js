@@ -54,8 +54,6 @@ class Mountains extends Object3D {
     // this.mesh.position.z = -200
     this.add( this.mesh )
 
-    this.addGUI()
-
   }
 
   addGUI() {

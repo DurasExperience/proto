@@ -48,7 +48,6 @@ class Observer extends AudioSpline {
       new Vector3( 0, 50, 800 ),
       new Vector3( 0, -10, 500 )
     ]
-    this.addGUI()
     super.init()
 
   }

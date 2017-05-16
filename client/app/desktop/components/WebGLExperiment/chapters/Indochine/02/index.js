@@ -44,10 +44,7 @@ class Indochine02 extends Group {
     this.objects = [ this.handWoman, this.handMan ]
 
     this.initPostProcessing()
-    //this.addGUI()
-
     this.setupReverse()
-
 
   }
 
@@ -69,6 +66,7 @@ class Indochine02 extends Group {
 
     this.scene.setupPostProcessing( this.passes )
     this.play()
+    this.addGUI()
 
   }
 
@@ -96,6 +94,10 @@ class Indochine02 extends Group {
   }
 
   addGUI() {
+
+    this.observer.addGUI()
+    this.handWoman.addGUI()
+    this.handMan.addGUI()
 
     const postProcessingFolder = GUI.addFolder( 'Post Processing Ch1.2' )
     postProcessingFolder.open()
