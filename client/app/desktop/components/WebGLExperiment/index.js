@@ -3,10 +3,11 @@ import stats from 'stats.js'
 import Store from './../../../../flux/store/desktop'
 import AudioManager from './../../../../helpers/AudioManager'
 import EventsConstants from './../../../../flux/constants/EventsConstants'
-import { Clock } from 'three'
+import { Clock, Mesh, MeshBasicMaterial, BoxBufferGeometry } from 'three'
 import BaseScene from './core/BaseScene'
 import Indochine01 from './chapters/Indochine/01'
 import Indochine02 from './chapters/Indochine/02'
+import Config from './../../../../config'
 
 class WebGLExperiment extends React.Component {
 
@@ -17,6 +18,7 @@ class WebGLExperiment extends React.Component {
     this.DELTA_TIME = 0
     this.CURRENT_TIME = 0
     this.currentChapter = undefined
+    this.config = Config
 
   }
 
@@ -55,8 +57,20 @@ class WebGLExperiment extends React.Component {
     this.loop = loop( this.update )
     this.loop.start()
 
-    const indochine01 = new Indochine01( this.scene, this.scene.controlsContainer )
-    const indochine02 = new Indochine02( this.scene, this.scene.controlsContainer )
+    if ( this.config.debug ) {
+      const geo = new BoxBufferGeometry( 100, 100, 100 )
+      const mat = new MeshBasicMaterial({
+        color: 0xff0000
+      })
+      const m = new Mesh( geo, mat )
+      this.scene.add( m )
+      this.controlsContainer = m
+    } else {
+      this.controlsContainer = this.scene.controlsContainer
+    }
+
+    const indochine01 = new Indochine01( this.scene, this.controlsContainer )
+    const indochine02 = new Indochine02( this.scene, this.controlsContainer )
     this.chapters = [
       indochine01,
       indochine02

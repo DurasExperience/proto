@@ -1,6 +1,7 @@
 import AudioSpline from './../../../../abstract/AudioSpline'
 import { Vector3 } from 'three'
 import AudioManager from './../../../../../../../../helpers/AudioManager'
+import GlobalConfig from './../../../../../../../../config'
 
 class Journey extends AudioSpline {
 
@@ -9,7 +10,6 @@ class Journey extends AudioSpline {
     super( scene, controlsContainer, '01_01' )
     this.drown = drown
     this.fadeOut = fadeOut
-    // this.duration = 5
     this.willDrown = true
     this.bind()
 
@@ -24,6 +24,7 @@ class Journey extends AudioSpline {
 
   init() {
 
+
     this.points = [
       new Vector3( 400, 10, 2000 ),
       new Vector3( 1100, 10, -3000 ),
@@ -31,6 +32,7 @@ class Journey extends AudioSpline {
       new Vector3( 1200, -20, -4500 ),
       new Vector3( 1200, -60, -8000 )
     ]
+    if ( GlobalConfig.debug ) this.scene.camera.position.set( this.points[ 0 ].x, this.points[ 0 ].y, this.points[ 0 ].z )
     super.init()
 
   }
