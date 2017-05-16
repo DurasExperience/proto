@@ -7,6 +7,7 @@ import Wagner from '@superguigui/wagner'
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
 import GUI from './../../../../../helpers/GUI'
 import Config from './Config/'
+import GlobalConfig from './../../../../../config'
 
 class BaseScene extends Scene {
 
@@ -26,30 +27,25 @@ class BaseScene extends Scene {
     this.renderer.gammaOutput = true
 
     this.camera = new PerspectiveCamera( 50, width / height, 1, 15000 )
-    this.camera.position.set( 0, 0, 0 )
-    this.camera.lookAt( new Vector3( 0, 0, 0 ) )
 
     this.setControls()
-
-    if ( ENV === 'DEV' ) {
-
-      // this.axisHelper = new AxisHelper( 200 )
-      // this.add( this.axisHelper )
-
-    }
+    // this.axisHelper = new AxisHelper( 200 )
+    // this.add( this.axisHelper )
 
     this.passes = []
 
     // this.initLights()
     this.initPostProcessing()
-    this.addGUI()
+    // this.addGUI()
 
   }
 
   setControls() {
 
-    if ( this.config.manual ) {
+    if ( GlobalConfig.debug ) {
 
+      this.camera.position.set( 0, 0, 0 )
+      // this.camera.lookAt( new Vector3( 0, 0, 0 ) )
       this.controls = new OrbitControls( this.camera, this.renderer.domElement )
       this.controls.enabled = true
 
@@ -61,6 +57,8 @@ class BaseScene extends Scene {
         y: 0,
         z: 0
       }
+      this.camera.position.set( 0, 0, 0 )
+      this.camera.lookAt( new Vector3( 0, 0, 0 ) )
       this.controls = new PointerLockControls( this.camera, controlsPosition, this.center, 0.1 )
       this.controls.enabled = false
       this.controlsContainer = new Object3D()
@@ -73,7 +71,16 @@ class BaseScene extends Scene {
 
   addGUI() {
 
-
+    const sceneFolder = GUI.addFolder( 'Scene' )
+    sceneFolder.open()
+    const cameraFolder = sceneFolder.addFolder( 'Camera' )
+    cameraFolder.add( this.camera.position, 'x' ).min( -1000 ).max( 1000 ).step( 10 )
+    cameraFolder.add( this.camera.position, 'y' ).min( -1000 ).max( 1000 ).step( 10 )
+    cameraFolder.add( this.camera.position, 'z' ).min( -10000 ).max( 1000 ).step( 10 )
+    cameraFolder.add( this.camera.rotation, 'x' ).min( -3 ).max( 3 ).step( 0.01 )
+    cameraFolder.add( this.camera.rotation, 'y' ).min( -3 ).max( 3 ).step( 0.01 )
+    cameraFolder.add( this.camera.rotation, 'z' ).min( -3 ).max( 3 ).step( 0.01 )
+    cameraFolder.open()
 
   }
 

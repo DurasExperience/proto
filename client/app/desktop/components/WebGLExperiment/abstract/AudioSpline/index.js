@@ -26,7 +26,7 @@ class AudioSpline extends Spline {
 
   reverse( d ) {
 
-    super.reverse()
+    super.reverse( d )
 
     AudioManager.fade( this.track, 1, 0, 400, this.voiceId )
     AudioManager.rate( this.track, 0.75, this.voiceId )
@@ -47,9 +47,8 @@ class AudioSpline extends Spline {
     AudioManager.setTime( this.track, newTime, this.voiceId )
     AudioManager.fade( this.track, 0, 1, 300, this.voiceId )
 
-
   }
-
+  
 }
 
 export default AudioSpline

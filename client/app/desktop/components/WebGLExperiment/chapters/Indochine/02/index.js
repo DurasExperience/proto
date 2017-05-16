@@ -26,18 +26,11 @@ class Indochine02 extends Group {
     this.config = Config.indochine_02
     this.bind()
 
-    // const m = new Mesh(
-    //   new SphereBufferGeometry( 30, 16, 16 ),
-    //   new MeshBasicMaterial({ color: 0xffffff })
-    // )
-    // this.add( m )
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
-    this.observer.init()
     this.observer.enableSpline()
+    // this.observer.createGeometry()
     this.handWoman = new HandWoman( this.observer.duration )
-    this.handWoman.init()
     this.handMan = new HandMan( this.observer.duration )
-    this.handMan.init()
     // this.backgroundHands = new BackgroundHands()
     this.add( this.handWoman )
     this.add( this.handMan )
@@ -74,8 +67,11 @@ class Indochine02 extends Group {
 
     this.objects.push( this.observer )
     this.fadeIn()
+    this.observer.init()
     this.observer.start()
     this.observer.play()
+    this.handWoman.init()
+    this.handMan.init()
     this.addListeners()
 
   }

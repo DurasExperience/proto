@@ -12,7 +12,9 @@ class Indochine extends Page {
     this.history = props.history
     this.first = true
     this.onPinch = this.onPinch.bind( this )
-
+    this.state = {
+      render: true
+    }
   }
 
   componentDidMount() {
@@ -35,16 +37,18 @@ class Indochine extends Page {
 
   render() {
 
-    return(
-      <div className="page" ref="parent">
-        <div className="page__gradient"></div>
-        <div className="page--indochine">
-          <h1> {this.props.data.number} </h1>
-          <h2> {this.props.data.title} </h2>
-          <h3> {this.props.data.subtitle} </h3>
+    if ( this.state.render ) {
+      return(
+        <div className="page" ref="parent">
+          <div className="page__gradient"></div>
+          <div className="page--indochine">
+            <h1> {this.props.data.number} </h1>
+            <h2> {this.props.data.title} </h2>
+            <h3> {this.props.data.subtitle} </h3>
+          </div>
         </div>
-      </div>
-    )
+      )
+    } else return null
 
   }
 
@@ -59,7 +63,10 @@ class Indochine extends Page {
 
     if ( !this.first ) return
     this.first = false
-    TweenMax.to( this.refs.parent, 0.2, { opacity: 0, onComplete: () => setTimeout( Actions.startChapter ) } )
+    TweenMax.to( this.refs.parent, 0.2, { opacity: 0, onComplete: () => {
+      setTimeout( Actions.startChapter )
+      this.setState({ render: false })
+    } } )
 
   }
 
