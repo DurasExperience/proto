@@ -47,6 +47,10 @@ Store.dispatchToken = Dispatcher.register(( payload ) => {
       setTimeout( () => Actions.transitionOut( item ) )
       Store.emit( actionType, item )
       break
+    case EventsConstants.CHANGE_SUBPAGE:
+      if( Store.Routes.newRoute === item ) break
+      Store.emit( actionType, item )
+      break
     default:
       Store.emit( actionType, item )
       break

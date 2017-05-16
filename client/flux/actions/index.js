@@ -92,6 +92,14 @@ const Actions = {
     })
 
   },
+  changeSubpage( newPath ) {
+
+    Dispatcher.dispatch({
+      type: EventsConstants.CHANGE_SUBPAGE,
+      item: newPath
+    })
+
+  },
   transitionOut( nextPath ) {
 
     Dispatcher.dispatch({
@@ -110,7 +118,6 @@ const Actions = {
   },
   onMobilePinch() {
 
-    console.log( 'actions pinch' )
     Dispatcher.dispatch({
       type: EventsConstants.MOBILE_ON_PINCH,
       item: undefined

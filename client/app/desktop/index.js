@@ -8,8 +8,12 @@ export default class App {
 
   constructor(){
 
-    this.socket = io( Config.apiUrl )
-    this.roomID = Math.random().toString().slice( 2, 6 )
+    if ( Config.mobileConnect ) {
+      
+      this.socket = io( Config.apiUrl )
+      this.roomID = Math.random().toString().slice( 2, 6 )
+
+    }
 
   }
 

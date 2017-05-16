@@ -5,7 +5,8 @@ import AudioManager from './../../../../helpers/AudioManager'
 import EventsConstants from './../../../../flux/constants/EventsConstants'
 import { Clock } from 'three'
 import BaseScene from './core/BaseScene'
-import Indochine from './chapters/Indochine'
+import Indochine01 from './chapters/Indochine/01'
+import Indochine02 from './chapters/Indochine/02'
 
 class WebGLExperiment extends React.Component {
 
@@ -54,9 +55,11 @@ class WebGLExperiment extends React.Component {
     this.loop = loop( this.update )
     this.loop.start()
 
-    const indochine = new Indochine( this.scene, this.scene.controlsContainer )
+    const indochine01 = new Indochine01( this.scene, this.scene.controlsContainer )
+    const indochine02 = new Indochine02( this.scene, this.scene.controlsContainer )
     this.chapters = [
-      indochine
+      indochine01,
+      indochine02
     ]
     if ( Store.Routes.newRoute !== '/' ) this.routeChanged( Store.Routes )
 
@@ -104,10 +107,17 @@ class WebGLExperiment extends React.Component {
     if ( this.currentChapter !== undefined ) this.scene.remove( this.currentChapter )
     switch ( routes.newRoute ) {
 
-      case '/indochine':
+      case '/indochine/01':
         this.currentChapter = this.chapters[ 0 ]
         this.currentChapter.start()
         this.scene.add( this.currentChapter )
+        break
+
+      case '/indochine/02':
+        this.currentChapter = this.chapters[ 1 ]
+        this.currentChapter.start()
+        this.scene.add( this.currentChapter )
+        break
         
     }
 

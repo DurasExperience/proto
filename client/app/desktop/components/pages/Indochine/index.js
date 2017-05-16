@@ -1,6 +1,5 @@
 import './Indochine.styl'
 import Page from './../../base/Page'
-import miniVideo from 'mini-video'
 import Store from './../../../../../flux/store/desktop/index'
 import Actions from './../../../../../flux/actions'
 import Config from './../../../../../config'
@@ -22,19 +21,6 @@ class Indochine extends Page {
     
     if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.onPinch )
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
-    // this.mVideo = miniVideo({
-    //   autoplay: true,
-    //   loop: false,
-    //   volume: 1
-    // })
-    // this.mVideo.addTo( this.refs.videoContainer )
-    // this.mVideo.load( '/assets/videos/chap1.mov', () => {
-
-    //   // dom.classes.add(this.refs.parent, 'active')
-    //   this.mVideo.play( 0 )
-
-    // })
-    // this.mVideo.on('ended', () => this.history.push( '/indochine' ) )
 
   }
 
@@ -57,6 +43,7 @@ class Indochine extends Page {
     )
 
   }
+
   didTransitionOutComplete() {
 
     super.didTransitionOutComplete()
@@ -68,7 +55,6 @@ class Indochine extends Page {
 
     if ( !this.first ) return
     this.first = false
-    console.log( 'start' )
     TweenMax.to( this.refs.parent, 0.2, { opacity: 0, onComplete: () => setTimeout( Actions.startChapter ) } )
 
   }

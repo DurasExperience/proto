@@ -36,8 +36,9 @@
     "no-console": 0,
     "array-bracket-spacing": [ 2, "always" ],
     "object-curly-spacing": [ 2, "always" ],
-    "padded-blocks": [ 2, { "blocks": "always", "classes": "always" } ],
-    "no-unused-vars": "off"
+    "padded-blocks": [ 2, { "classes": "always" } ],
+    "no-unused-vars": "off",
+    "no-debugger": 0
   },
   "globals": {
     "__DEV__": true,

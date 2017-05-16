@@ -3,37 +3,32 @@ import Mountains from './Mountains'
 import Floor from './Floor'
 import Journey from './Journey'
 import FloorPath from './FloorPath'
-import HandWoman from './HandWoman'
-import HandMan from './HandMan'
-import BackgroundHands from './BackgroundHands'
-import Observer from './Observer'
+import Config from './config'
+import Store from './../../../../../../../flux/store/desktop/index'
+import Actions from './../../../../../../../flux/actions'
+import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
+import GUI from './../../../../../../../helpers/GUI'
+
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
 import ZoomBlurPass from '@superguigui/wagner/src/passes/zoom-blur/ZoomBlurPass'
 import MultiPassBloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'
 import BlendPass from '@superguigui/wagner/src/passes/blend/BlendPass'
 import GodrayPass from '@superguigui/wagner/src/passes/godray/godraypass'
-import TiltShiftPass from '@superguigui/wagner/src/passes/tiltshift/tiltshiftPass'
-import Config from './config'
-import Store from './../../../../../../flux/store/desktop'
-import EventsConstants from './../../../../../../flux/constants/EventsConstants'
-import GUI from './../../../../../../helpers/GUI'
 
-class Indochine extends Group {
+class Indochine01 extends Group {
 
   constructor( scene, controlsContainer ) {
 
     super()
 
-    this.name = 'indochine'
+    this.name = 'indochine-01'
     this.scene = scene
     this.config = Config
+    this.isAnimating = false
 
     this.bind()
 
-    this.progress = 0
-
-    // Part 1
     this.mountains = new Mountains()
     this.floor = new Floor()
     this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
@@ -50,18 +45,6 @@ class Indochine extends Group {
     this.add( this.mountains )
     this.add( this.floor )
     this.objects = [ this.mountains, this.floor ]
-
-    // Part 2
-    // const m = new Mesh(
-    //   new SphereBufferGeometry( 30, 16, 16 ),
-    //   new MeshBasicMaterial({ color: 0xffffff })
-    // )
-    // this.add( m )
-    this.observer = new Observer( scene, controlsContainer, this.fadeOut )
-    this.handWoman = new HandWoman( this.observer.duration )
-    this.handMan = new HandMan( this.observer.duration )
-    // this.backgroundHands = new BackgroundHands()
-    
 
     this.initPostProcessing()
     this.addGUI()
@@ -82,16 +65,12 @@ class Indochine extends Group {
 
     if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
     else dom.event.on( window, 'click', this.reverse )
-    // global.play = this.play
-    // global.drown = this.drown
-    // global.reverse = this.reverse
 
   }
 
   start() {
 
-    console.log( 'start ch1' )
-    // console.log( Store.socketRoom )
+    this.scene.setupPostProcessing( this.passes )
     Store.on( EventsConstants.START_CHAPTER, this.play )
 
   }
@@ -99,11 +78,11 @@ class Indochine extends Group {
   play() {
 
     Store.off( EventsConstants.START_CHAPTER, this.play )
+    this.objects.push( this.journey )
+    this.objects.push( this.floorPath )
     this.journey.start()
     this.floorPath.start()
     this.journey.play()
-    this.objects.push( this.journey )
-    this.objects.push( this.floorPath )
     this.addListeners()
 
   }
@@ -111,25 +90,23 @@ class Indochine extends Group {
   initPostProcessing() {
 
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
-    this.vignettePass = new VignettePass({ boost: 1, reduction: 0 })
+    this.vignettePass = new VignettePass( this.config.postProcessing.vignettePass )
     this.zoomBlurPass = new ZoomBlurPass( this.config.postProcessing.zoomBlurPass )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
-    this.tiltShiftPass = new TiltShiftPass( this.config.postProcessing.tiltShiftPass )
     this.godrayPass = new GodrayPass()
     this.godrayPass.params.fY = this.config.postProcessing.godrayPass.fY
     this.godrayPass.params.fDecay = this.config.postProcessing.godrayPass.fDecay
     this.godrayPass.params.fDensity = this.config.postProcessing.godrayPass.fDensity
     this.godrayPass.params.fWeight = this.config.postProcessing.godrayPass.fWeight
     this.godrayPass.params.fExposure = this.config.postProcessing.godrayPass.fExposure
-    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
 
-    this.scene.setupPostProcessing( this.passes )
+    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
 
   }
 
   addGUI() {
 
-    const postProcessingFolder = GUI.addFolder( 'Post Processing' )
+    const postProcessingFolder = GUI.addFolder( 'Post Processing Ch1.1' )
     postProcessingFolder.open()
     const vignettePassFolder = postProcessingFolder.addFolder( 'Vignette Pass' )
     vignettePassFolder.add( this.vignettePass.params, 'boost' ).min( 0 ).max( 10 ).step( 0.05 )
@@ -156,8 +133,13 @@ class Indochine extends Group {
   drown() {
     
     // TODO : Remove Store event on pinch
+    this.isAnimating = true
     this.scene.passes.push( this.godrayPass )
-    this.drownTl = new TimelineMax()
+    this.drownTl = new TimelineMax({ onComplete: () => {
+      
+      this.isAnimating = false 
+    
+    } })
     this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
     this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1.5, { value: 0 }, 0 )
     this.drownTl.to( this.godrayPass.params, 1, { fDecay: 0.91 }, 0 )
@@ -179,22 +161,12 @@ class Indochine extends Group {
   }
 
   reverse() {
+    
+    if( this.isAnimating ) return
 
     this.reverseTl.play( 0 )
-    switch( this.progress ) {
-
-      case 0:
-        this.journey.reverse( 4 )
-        this.floorPath.reverse( 4 )
-        break
-
-      case 1:
-        this.observer.reverse( 4 )
-        this.handWoman.reverse( 4 )
-        this.handMan.reverse( 4 )
-        break
-
-    }
+    this.journey.reverse( 4 )
+    this.floorPath.reverse( 4 )
 
   }
 
@@ -217,28 +189,13 @@ class Indochine extends Group {
 
   clearGroup() {
 
-    switch( this.progress ) {
-
-      case 0:
-        this.remove( this.mountains )
-        this.remove( this.floor )
-        this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
-        this.scene.setupPostProcessing( this.passes )
-        this.add( this.handWoman )
-        this.add( this.handMan )
-        // this.add( this.backgroundHands )
-        // this.observer.createGeometry()
-        this.objects = [ this.handWoman, this.handMan, this.observer ]
-        this.fadeIn()
-        this.observer.init()
-        this.observer.enableSpline()
-        this.observer.start()
-        this.handWoman.init()
-        this.handMan.init()
-        this.progress = 1
-
-    }
-
+    this.remove( this.journey )
+    this.remove( this.floorPath )
+    this.remove( this.mountains )
+    this.remove( this.floor )
+    this.passes = []
+    this.scene.setupPostProcessing( this.passes )
+    Actions.changeSubpage( '/indochine/02' )
 
   }
 
@@ -259,4 +216,4 @@ class Indochine extends Group {
 
 }
 
-export default Indochine
+export default Indochine01

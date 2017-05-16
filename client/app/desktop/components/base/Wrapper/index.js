@@ -9,13 +9,13 @@ class Wrapper extends React.Component {
     this.props = props
 
     this.pathname = this.props.location.pathname
-    Actions.routeChanged( undefined, this.pathname )
+    setTimeout( () => { Actions.routeChanged( undefined, this.pathname ) }, 0 )
     
     this.props.history.listen( ( location, action ) => {
 
       if ( location.pathname !== this.pathname ) {
 
-        Actions.routeChanged( this.pathname, location.pathname )
+        setTimeout( () => { Actions.routeChanged( this.pathname, location.pathname ) }, 0 )
         this.pathname = location.pathname
 
       }

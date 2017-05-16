@@ -28,7 +28,7 @@ class Home extends Page {
       this.mVideo.play( 70 )
 
     })
-    this.mVideo.on('ended', () => this.history.push( '/indochine' ) )
+    this.mVideo.on('ended', () => this.history.push( '/indochine/01' ) )
 
   }
 

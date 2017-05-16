@@ -1,8 +1,8 @@
 import Config from './config'
-import Store from './../../../../../../../flux/store/desktop'
+import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
-import ParticlesMesh from './../../../abstract/ParticlesMesh'
-import GUI from './../../../../../../../helpers/GUI'
+import ParticlesMesh from './../../../../abstract/ParticlesMesh'
+import GUI from './../../../../../../../../helpers/GUI'
 
 class BackgroundHands extends Object3D {
 

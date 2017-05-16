@@ -1,6 +1,6 @@
-import Spline from './../../../abstract/Spline/index'
+import Spline from './../../../../abstract/Spline'
 import { Vector3 } from 'three'
-import AudioManager from './../../../../../../../helpers/AudioManager'
+import AudioManager from './../../../../../../../../helpers/AudioManager'
 
 class FloorPath extends Spline {
 

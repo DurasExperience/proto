@@ -1,20 +1,17 @@
-import Spline from './../../../abstract/Spline/index'
+import AudioSpline from './../../../../abstract/AudioSpline'
 import { Vector3 } from 'three'
-import AudioManager from './../../../../../../../helpers/AudioManager'
+import AudioManager from './../../../../../../../../helpers/AudioManager'
 
-class Journey extends Spline {
+class Journey extends AudioSpline {
 
   constructor( scene, controlsContainer, drown, fadeOut ) {
 
-    super( scene, controlsContainer )
+    super( scene, controlsContainer, '01_01' )
     this.drown = drown
     this.fadeOut = fadeOut
-    this.voice = AudioManager.get( '01_01' )
-    this.duration = 5
-    // this.duration = Math.ceil( this.voice.duration() ) + 3
-    this.bind()
-    this.addListeners()
+    // this.duration = 5
     this.willDrown = true
+    this.bind()
 
   }
 
@@ -22,12 +19,6 @@ class Journey extends Spline {
 
     [ 'reverse', 'fadeOutSound', 'restartSound' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
-
-  }
-
-  addListeners() {
-
-    // this.voice.on( 'end', this.drown )
 
   }
 
@@ -46,8 +37,7 @@ class Journey extends Spline {
 
   play() {
 
-    this.voiceId = this.voice.play()
-    AudioManager.fade( '01_01', 0, 1, 500, this.voiceId )
+    super.play()
 
   }
 
@@ -60,26 +50,18 @@ class Journey extends Spline {
   reverse( d ) {
 
     super.reverse( d )
-    this.d = d
-    AudioManager.fade( '01_01', 1, 0, 400, this.voiceId )
-    AudioManager.rate( '01_01', 0.75, this.voiceId )
-    setTimeout( this.restartSound, d * 500 )
 
   }
 
   fadeOutSound() {
 
-    AudioManager.fade( '01_01', 1, 0, 200, this.voiceId )
+    super.fadeOutSound()
 
   }
 
   restartSound() {
 
-    const newTime = this.voice.seek() - this.d
-    AudioManager.rate( '01_01', 1, this.voiceId )
-    AudioManager.setTime( '01_01', newTime, this.voiceId )
-    AudioManager.fade( '01_01', 0, 1, 300, this.voiceId )
-
+    super.restartSound()
 
   }
 

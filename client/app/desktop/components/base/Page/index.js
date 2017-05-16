@@ -21,7 +21,7 @@ class Page extends React.Component {
 
   bind() {
 
-    [ 'transitionIn', 'didTransitionInComplete', 'transitionOut', 'didTransitionOutComplete' ]
+    [ 'transitionIn', 'didTransitionInComplete', 'transitionOut', 'didTransitionOutComplete', 'changeSubpage' ]
       .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -29,6 +29,7 @@ class Page extends React.Component {
   addListeners() {
 
     Store.on( EventsConstants.TRANSITION_OUT, this.transitionOut )
+    Store.on( EventsConstants.CHANGE_SUBPAGE, this.changeSubpage )
 
   }
 
@@ -61,6 +62,13 @@ class Page extends React.Component {
 
     this.nextPath = nextPath
     this.tlOut.play( 0 )
+
+  }
+
+  changeSubpage( nextPath ) {
+
+    this.nextPath = nextPath
+    this.didTransitionOutComplete()
 
   }
 
