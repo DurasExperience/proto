@@ -1,4 +1,4 @@
-import Config from './config'
+import Config from './../Config/'
 import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
@@ -9,8 +9,8 @@ class HandWoman extends Object3D {
   constructor( duration ) {
 
     super()
-
-    this.config = Config
+.handMAn
+    this.config = Config.handMan
     this.duration = duration
 
     this.geometry = new BufferGeometry()
@@ -44,7 +44,7 @@ class HandWoman extends Object3D {
 
     })
 
-    this.mesh = new ParticlesMesh( 'hand_man', this.geometry.attributes.position, Config )
+    this.mesh = new ParticlesMesh( 'hand_man', this.geometry.attributes.position, this.config )
     this.mesh.position.set( this.config.position.x, this.config.position.y, this.config.position.z )
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
     this.add( this.mesh )

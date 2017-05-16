@@ -6,7 +6,7 @@ import { Scene, WebGLRenderer, PerspectiveCamera, AxisHelper, Vector3, Object3D,
 import Wagner from '@superguigui/wagner'
 import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
 import GUI from './../../../../../helpers/GUI'
-import Config from './Config'
+import Config from './Config/'
 
 class BaseScene extends Scene {
 
@@ -14,7 +14,7 @@ class BaseScene extends Scene {
 
     super()
 
-    this.config = Config
+    this.config = Config.baseScene
 
     this.renderer = new WebGLRenderer({ antialias: true })
     this.renderer.setSize( width, height )

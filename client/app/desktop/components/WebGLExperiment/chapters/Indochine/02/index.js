@@ -3,10 +3,10 @@ import HandWoman from './HandWoman'
 import HandMan from './HandMan'
 import BackgroundHands from './BackgroundHands'
 import Observer from './Observer'
-import Config from './config'
 import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'
+import Config from './Config/'
 
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
@@ -23,8 +23,7 @@ class Indochine02 extends Group {
 
     this.name = 'indochine-02'
     this.scene = scene
-    this.config = Config
-
+    this.config = Config.indochine_02
     this.bind()
 
     // const m = new Mesh(
@@ -45,7 +44,7 @@ class Indochine02 extends Group {
     this.objects = [ this.handWoman, this.handMan ]
 
     this.initPostProcessing()
-    this.addGUI()
+    //this.addGUI()
 
     this.setupReverse()
 
@@ -75,7 +74,7 @@ class Indochine02 extends Group {
 
   play() {
 
-    this.objects.push( this.observer )    
+    this.objects.push( this.observer )
     this.fadeIn()
     this.observer.start()
     this.observer.play()
@@ -136,9 +135,9 @@ class Indochine02 extends Group {
 
     this.fadeInTl = new TimelineMax()
     this.fadeInTl.to( this.vignettePass.params, 1, { boost: 1, ease: Sine.easeIn } )
-  
+
   }
-  
+
   fadeOut() {
 
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
@@ -146,7 +145,7 @@ class Indochine02 extends Group {
     this.scene.passes.push( this.vignettePass )
     this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
     this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
-  
+
   }
 
   clearGroup() {

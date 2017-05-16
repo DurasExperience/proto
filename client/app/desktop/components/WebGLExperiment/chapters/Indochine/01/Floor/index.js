@@ -1,4 +1,4 @@
-import Config from './config'
+import Config from './../Config/'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
 import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute, ShaderMaterial, AdditiveBlending, Points } from 'three'
@@ -13,7 +13,7 @@ class Floor extends Object3D {
 
     super()
 
-    this.config = Config
+    this.config = Config.floor
     this.circleGeometry = new BufferGeometry()
     this.positions = new Float32Array( this.config.amount * 3 );
 

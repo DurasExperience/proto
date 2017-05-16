@@ -1,4 +1,4 @@
-import Config from './config'
+import Config from './../Config/'
 import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
@@ -10,7 +10,7 @@ class BackgroundHands extends Object3D {
 
     super()
 
-    this.config = Config
+    this.config = Config.backgroundHands
 
     this.geometry = new BufferGeometry()
     this.positions = new Float32Array( this.config.count * 3 )

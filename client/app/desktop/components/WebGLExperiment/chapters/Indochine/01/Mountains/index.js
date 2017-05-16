@@ -1,4 +1,4 @@
-import Config from './config'
+import Config from './../Config/'
 import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
@@ -10,7 +10,7 @@ class Mountains extends Object3D {
 
     super()
 
-    this.config = Config
+    this.config = Config.mountains
 
     this.geometry = new BufferGeometry()
 
@@ -49,7 +49,7 @@ class Mountains extends Object3D {
 
     })
 
-    this.mesh = new ParticlesMesh( 'mountains', this.geometry.attributes.position, Config )
+    this.mesh = new ParticlesMesh( 'mountains', this.geometry.attributes.position, this.config )
     // this.mesh.position.y = -10
     // this.mesh.position.z = -200
     this.add( this.mesh )

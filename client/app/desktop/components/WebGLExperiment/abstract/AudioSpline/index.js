@@ -40,7 +40,7 @@ class AudioSpline {
     this.material = new THREE.LineBasicMaterial({
       color: 0xFF0000
     })
-		
+
     this.line = new THREE.Line( this.geometry, this.material )
     this.scene.add( this.line )
 

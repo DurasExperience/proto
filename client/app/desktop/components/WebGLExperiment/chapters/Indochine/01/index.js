@@ -3,7 +3,7 @@ import Mountains from './Mountains'
 import Floor from './Floor'
 import Journey from './Journey'
 import FloorPath from './FloorPath'
-import Config from './config'
+import Config from './Config'
 import Store from './../../../../../../../flux/store/desktop/index'
 import Actions from './../../../../../../../flux/actions'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
@@ -24,7 +24,7 @@ class Indochine01 extends Group {
 
     this.name = 'indochine-01'
     this.scene = scene
-    this.config = Config
+    this.config = Config.indochine_01
     this.isAnimating = false
 
     this.bind()
@@ -47,7 +47,7 @@ class Indochine01 extends Group {
     this.objects = [ this.mountains, this.floor ]
 
     this.initPostProcessing()
-    this.addGUI()
+    //this.addGUI()
 
     this.setupReverse()
 
@@ -131,14 +131,14 @@ class Indochine01 extends Group {
   }
 
   drown() {
-    
+
     // TODO : Remove Store event on pinch
     this.isAnimating = true
     this.scene.passes.push( this.godrayPass )
     this.drownTl = new TimelineMax({ onComplete: () => {
-      
-      this.isAnimating = false 
-    
+
+      this.isAnimating = false
+
     } })
     this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
     this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1.5, { value: 0 }, 0 )
@@ -161,7 +161,7 @@ class Indochine01 extends Group {
   }
 
   reverse() {
-    
+
     if( this.isAnimating ) return
 
     this.reverseTl.play( 0 )
@@ -174,9 +174,9 @@ class Indochine01 extends Group {
 
     this.fadeInTl = new TimelineMax()
     this.fadeInTl.to( this.vignettePass.params, 1, { boost: 1, ease: Sine.easeIn } )
-  
+
   }
-  
+
   fadeOut() {
 
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
@@ -184,7 +184,7 @@ class Indochine01 extends Group {
     this.scene.passes.push( this.vignettePass )
     this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
     this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
-  
+
   }
 
   clearGroup() {

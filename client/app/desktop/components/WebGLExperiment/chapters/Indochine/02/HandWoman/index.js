@@ -1,8 +1,8 @@
-import Config from './config'
 import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
 import GUI from './../../../../../../../../helpers/GUI'
+import Config from './../Config/'
 
 class HandWoman extends Object3D {
 
@@ -10,7 +10,7 @@ class HandWoman extends Object3D {
 
     super()
 
-    this.config = Config
+    this.config = Config.handWoman
     this.duration = duration
 
     this.geometry = new BufferGeometry()
@@ -43,7 +43,7 @@ class HandWoman extends Object3D {
 
     })
 
-    this.mesh = new ParticlesMesh( 'hand_woman', this.geometry.attributes.position, Config )
+    this.mesh = new ParticlesMesh( 'hand_woman', this.geometry.attributes.position, this.config )
     this.mesh.position.set( this.config.position.x, this.config.position.y, this.config.position.z )
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
     this.add( this.mesh )

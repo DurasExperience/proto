@@ -1,4 +1,4 @@
-import Config from './config'
+import Config from './../Config/'
 import { Object3D, BufferGeometry, Vector3, ShaderMaterial, AdditiveBlending, Points } from 'three'
 import frag from './shaders/frag.glsl'
 import vert from './shaders/vert.glsl'
@@ -8,16 +8,15 @@ class ParticlesMesh extends Object3D {
 
   /**
    * Abstract for Particle Mesh
-   * @param {String} name 
-   * @param {BufferAtribute} positions 
-   * @param {object} config 
+   * @param {String} name
+   * @param {BufferAtribute} positions
+   * @param {object} config
    */
   constructor( name, positions, config = Config ) {
 
     super()
 
     this.config = config
-
     this.geometry = new BufferGeometry()
     this.geometry.addAttribute( 'position', positions )
 
@@ -43,7 +42,7 @@ class ParticlesMesh extends Object3D {
       transparent: true,
       depthTest: false
     })
-    
+
     this.mesh = new Points( this.geometry, this.material )
     this.mesh.name = name
     this.add( this.mesh )

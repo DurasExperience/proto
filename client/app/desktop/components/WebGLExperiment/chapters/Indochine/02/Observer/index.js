@@ -2,7 +2,7 @@ import AudioSpline from './../../../../abstract/AudioSpline/index'
 import { Vector3 } from 'three'
 import AudioManager from './../../../../../../../../helpers/AudioManager'
 import GUI from './../../../../../../../../helpers/GUI'
-import Config from './Config'
+import Config from './../Config/'
 
 class Observer extends AudioSpline {
 
@@ -10,7 +10,7 @@ class Observer extends AudioSpline {
 
     super( scene, controlsContainer, '01_02' )
     this.fadeOut = fadeOut
-    this.config = Config
+    this.config = Config.observer
     // this.duration = 50
     this.bind()
 
@@ -92,7 +92,7 @@ class Observer extends AudioSpline {
   disableSpline() {
 
     super.disableSpline()
-    
+
   }
 
   onComplete() {
