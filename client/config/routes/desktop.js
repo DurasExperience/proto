@@ -3,9 +3,10 @@ import Indochine from './../../app/desktop/components/pages/Indochine'
 import NotFound from './../../app/desktop/components/pages/NotFound'
 import { Route, Switch } from 'react-router-dom'
 import indochineText from './../../../static/assets/texts/chapitres/index.json'
+import Config from './../../config/index.js'
 
-
-//TODO condi rendering
+//TODO condi rendering + if dev
+// Congig.dev
 export default (
   <Switch>
     <Route exact path="/" component={ Home } />

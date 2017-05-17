@@ -3,6 +3,7 @@ import HandWoman from './HandWoman'
 import HandMan from './HandMan'
 import BackgroundHands from './BackgroundHands'
 import Observer from './Observer'
+
 import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'

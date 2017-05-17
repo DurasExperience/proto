@@ -48,7 +48,7 @@ class Observer extends AudioSpline {
       this.controlsContainer.rotation.z = this.config.camera.rotation.z
 
     } else {
-      
+
       this.scene.camera.position.x = this.config.camera.position.x
       this.scene.camera.position.y = this.config.camera.position.y
       this.scene.camera.position.z = this.config.camera.position.z
@@ -65,62 +65,6 @@ class Observer extends AudioSpline {
     super.init()
 
   }
-
-  createGeometry() {
-
-    super.createGeometry()
-
-  }
-
-  reverse( d ) {
-
-    super.reverse( d )
-
-  }
-
-  fadeOutSound() {
-
-    super.fadeOutSound()
-
-  }
-
-  restartSound() {
-
-    super.restartSound()
-
-  }
-
-  start() {
-
-    super.start()
-
-  }
-
-  enableSpline() {
-
-    super.enableSpline()
-
-  }
-
-  disableSpline() {
-
-    super.disableSpline()
-
-  }
-
-  onComplete() {
-
-    super.onComplete()
-    this.fadeOut()
-
-  }
-
-  update() {
-
-    super.update()
-
-  }
-
 
 }
 

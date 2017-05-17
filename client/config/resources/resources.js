@@ -11,17 +11,17 @@ export default [
   {
     type: 'model',
     id: '01_mountains',
-    url: '/assets/models/01_mountains.awd'
+    url: '/assets/models/chapitre_01/01_mountains.awd'
   },
   {
     type: 'model',
     id: '01_hand_man',
-    url: '/assets/models/01_hand_man.awd'
+    url: '/assets/models/chapitre_01/01_hand_man.awd'
   },
   {
     type: 'model',
     id: '01_hand_woman',
-    url: '/assets/models/01_hand_woman.awd'
+    url: '/assets/models/chapitre_01/01_hand_woman.awd'
   },
   {
     type: 'json',
@@ -36,5 +36,15 @@ export default [
       loop: false,
       volume: 1
     }
+  },
+  {
+    type: 'model',
+    id: 'spline-hand-men',
+    url: '/assets/models/chapitre_01/spline-hand-men.awd'
+  },
+  {
+    type: 'model',
+    id: 'spline-hand-women',
+    url: '/assets/models/chapitre_01/spline-hand-women.awd'
   }
 ]

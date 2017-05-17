@@ -17,8 +17,9 @@ class HandWoman extends Object3D {
 
     this.max = 0
 
-
     const model = Store.getResource( '01_hand_man' )
+    const spline = Store.getResource( 'spline-hand-men' )
+
     model.traverse(( child ) => {
 
       if ( child instanceof THREE.Mesh ) {
@@ -29,7 +30,7 @@ class HandWoman extends Object3D {
       }
 
     })
-    this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 3 ) )
+    this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 30 ) )
 
     let offset = 0
 
