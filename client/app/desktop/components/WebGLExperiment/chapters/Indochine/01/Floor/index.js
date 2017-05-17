@@ -67,14 +67,19 @@ class Floor extends Object3D {
 
   addGUI() {
 
-    const noiseFolder = GUI.addFolder( 'Floor' )
+    this.uniforms.amplitude.range = [ 0, 10 ]
+    this.uniforms.frequency.range = [ 0, 2 ]
+    this.uniforms.size.range = [ 0, 20 ]
+    this.uniforms.shift.range = [ 0, 1 ]
+    this.uniforms.amountByDegree.range = [ 0, 20 ]
 
-    noiseFolder.add( this.uniforms.amplitude, 'value' ).min( 0 ).max( 100 ).step( 0.1 ).name( 'amplitude' )
-    noiseFolder.add( this.uniforms.frequency, 'value' ).min( 0 ).max( 1 ).step( 0.001 ).name( 'frequency' )
-    noiseFolder.add( this.uniforms.shift, 'value' ).min( 0 ).max( 0.1 ).step( 0.001 ).name( 'shift' )
-    noiseFolder.add( this.uniforms.size, 'value' ).min( 1 ).max( 50 ).step( 0.1 ).name( 'size' )
-    noiseFolder.add( this.uniforms.amountByDegree, 'value' ).min( 0 ).max( 100 ).step( 0.1 ).name( 'amount/degree' )
-    // noiseFolder.open()
+    GUI.panel
+      .addGroup({ label: 'Floor', enable: false })
+        .addSlider( this.uniforms.amplitude, 'value', 'range', { step: 0.01, label: 'amplitude' } )
+        .addSlider( this.uniforms.frequency, 'value', 'range', { step: 0.001, label: 'frequency' } )
+        .addSlider( this.uniforms.size, 'value', 'range', { step: 1, label: 'size' } )
+        .addSlider( this.uniforms.shift, 'value', 'range', { step: 0.001, label: 'shift' } )
+        .addSlider( this.uniforms.amountByDegree, 'value', 'range', { step: 1, label: 'amountByDegree' } )
 
   }
 

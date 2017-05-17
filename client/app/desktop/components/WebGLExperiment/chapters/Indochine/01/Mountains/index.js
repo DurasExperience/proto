@@ -58,11 +58,15 @@ class Mountains extends Object3D {
 
   addGUI() {
 
-    const noiseFolder = GUI.addFolder( 'Mountains' )
+    this.mesh.uniforms.amplitude.range = [ 0, 10 ]
+    this.mesh.uniforms.frequency.range = [ 0, 10 ]
+    this.mesh.uniforms.size.range = [ 0, 100 ]
 
-    noiseFolder.add( this.mesh.uniforms.amplitude, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'amplitude' )
-    noiseFolder.add( this.mesh.uniforms.frequency, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'frequency' )
-    noiseFolder.add( this.mesh.uniforms.size, 'value' ).min( 1 ).max( 50 ).step( 0.1 ).name( 'size' )
+    GUI.panel
+      .addGroup({ label: 'Mountains', enable: false })
+        .addSlider( this.mesh.uniforms.amplitude, 'value', 'range', { step: 0.01, label: 'amplitude' } )
+        .addSlider( this.mesh.uniforms.frequency, 'value', 'range', { step: 0.01, label: 'frequency' } )
+        .addSlider( this.mesh.uniforms.size, 'value', 'range', { step: 1, label: 'size' } )
 
   }
 
