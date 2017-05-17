@@ -8,6 +8,11 @@ class Spline {
     this.controlsContainer = controlsContainer
     this.enabled = false
     this.onComplete = this.onComplete.bind( this )
+    this.shift = {
+      x: 0,
+      y: 0,
+      z: 0
+    }
 
   }
 
@@ -93,13 +98,13 @@ class Spline {
 
       const angle = Math.atan2( vector.x, vector.z )
 
-      this.controlsContainer.position.x = this.camPos.x
-      this.controlsContainer.position.y = this.camPos.y
-      this.controlsContainer.position.z = this.camPos.z
+      this.controlsContainer.position.x = this.camPos.x + this.shift.x
+      this.controlsContainer.position.y = this.camPos.y + this.shift.y
+      this.controlsContainer.position.z = this.camPos.z + this.shift.z
 
-      this.controlsContainer.translateZ( this.camPos.z - prevCamPos.z )
-      this.controlsContainer.translateX( this.camPos.x - prevCamPos.x )
-      this.controlsContainer.translateY( this.camPos.y - prevCamPos.y )
+      // this.controlsContainer.translateZ( this.camPos.z - prevCamPos.z )
+      // this.controlsContainer.translateX( this.camPos.x - prevCamPos.x )
+      // this.controlsContainer.translateY( this.camPos.y - prevCamPos.y )
 
       this.controlsContainer.rotation.y = angle
 

@@ -32,7 +32,7 @@ class Indochine01 extends Group {
 
     this.mountains = new Mountains()
     this.floor = new Floor()
-    this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
+    this.journey = new Journey( scene, controlsContainer, this.fadeOut )
     this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
     this.journey.init()
     this.journey.enableSpline()
@@ -41,20 +41,25 @@ class Indochine01 extends Group {
     this.floorPath.enableSpline()
     this.floorPath.update()
 
-    //   this.journey.createGeometry()
-    //   this.floorPath.createGeometry()
+    if ( GlobalConfig.debug ) {
+      
+      this.journey.createGeometry()
+      this.floorPath.createGeometry()
+
+    }
+
     this.add( this.mountains )
     this.add( this.floor )
     this.objects = [ this.mountains, this.floor ]
 
     this.initPostProcessing()
-    this.setupReverse()
+    this.setupTimelines()
 
   }
 
   bind() {
 
-    [ 'resize', 'update', 'drown', 'reverse', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
+    [ 'resize', 'update', 'drown', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -62,7 +67,7 @@ class Indochine01 extends Group {
   addListeners() {
 
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else Store.on( EventsConstants.SPACE_PRESS, this.reverse )
+    else Store.on( EventsConstants.SPACE_PRESS, this.drown )
 
   }
 
@@ -135,41 +140,44 @@ class Indochine01 extends Group {
 
   drown() {
 
-    // TODO : Remove Store event on pinch
-    this.isAnimating = true
+    if( this.isAnimating ) return
     this.scene.passes.push( this.godrayPass )
-    this.drownTl = new TimelineMax({ onComplete: () => {
-
-      this.isAnimating = false
-
-    } })
-    this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
-    this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1.5, { value: 0 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fDecay: 0.91 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fExposure: 0.27 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fDensity: 0.6 }, 0.1 )
-    this.drownTl.to( this.godrayPass.params, 1, { fWeight: 0.3 }, 0.1 )
-    this.drownTl.to( this.floor.uniforms.size, 1, { value: 30 }, 1 )
-    this.drownTl.timeScale( 0.5 )
+    this.isAnimating = true
+    this.drownTl.play()
 
   }
 
-  setupReverse() {
-
-    this.reverseTl = new TimelineMax({ paused: true })
-    this.reverseTl.to( this.zoomBlurPass.params, 1, { strength: 0.35 }, 0 )
-    this.reverseTl.to( this.zoomBlurPass.params, 0.5, { strength: 0.0025 }, 1.2 )
-    this.reverseTl.timeScale( 2 )
-
-  }
-
-  reverse() {
+  ascend() {
 
     if( this.isAnimating ) return
+    this.isAnimating = true
+    this.drownTl.reverse()
+    
+  }
 
-    this.reverseTl.play( 0 )
-    this.journey.reverse( 4 )
-    this.floorPath.reverse( 4 )
+  setupTimelines() {
+
+    this.drownTl = new TimelineMax({
+      paused: true,
+      onComplete: () => {
+        this.isAnimating = false
+        this.ascend()
+      }
+    })
+    this.drownTl.fromTo( this.journey.shift, 3, { y: 0 }, { y: -50 }, 0 )
+    this.drownTl.fromTo( this.mountains.mesh.uniforms.alpha, 1.5, { value: this.mountains.config.alpha }, { value: 0 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fY: this.config.postProcessing.godrayPass.fY }, { fY: 1 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fDecay: this.config.postProcessing.godrayPass.fDecay }, { fDecay: 0.91 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fExposure: this.config.postProcessing.godrayPass.fExposure }, { fExposure: 0.27 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fDensity: this.config.postProcessing.godrayPass.fDensity }, { fDensity: 0.6 }, 0.1 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fWeight: this.config.postProcessing.godrayPass.fWeight }, { fWeight: 0.3 }, 0.1 )
+    this.drownTl.fromTo( this.floor.uniforms.size, 1, { value: this.floor.config.size }, { value: 30 }, 1 )
+    this.drownTl.timeScale( 0.5 )
+
+    this.drownTl.eventCallback( 'onReverseComplete', () => {
+      this.scene.passes.pop()
+      this.isAnimating = false
+    } )
 
   }
 
@@ -198,6 +206,8 @@ class Indochine01 extends Group {
     this.remove( this.floor )
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
+    this.drownTl.clear()
+    this.fadeOutTl.clear()
     Actions.changeSubpage( '/indochine/02' )
 
   }

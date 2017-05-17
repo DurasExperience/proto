@@ -5,12 +5,11 @@ import GlobalConfig from './../../../../../../../../config'
 
 class Journey extends AudioSpline {
 
-  constructor( scene, controlsContainer, drown, fadeOut ) {
+  constructor( scene, controlsContainer, fadeOut ) {
 
     super( scene, controlsContainer, '01_01' )
-    this.drown = drown
     this.fadeOut = fadeOut
-    this.willDrown = true
+    this.duration = 100
     this.bind()
 
   }
@@ -28,9 +27,9 @@ class Journey extends AudioSpline {
     this.points = [
       new Vector3( 400, 10, 2000 ),
       new Vector3( 1100, 10, -3000 ),
-      new Vector3( 1200, -10, -4000 ),
-      new Vector3( 1200, -20, -4500 ),
-      new Vector3( 1200, -60, -8000 )
+      new Vector3( 1200, 10, -4000 ),
+      new Vector3( 1200, 10, -4500 ),
+      new Vector3( 1200, 10, -8000 )
     ]
     if ( GlobalConfig.debug ) this.scene.camera.position.set( this.points[ 0 ].x, this.points[ 0 ].y, this.points[ 0 ].z )
     super.init()
@@ -95,12 +94,6 @@ class Journey extends AudioSpline {
   update() {
 
     super.update()
-    if ( this.camPos.y < 1 && this.willDrown ) {
-
-      this.willDrown = false
-      this.drown()
-
-    }
 
   }
 
