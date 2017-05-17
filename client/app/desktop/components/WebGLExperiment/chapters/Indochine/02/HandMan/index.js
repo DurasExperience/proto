@@ -30,7 +30,7 @@ class HandWoman extends Object3D {
       }
 
     })
-    this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 30 ) )
+    this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 3 ) )
 
     let offset = 0
 

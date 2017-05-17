@@ -15,12 +15,12 @@ class Indochine extends Page {
     this.state = {
       render: true
     }
+
   }
 
   componentDidMount() {
 
     super.componentDidMount()
-
     if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.onPinch )
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
 
@@ -42,9 +42,7 @@ class Indochine extends Page {
         <div className="page" ref="parent">
           <div className="page__gradient"></div>
           <div className="page--indochine">
-            <h1> {this.props.data.number} </h1>
-            <h2> {this.props.data.title} </h2>
-            <h3> {this.props.data.subtitle} </h3>
+            <h1> {this.props.chapter } </h1>
           </div>
         </div>
       )

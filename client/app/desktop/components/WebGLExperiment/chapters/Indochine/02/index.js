@@ -8,7 +8,7 @@ import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'
 import Config from './Config/'
-import GlobalConfig from './../../../../../../../config'
+import GlobalConfig from '././../../../../../../../config'
 
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
@@ -30,10 +30,10 @@ class Indochine02 extends Group {
 
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
     this.observer.enableSpline()
-    // this.observer.createGeometry()
+
     this.handWoman = new HandWoman( this.observer.duration )
     this.handMan = new HandMan( this.observer.duration )
-    // this.backgroundHands = new BackgroundHands()
+
     this.add( this.handWoman )
     this.add( this.handMan )
     this.objects = [ this.handWoman, this.handMan ]
