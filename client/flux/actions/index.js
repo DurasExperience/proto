@@ -52,6 +52,14 @@ const Actions = {
     })
 
   },
+  onSpacePress() {
+    console.log( 'space' )
+    Dispatcher.dispatch({
+      type: EventsConstants.SPACE_PRESS,
+      item: null
+    })
+
+  },
   onResourceProgress( progress ) {
 
     Dispatcher.dispatch({

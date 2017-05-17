@@ -8,6 +8,7 @@ import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'
 import Config from './Config/'
+import GlobalConfig from './../../../../../../../config'
 
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
@@ -51,8 +52,8 @@ class Indochine02 extends Group {
 
   addListeners() {
 
-    if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else dom.event.on( window, 'click', this.reverse )
+    if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
+    else Store.on( EventsConstants.SPACE_PRESS, this.reverse )
 
   }
 

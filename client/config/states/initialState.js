@@ -12,7 +12,7 @@ class InitialState {
 
   bind() {
 
-    [ 'onWindowResize', 'onMouseMove', 'onMouseUp', 'onMouseDown', 'onWindowBlur', 'onWindowFocus' ]
+    [ 'onWindowResize', 'onMouseMove', 'onMouseUp', 'onMouseDown', 'onWindowBlur', 'onWindowFocus', 'onKeyPress' ]
       .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -25,6 +25,7 @@ class InitialState {
     dom.event.on( window, 'mousedown', this.onMouseDown )
     dom.event.on( window, 'blur', this.onWindowBlur )
     dom.event.on( window, 'focus', this.onWindowFocus )
+    dom.event.on( window, 'keydown', this.onKeyPress )
 
   }
 
@@ -68,6 +69,13 @@ class InitialState {
   onWindowFocus = () => {
 
     Actions.onWindowFocus()
+
+  }
+
+  onKeyPress = ( e ) => {
+
+    const char = e.which || e.keyCode
+    if ( char === 32 ) Actions.onSpacePress()
 
   }
 
