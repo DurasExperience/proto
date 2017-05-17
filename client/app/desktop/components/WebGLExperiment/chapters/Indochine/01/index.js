@@ -4,6 +4,7 @@ import Floor from './Floor'
 import Journey from './Journey'
 import FloorPath from './FloorPath'
 import Config from './Config'
+import GlobalConfig from '././../../../../../../../config'
 import Store from './../../../../../../../flux/store/desktop/index'
 import Actions from './../../../../../../../flux/actions'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
@@ -60,8 +61,8 @@ class Indochine01 extends Group {
 
   addListeners() {
 
-    if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else dom.event.on( window, 'click', this.reverse )
+    if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
+    else Store.on( EventsConstants.SPACE_PRESS, this.reverse )
 
   }
 
