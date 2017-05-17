@@ -26,13 +26,13 @@ class Observer extends AudioSpline {
 
   addGUI() {
 
-    const observerFolder = GUI.addFolder( 'Observer' )
-    observerFolder.open()
-    const cameraFolder = observerFolder.addFolder( 'Camera rotation' )
-    cameraFolder.add( this.scene.camera.rotation, 'x' ).min( -3 ).max( 3 ).step( 0.01 ).onChange( ( v ) => console.log( 'x', v ) )
-    cameraFolder.add( this.scene.camera.rotation, 'y' ).min( -3 ).max( 3 ).step( 0.01 ).onChange( ( v ) => console.log( 'y', v ) )
-    cameraFolder.add( this.scene.camera.rotation, 'z' ).min( -3 ).max( 3 ).step( 0.01 ).onChange( ( v ) => console.log( 'z', v ) )
-    cameraFolder.open()
+    this.scene.camera.rotation.range = [ -3, 3 ]
+
+    GUI.panel
+      .addGroup({ label: 'Observer', enable: false })
+        .addSlider( this.scene.camera.rotation, 'x', 'range', { step: 0.01, label: 'rX' } )
+        .addSlider( this.scene.camera.rotation, 'y', 'range', { step: 0.01, label: 'rY' } )
+        .addSlider( this.scene.camera.rotation, 'z', 'range', { step: 0.01, label: 'rZ' } )
 
   }
 

@@ -56,25 +56,26 @@ class HandWoman extends Object3D {
 
   addGUI() {
 
-    const handFolder = GUI.addFolder( 'Hand Man' )
-    // handFolder.open()
-    const particlesFolder = handFolder.addFolder( 'Particles' )
-    particlesFolder.add( this.mesh.uniforms.amplitude, 'value' ).min( 0 ).max( 100 ).step( 1 ).name( 'amplitude' )
-    particlesFolder.add( this.mesh.uniforms.frequency, 'value' ).min( 0 ).max( 30 ).step( 0.1 ).name( 'frequency' )
-    particlesFolder.add( this.mesh.uniforms.size, 'value' ).min( 1 ).max( 50 ).step( 0.1 ).name( 'size' )
-    particlesFolder.open()
+    this.mesh.position.range = [ -700, 700 ]
+    this.mesh.rotation.range = [ -3, 3 ]
+    this.mesh.uniforms.amplitude.range = [ 0, 100 ]
+    this.mesh.uniforms.frequency.range = [ 0, 30 ]
+    this.mesh.uniforms.size.range = [ 1, 50 ]
 
-    const positionFolder = handFolder.addFolder( 'Position' )
-    positionFolder.add( this.mesh.position, 'x' ).min( -700 ).max( 700 ).step( 1 )
-    positionFolder.add( this.mesh.position, 'y' ).min( -700 ).max( 700 ).step( 1 )
-    positionFolder.add( this.mesh.position, 'z' ).min( -700 ).max( 700 ).step( 1 )
-    positionFolder.open()
-
-    const rotationFolder = handFolder.addFolder( 'Rotation' )
-    rotationFolder.add( this.mesh.rotation, 'x' ).min( -3 ).max( 3 ).step( 0.01 ).onChange( ( v ) => console.log( 'x', v ) )
-    rotationFolder.add( this.mesh.rotation, 'y' ).min( -3 ).max( 3 ).step( 0.01 ).onChange( ( v ) => console.log( 'y', v ) )
-    rotationFolder.add( this.mesh.rotation, 'z' ).min( -3 ).max( 3 ).step( 0.01 ).onChange( ( v ) => console.log( 'z', v ) )
-    rotationFolder.open()
+    GUI.panel
+      .addGroup({ label: 'HandWoman', enable: false })
+        .addSubGroup({ label: 'Position' })
+          .addSlider( this.mesh.position, 'x', 'range', { step: 1 } )
+          .addSlider( this.mesh.position, 'y', 'range', { step: 1 } )
+          .addSlider( this.mesh.position, 'z', 'range', { step: 1 } )
+        .addSubGroup({ label: 'Rotation' })
+          .addSlider( this.mesh.rotation, 'x', 'range', { step: 0.01 } )
+          .addSlider( this.mesh.rotation, 'y', 'range', { step: 0.01 } )
+          .addSlider( this.mesh.rotation, 'z', 'range', { step: 0.01 } )
+        .addSubGroup({ label: 'Particles' })
+          .addSlider( this.mesh.uniforms.amplitude, 'value', 'range', { step: 1, label: 'amplitude' } )
+          .addSlider( this.mesh.uniforms.frequency, 'value', 'range', { step: 0.1, label: 'frequency' } )
+          .addSlider( this.mesh.uniforms.size, 'value', 'range', { step: 0.1, label: 'size' } )
 
   }
 

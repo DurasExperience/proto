@@ -1,6 +1,25 @@
-import dat from 'dat-gui'
+import ControlKit from 'controlkit'
 
-const GUI = new dat.GUI({ autoPlace: false, scrollable: true })
-document.body.appendChild( GUI.domElement )
+class GUI extends ControlKit {
 
-export default GUI
+  constructor( options ) {
+
+    super( options )
+    this.panel = this.addPanel()
+
+  }
+
+  addPanel( options = {} ) {
+    return super.addPanel({
+      align: 'right',
+      position: [ 0, 0 ],
+      width: 275,
+      ratio: 10,
+      fixed: false,
+      ...options
+    })
+  }
+  
+}
+
+export default new GUI()

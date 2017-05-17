@@ -107,28 +107,29 @@ class Indochine01 extends Group {
 
     this.mountains.addGUI()
     this.floor.addGUI()
+    
+    this.vignettePass.params.range = [ 0, 10 ]
+    this.zoomBlurPass.params.range = [ 0, 2 ]
+    this.multiPassBloomPass.params.range = [ 0, 5 ]
+    this.godrayPass.params.range = [ 0, 5 ]
 
-    const postProcessingFolder = GUI.addFolder( 'Post Processing Ch1.1' )
-    postProcessingFolder.open()
-    const vignettePassFolder = postProcessingFolder.addFolder( 'Vignette Pass' )
-    vignettePassFolder.add( this.vignettePass.params, 'boost' ).min( 0 ).max( 10 ).step( 0.05 )
-    vignettePassFolder.add( this.vignettePass.params, 'reduction' ).min( 0 ).max( 10 ).step( 0.05 )
-    vignettePassFolder.open()
-    const zoomBlurPassFolder = postProcessingFolder.addFolder( 'Zoom Blur Pass' )
-    zoomBlurPassFolder.add( this.zoomBlurPass.params, 'strength' ).min( 0 ).max( 2 ).step( 0.05 )
-    zoomBlurPassFolder.open()
-    const multiPassBloomPassFolder = postProcessingFolder.addFolder( 'Multi Pass Bloom Pass' )
-    multiPassBloomPassFolder.add( this.multiPassBloomPass.params, 'blurAmount' ).min( 0 ).max( 5 ).step( 0.05 )
-    multiPassBloomPassFolder.add( this.multiPassBloomPass.params, 'zoomBlurStrength' ).min( 0 ).max( 5 ).step( 0.05 )
-    multiPassBloomPassFolder.open()
-    const godrayPassFolder = postProcessingFolder.addFolder( 'Godray Pass' )
-    godrayPassFolder.add( this.godrayPass.params, 'fX' ).min( 0 ).max( 1 ).step( 0.05 )
-    godrayPassFolder.add( this.godrayPass.params, 'fY' ).min( 0 ).max( 1 ).step( 0.05 )
-    godrayPassFolder.add( this.godrayPass.params, 'fExposure' ).min( 0 ).max( 5 ).step( 0.05 )
-    godrayPassFolder.add( this.godrayPass.params, 'fDecay' ).min( 0 ).max( 5 ).step( 0.05 )
-    godrayPassFolder.add( this.godrayPass.params, 'fDensity' ).min( 0 ).max( 5 ).step( 0.05 )
-    godrayPassFolder.add( this.godrayPass.params, 'fWeight' ).min( 0 ).max( 5 ).step( 0.05 )
-    godrayPassFolder.open()
+    GUI.panel
+      .addGroup({ label: 'Post Processing', enable: false })
+        .addSubGroup({ label: 'Vignette Pass' })
+          .addSlider( this.vignettePass.params, 'boost', 'range', { step: 0.05 } )
+          .addSlider( this.vignettePass.params, 'reduction', 'range', { step: 0.05 } )
+        .addSubGroup({ label: 'Zoom Blur Pass' })
+          .addSlider( this.zoomBlurPass.params, 'strength', 'range', { step: 0.05 } )
+        .addSubGroup({ label: 'Multi Pass Bloom Pass' })
+          .addSlider( this.multiPassBloomPass.params, 'blurAmount', 'range', { step: 0.05 } )
+          .addSlider( this.multiPassBloomPass.params, 'zoomBlurStrength', 'range', { step: 0.05 } )
+        .addSubGroup({ label: 'Godray Pass' })
+          .addSlider( this.godrayPass.params, 'fX', 'range', { step: 0.05 } )
+          .addSlider( this.godrayPass.params, 'fY', 'range', { step: 0.05 } )
+          .addSlider( this.godrayPass.params, 'fExposure', 'range', { step: 0.05 } )
+          .addSlider( this.godrayPass.params, 'fDecay', 'range', { step: 0.05 } )
+          .addSlider( this.godrayPass.params, 'fDensity', 'range', { step: 0.05 } )
+          .addSlider( this.godrayPass.params, 'fWeight', 'range', { step: 0.05 } )
 
   }
 
