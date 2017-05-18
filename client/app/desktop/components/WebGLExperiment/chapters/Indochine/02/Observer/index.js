@@ -9,7 +9,7 @@ class Observer extends AudioSpline {
 
   constructor( scene, controlsContainer, fadeOut ) {
 
-    super( scene, controlsContainer, '01_02' )
+    super( scene, controlsContainer, '01_02_voice' )
     this.fadeOut = fadeOut
     this.config = Config.observer
     // this.duration = 50

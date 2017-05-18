@@ -9,6 +9,7 @@ import Store from './../../../../../../../flux/store/desktop/index'
 import Actions from './../../../../../../../flux/actions'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'
+import AudioManager from './../../../../../../../helpers/AudioManager'
 
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
@@ -27,6 +28,7 @@ class Indochine01 extends Group {
     this.scene = scene
     this.config = Config.indochine_01
     this.isAnimating = false
+    this.level = 'surface'
 
     this.bind()
 
@@ -54,12 +56,13 @@ class Indochine01 extends Group {
 
     this.initPostProcessing()
     this.setupTimelines()
+    this.setupSound()
 
   }
 
   bind() {
 
-    [ 'resize', 'update', 'drown', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
+    [ 'resize', 'update', 'firstDrown', 'drown', 'ascend', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -67,7 +70,7 @@ class Indochine01 extends Group {
   addListeners() {
 
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else Store.on( EventsConstants.SPACE_PRESS, this.drown )
+    else Store.on( EventsConstants.SPACE_PRESS, this.ascend )
 
   }
 
@@ -87,7 +90,12 @@ class Indochine01 extends Group {
     this.journey.start()
     this.floorPath.start()
     this.journey.play()
-    this.addListeners()
+
+    this.surfaceSoundId = this.surfaceSound.play()
+    this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
+    AudioManager.fade( '01_01_surface', 0, 0.7, 500, this.surfaceSoundId )
+    AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
+    setTimeout( () => { this.firstDrown() }, 2000 )
 
   }
 
@@ -138,20 +146,52 @@ class Indochine01 extends Group {
 
   }
 
+  firstDrown() {
+
+    this.underwaterSoundId = this.underwaterSound.play()
+    this.underwaterAmbientSoundId = this.underwaterAmbientSound.play()
+    this.drown()
+    this.addListeners()
+
+  }
+
+  setupSound() {
+
+    this.underwaterSound = AudioManager.get( '01_01_underwater' )
+    this.underwaterAmbientSound = AudioManager.get( '01_01_underwater_ambient' )
+    this.surfaceSound = AudioManager.get( '01_01_surface' )
+    this.surfaceAmbientSound = AudioManager.get( '01_01_surface_ambient' )
+
+  }
+
   drown() {
 
-    if( this.isAnimating ) return
+    if( this.isAnimating || this.level === 'underwater' ) return
     this.scene.passes.push( this.godrayPass )
     this.isAnimating = true
+    this.drownTl.timeScale( 0.5 )
     this.drownTl.play()
+    AudioManager.rate( '01_01_voice', 0.9, this.journey.voiceId )
+    AudioManager.fade( '01_01_surface', 0.7, 0, 300, this.surfaceSoundId )
+    AudioManager.fade( '01_01_surface_ambient', 0.3, 0, 300, this.surfaceAmbientSoundId )
+    AudioManager.fade( '01_01_underwater', 0, 0.7, 500, this.underwaterSoundId )
+    AudioManager.fade( '01_01_underwater_ambient', 0, 0.3, 800, this.underwaterAmbientSoundId )
 
   }
 
   ascend() {
 
-    if( this.isAnimating ) return
+    if( this.isAnimating || this.level === 'surface' ) return
     this.isAnimating = true
+    this.drownTl.timeScale( 1 )
     this.drownTl.reverse()
+    AudioManager.fade( '01_01_underwater', 0.7, 0, 2500, this.underwaterSoundId )
+    AudioManager.fade( '01_01_underwater_ambient', 0.3, 0, 2500, this.underwaterAmbientSoundId )
+    setTimeout( () => {
+      AudioManager.fade( '01_01_surface', 0, 0.7, 300, this.surfaceSoundId )
+      AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
+      AudioManager.rate( '01_01_voice', 1, this.journey.voiceId )
+    }, 2000 )
     
   }
 
@@ -161,7 +201,7 @@ class Indochine01 extends Group {
       paused: true,
       onComplete: () => {
         this.isAnimating = false
-        this.ascend()
+        this.level = 'underwater'
       }
     })
     this.drownTl.fromTo( this.journey.shift, 3, { y: 0 }, { y: -50 }, 0 )
@@ -177,6 +217,8 @@ class Indochine01 extends Group {
     this.drownTl.eventCallback( 'onReverseComplete', () => {
       this.scene.passes.pop()
       this.isAnimating = false
+      this.level = 'surface'
+      setTimeout( () => { this.drown() }, 3000 )
     } )
 
   }

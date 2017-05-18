@@ -7,7 +7,7 @@ class Journey extends AudioSpline {
 
   constructor( scene, controlsContainer, fadeOut ) {
 
-    super( scene, controlsContainer, '01_01' )
+    super( scene, controlsContainer, '01_01_voice' )
     this.fadeOut = fadeOut
     this.duration = 100
     this.bind()
