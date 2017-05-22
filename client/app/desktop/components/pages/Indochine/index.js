@@ -1,5 +1,7 @@
 import './Indochine.styl'
 import Page from './../../base/Page'
+import Menu from './../../ui/Menu'
+import SoundLevel from './../../ui/SoundLevel'
 import Store from './../../../../../flux/store/desktop/index'
 import Actions from './../../../../../flux/actions'
 import Config from './../../../../../config'
@@ -41,9 +43,15 @@ class Indochine extends Page {
       return(
         <div className="page" ref="parent">
           <div className="page__gradient"></div>
+
           <div className="page--indochine">
-            <h1> {this.props.chapter } </h1>
+            <SoundLevel/>
+            <Menu/>
+            <div className="page--text">  //TODO layout event start
+              <h1> {this.props.chapter } </h1>
+            </div>
           </div>
+
         </div>
       )
     } else return null

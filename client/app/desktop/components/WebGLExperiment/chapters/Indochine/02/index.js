@@ -144,6 +144,8 @@ class Indochine02 extends Group {
 
     this.reverseTl.play( 0 )
     //this.observer.reverse( 4 )
+
+    // TODO reverse main -> rouge,
     this.handWoman.reverse( 4 )
     this.handMan.reverse( 4 )
     this.backgroundHands.reverse()

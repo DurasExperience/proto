@@ -1,22 +1,29 @@
 @import './../../../../../style/app.styl'
 
+
 .navigation
   position absolute
-  top 0
-  left 0
-  height 6%
-  width 100%
+  display flex
+  flex-flow column
+  margin 0px 0px 0px 0px
+  margin-left $MENU_RIGHT
+  padding-right 500px
+  height 100%
+  width $MENU_WIDTH
+  color $WHITE
 
-  &__list
-    height 100%
-    display flex
-    flex-flow row nowrap
+  &__about
+    margin-top: $ABOUT_TOP
+
+  &__chapter
+    margin-top auto
+    margin-bottom auto
     justify-content center
-    align-items center
 
-  &__item
-    cursor pointer
-    padding 0 1rem
-    text-decoration none
-    font-size 0.8rem
-    color $WHITE
+    &__list, li
+      height 100%
+      text-align right
+      color white
+
+    li:not(:first-child)
+      margin-top 50px

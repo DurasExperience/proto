@@ -81,7 +81,7 @@ class handMan extends Object3D {
 
   init() {
 
-    this.tl = new TimelineMax({ onComplete: () => this.mesh.uniforms.amplitude.value = this.config.endAmplitude })
+    this.tl = new TimelineMax() //{ onComplete: () => this.mesh.uniforms.amplitude.value = this.config.endAmplitude }
     this.tl.to( this.mesh.position, this.duration, { x: this.config.endPosition.x }, 0 )
     this.tl.to( this.mesh.position, this.duration, { y: this.config.endPosition.y }, 0 )
     this.tl.to( this.mesh.position, this.duration, { z: this.config.endPosition.z }, 0 )
@@ -104,7 +104,7 @@ class handMan extends Object3D {
 
     this.tl.reverse()
     this.tl.timeScale += .2
-    setTimeout( () => this.tl.play(), d * 1500 )
+    setTimeout( () => this.tl.play(), d * 1200 )
 
   }
 

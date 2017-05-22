@@ -12,10 +12,10 @@ export default {
   endPosition: {
     x: 650,
     y: -395,
-    z: 136
+    z: 225
   },
   rotation: {
-    x: 1.9,
+    x: 2.,
     y: 0.51,
     z: -1.,
   },
@@ -29,9 +29,9 @@ export default {
     y: 110,
     z: 110
   },
-  size: 8.,
-  amplitude: 95.,
-  frequency: 95.,
+  size: 20.,
+  amplitude: 5.,
+  frequency: 5.,
   endSize: 20,
   endAmplitude: 1.,
   endFrequency: 2.

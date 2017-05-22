@@ -15,9 +15,9 @@ class ParticlesSystem extends Object3D  {
 
     for (let p = 0; p < this.particleCount; p++) {
 
-      let x = Math.random() * 4000 - 2000
-      let y = Math.random() * 800 - 50
-      let z = Math.random() * 4000 - 2000
+      let x = Math.random() * (1200 - -1200) + -1200
+      let y = Math.random() * (1100 - -600) + -600
+      let z = Math.random() * (1100 - -1100) + -1100
 
       let particle = new Vector3( x, y, z )
 
@@ -25,13 +25,13 @@ class ParticlesSystem extends Object3D  {
 
     }
 
-    let texture = this.createCanvasMaterial('#'+'888888', 64)
+    let texture = this.createCanvasMaterial('#'+'888888', 32)
 
     this.particleMaterial = new PointsMaterial({
-      size: 4,
+      size: 8,
       fog: true,
       map: texture,
-      opacity: 0.3,
+      opacity: 0.9,
       transparent: true
     })
 
@@ -86,7 +86,7 @@ class ParticlesSystem extends Object3D  {
 
       if (vert.y < -200) {
 
-        vert.y = Math.random() * 800 - 50
+        //vert.y = Math.random() * 800 - 50
 
       }
 

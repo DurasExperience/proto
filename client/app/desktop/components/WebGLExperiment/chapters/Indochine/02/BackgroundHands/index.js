@@ -26,7 +26,6 @@ class BackgroundHands extends Object3D {
       this.heartbeatId = this.heartbeat.play()
       AudioManager.fade( 'heartbeat', 0, 0.7, 500, this.heartbeatId )
       // TODO change particule size with frequency
-
       setTimeout( () => this.down(), 2000)
 
     }
