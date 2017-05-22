@@ -9,6 +9,7 @@ import Store from './../../../../../../../flux/store/desktop/index'
 import Actions from './../../../../../../../flux/actions'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'
+import AudioManager from './../../../../../../../helpers/AudioManager'
 
 import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
@@ -27,12 +28,13 @@ class Indochine01 extends Group {
     this.scene = scene
     this.config = Config.indochine_01
     this.isAnimating = false
+    this.level = 'surface'
 
     this.bind()
 
     this.mountains = new Mountains()
     this.floor = new Floor()
-    this.journey = new Journey( scene, controlsContainer, this.drown, this.fadeOut )
+    this.journey = new Journey( scene, controlsContainer, this.fadeOut )
     this.floorPath = new FloorPath( scene, this.floor, this.journey.duration )
     this.journey.init()
     this.journey.enableSpline()
@@ -41,20 +43,26 @@ class Indochine01 extends Group {
     this.floorPath.enableSpline()
     this.floorPath.update()
 
-    //   this.journey.createGeometry()
-    //   this.floorPath.createGeometry()
+    if ( GlobalConfig.debug ) {
+
+      this.journey.createGeometry()
+      this.floorPath.createGeometry()
+
+    }
+
     this.add( this.mountains )
     this.add( this.floor )
     this.objects = [ this.mountains, this.floor ]
 
     this.initPostProcessing()
-    this.setupReverse()
+    this.setupTimelines()
+    this.setupSound()
 
   }
 
   bind() {
 
-    [ 'resize', 'update', 'drown', 'reverse', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
+    [ 'resize', 'update', 'firstDrown', 'drown', 'ascend', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -62,7 +70,7 @@ class Indochine01 extends Group {
   addListeners() {
 
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else Store.on( EventsConstants.SPACE_PRESS, this.reverse )
+    else Store.on( EventsConstants.SPACE_PRESS, this.ascend )
 
   }
 
@@ -82,7 +90,12 @@ class Indochine01 extends Group {
     this.journey.start()
     this.floorPath.start()
     this.journey.play()
-    this.addListeners()
+
+    this.surfaceSoundId = this.surfaceSound.play()
+    this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
+    AudioManager.fade( '01_01_surface', 0, 0.7, 500, this.surfaceSoundId )
+    AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
+    setTimeout( () => { this.firstDrown() }, 2000 )
 
   }
 
@@ -107,13 +120,20 @@ class Indochine01 extends Group {
 
     this.mountains.addGUI()
     this.floor.addGUI()
-    
+
     this.vignettePass.params.range = [ 0, 10 ]
     this.zoomBlurPass.params.range = [ 0, 2 ]
     this.multiPassBloomPass.params.range = [ 0, 5 ]
     this.godrayPass.params.range = [ 0, 5 ]
 
+    this.lowpassFilter.frequency.range = [ 20, 2000 ]
+
+
+
     GUI.panel
+      .addGroup({ label: 'Tuna', enable: true })
+      .addSubGroup({ label: 'Fq Filter' })
+          .addSlider( this.lowpassFilter.frequency, 'value', 'range', { step: 1, label: 'frequency' } )
       .addGroup({ label: 'Post Processing', enable: false })
         .addSubGroup({ label: 'Vignette Pass' })
           .addSlider( this.vignettePass.params, 'boost', 'range', { step: 0.05 } )
@@ -133,43 +153,81 @@ class Indochine01 extends Group {
 
   }
 
+  firstDrown() {
+
+    this.underwaterSoundId = this.underwaterSound.play()
+    this.underwaterAmbientSoundId = this.underwaterAmbientSound.play()
+    this.drown()
+    this.addListeners()
+
+  }
+
+  setupSound() {
+
+    this.underwaterSound = AudioManager.get( '01_01_underwater' )
+    this.underwaterAmbientSound = AudioManager.get( '01_01_underwater_ambient' )
+    this.surfaceSound = AudioManager.get( '01_01_surface' )
+    this.surfaceAmbientSound = AudioManager.get( '01_01_surface_ambient' )
+    this.lowpassFilter = new AudioManager.tuna.Filter( this.config.tuna.fq )
+
+  }
+
   drown() {
 
-    // TODO : Remove Store event on pinch
-    this.isAnimating = true
+    if( this.isAnimating || this.level === 'underwater' ) return
     this.scene.passes.push( this.godrayPass )
-    this.drownTl = new TimelineMax({ onComplete: () => {
+    this.isAnimating = true
+    this.drownTl.timeScale( 0.5 )
+    this.drownTl.play()
+    AudioManager.fade( '01_01_surface', 0.7, 0, 300, this.surfaceSoundId )
+    AudioManager.fade( '01_01_surface_ambient', 0.3, 0, 300, this.surfaceAmbientSoundId )
+    AudioManager.fade( '01_01_underwater', 0, 0.7, 500, this.underwaterSoundId )
+    AudioManager.fade( '01_01_underwater_ambient', 0, 0.3, 800, this.underwaterAmbientSoundId )
+    AudioManager.addEffect( this.lowpassFilter )
 
-      this.isAnimating = false
+  }
 
-    } })
-    this.drownTl.to( this.godrayPass.params, 1, { fY: 1 }, 0 )
-    this.drownTl.to( this.mountains.mesh.uniforms.alpha, 1.5, { value: 0 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fDecay: 0.91 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fExposure: 0.27 }, 0 )
-    this.drownTl.to( this.godrayPass.params, 1, { fDensity: 0.6 }, 0.1 )
-    this.drownTl.to( this.godrayPass.params, 1, { fWeight: 0.3 }, 0.1 )
-    this.drownTl.to( this.floor.uniforms.size, 1, { value: 30 }, 1 )
+  ascend() {
+
+    if( this.isAnimating || this.level === 'surface' ) return
+    this.isAnimating = true
+    this.drownTl.timeScale( 1 )
+    this.drownTl.reverse()
+    AudioManager.fade( '01_01_underwater', 0.7, 0, 2500, this.underwaterSoundId )
+    AudioManager.fade( '01_01_underwater_ambient', 0.3, 0, 2500, this.underwaterAmbientSoundId )
+    setTimeout( () => {
+      AudioManager.fade( '01_01_surface', 0, 0.7, 300, this.surfaceSoundId )
+      AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
+      AudioManager.removeEffect( this.lowpassFilter )
+    }, 2000 )
+
+  }
+
+  setupTimelines() {
+
+    this.drownTl = new TimelineMax({
+      paused: true,
+      onComplete: () => {
+        this.isAnimating = false
+        this.level = 'underwater'
+      }
+    })
+    this.drownTl.fromTo( this.journey.shift, 3, { y: 0 }, { y: -50 }, 0 )
+    this.drownTl.fromTo( this.mountains.mesh.uniforms.alpha, 1.5, { value: this.mountains.config.alpha }, { value: 0 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fY: this.config.postProcessing.godrayPass.fY }, { fY: 1 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fDecay: this.config.postProcessing.godrayPass.fDecay }, { fDecay: 0.91 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fExposure: this.config.postProcessing.godrayPass.fExposure }, { fExposure: 0.27 }, 0 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fDensity: this.config.postProcessing.godrayPass.fDensity }, { fDensity: 0.6 }, 0.1 )
+    this.drownTl.fromTo( this.godrayPass.params, 1, { fWeight: this.config.postProcessing.godrayPass.fWeight }, { fWeight: 0.3 }, 0.1 )
+    this.drownTl.fromTo( this.floor.uniforms.size, 1, { value: this.floor.config.size }, { value: 30 }, 1 )
     this.drownTl.timeScale( 0.5 )
 
-  }
-
-  setupReverse() {
-
-    this.reverseTl = new TimelineMax({ paused: true })
-    this.reverseTl.to( this.zoomBlurPass.params, 1, { strength: 0.35 }, 0 )
-    this.reverseTl.to( this.zoomBlurPass.params, 0.5, { strength: 0.0025 }, 1.2 )
-    this.reverseTl.timeScale( 2 )
-
-  }
-
-  reverse() {
-
-    if( this.isAnimating ) return
-
-    this.reverseTl.play( 0 )
-    this.journey.reverse( 4 )
-    this.floorPath.reverse( 4 )
+    this.drownTl.eventCallback( 'onReverseComplete', () => {
+      this.scene.passes.pop()
+      this.isAnimating = false
+      this.level = 'surface'
+      setTimeout( () => { this.drown() }, 3000 )
+    } )
 
   }
 
@@ -198,6 +256,9 @@ class Indochine01 extends Group {
     this.remove( this.floor )
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
+    this.drownTl.clear()
+    this.fadeOutTl.clear()
+    AudioManager.removeEffect( this.lowpassFilter )
     Actions.changeSubpage( '/indochine/02' )
 
   }

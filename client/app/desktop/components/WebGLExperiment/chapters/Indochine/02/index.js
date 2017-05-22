@@ -6,6 +6,7 @@ import Observer from './Observer'
 
 import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
+import AudioManager from './../../../../../../../helpers/AudioManager'
 import GUI from './../../../../../../../helpers/GUI'
 import Config from './Config/'
 import GlobalConfig from '././../../../../../../../config'
@@ -41,6 +42,7 @@ class Indochine02 extends Group {
 
     this.initPostProcessing()
     this.setupReverse()
+    this.setupSound()
     this.count = 0
 
   }
@@ -85,6 +87,23 @@ class Indochine02 extends Group {
 
   }
 
+  down(){
+
+  }
+
+  setupReverse() {
+
+    this.reverseTl = new TimelineMax({ paused: true })
+    this.reverseTl.to( this.zoomBlurPass.params, 1, { strength: 0.35 }, 0 )
+    this.reverseTl.to( this.zoomBlurPass.params, 0.5, { strength: 0.0025 }, 1.2 )
+    this.reverseTl.timeScale( 2 )
+
+  }
+
+  setupSound(){
+
+  }
+
   initPostProcessing() {
 
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
@@ -121,21 +140,13 @@ class Indochine02 extends Group {
 
   }
 
-  setupReverse() {
-
-    this.reverseTl = new TimelineMax({ paused: true })
-    this.reverseTl.to( this.zoomBlurPass.params, 1, { strength: 0.35 }, 0 )
-    this.reverseTl.to( this.zoomBlurPass.params, 0.5, { strength: 0.0025 }, 1.2 )
-    this.reverseTl.timeScale( 2 )
-
-  }
-
   reverse() {
 
     this.reverseTl.play( 0 )
-    this.observer.reverse( 4 )
+    //this.observer.reverse( 4 )
     this.handWoman.reverse( 4 )
     this.handMan.reverse( 4 )
+    this.backgroundHands.reverse()
 
   }
 

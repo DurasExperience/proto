@@ -8,6 +8,11 @@ class Spline {
     this.controlsContainer = controlsContainer
     this.enabled = false
     this.onComplete = this.onComplete.bind( this )
+    this.shift = {
+      x: 0,
+      y: 0,
+      z: 0
+    }
 
   }
 
@@ -93,11 +98,15 @@ class Spline {
 
       const nextCamPos = this.curve.getPoint( this.time + 0.01 )
 
-      this.controlsContainer.position.x = (nextCamPos.x*2)-nextCamPos.x
-      this.controlsContainer.position.y = (nextCamPos.y*2)-nextCamPos.y
-      this.controlsContainer.position.z = (nextCamPos.z*2)-nextCamPos.z
+      // this.controlsContainer.position.x = (nextCamPos.x*2)-nextCamPos.x
+      // this.controlsContainer.position.y = (nextCamPos.y*2)-nextCamPos.y
+      // this.controlsContainer.position.z = (nextCamPos.z*2)-nextCamPos.z
 
-      this.controlsContainer.rotation.y = 9.3 //TODO
+      this.controlsContainer.rotation.y = 9.4 //TODO
+
+      this.controlsContainer.position.x = this.camPos.x + this.shift.x
+      this.controlsContainer.position.y = this.camPos.y + this.shift.y
+      this.controlsContainer.position.z = this.camPos.z + this.shift.z
 
 
     }

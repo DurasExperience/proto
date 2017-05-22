@@ -29,9 +29,9 @@ export default {
     y: 110,
     z: 110
   },
-  size: 25.,
-  amplitude: 55.,
-  frequency: 25.,
+  size: 8.,
+  amplitude: 95.,
+  frequency: 95.,
   endSize: 20,
   endAmplitude: 1.,
   endFrequency: 2.

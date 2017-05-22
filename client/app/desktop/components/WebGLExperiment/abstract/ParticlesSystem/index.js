@@ -7,8 +7,7 @@ class ParticlesSystem extends Object3D  {
   constructor( obj ) {
 
     super()
-    // config = Config
-    // this.config = config
+
     this.particleCount = 500
     this.clock = new Clock(true)
     this.particles = new Geometry()
@@ -20,25 +19,58 @@ class ParticlesSystem extends Object3D  {
       let y = Math.random() * 800 - 50
       let z = Math.random() * 4000 - 2000
 
-      // Create the vertex
       let particle = new Vector3( x, y, z )
 
-      // Add the vertex to the geometry
       this.particles.vertices.push( particle )
 
     }
 
-    ImageUtils.crossOrigin = '*'
-    let texture = ImageUtils.loadTexture( obj.file.src)
-    texture.needsUpdate = true
+    let texture = this.createCanvasMaterial('#'+'888888', 64)
+
     this.particleMaterial = new PointsMaterial({
       size: 4,
+      fog: true,
       map: texture,
-      opacity: 1,
+      opacity: 0.3,
       transparent: true
     })
 
+
     this.mesh = new Points(this.particles, this.particleMaterial)
+
+  }
+
+  reverse(){
+
+    this.particleMaterial.map = this.createCanvasMaterial('#'+'ff0000', 64)
+
+  }
+
+  down(){
+
+    this.particleMaterial.map = this.createCanvasMaterial('#'+'888888', 64)
+
+  }
+
+  createCanvasMaterial( color, size ) {
+
+    let matCanvas = document.createElement('canvas')
+    matCanvas.width = matCanvas.height = size
+
+    let matContext = matCanvas.getContext('2d')
+
+    let texture = new THREE.Texture(matCanvas)
+
+    let center = size / 2
+    matContext.beginPath()
+    matContext.arc(center, center, size/2, 0, 2 * Math.PI)
+    matContext.closePath()
+    matContext.fillStyle = color
+    matContext.fill()
+
+    texture.needsUpdate = true
+
+    return texture;
 
   }
 
