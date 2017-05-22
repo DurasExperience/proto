@@ -46,5 +46,10 @@ export default [
     type: 'model',
     id: 'spline-hand-women',
     url: '/assets/models/chapitre_01/spline-hand-women.awd'
-  }
+  },
+  {
+    type: 'image',
+    id: 'hands_particle_background',
+    url: '/assets/images/chapitre_01/particle_1.png'
+  },
 ]

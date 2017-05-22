@@ -8,7 +8,7 @@ import Store from './../../flux/store/desktop/'
 import Actions from './../../flux/actions/'
 
 //TODO Store.Routes.oldRoute != "/indochine/01"
-//error merge space
+// console.log( Store.Routes );
 
 const PropsRoute = ({ path, component, data }) => {
   return (

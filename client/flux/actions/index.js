@@ -34,7 +34,7 @@ const Actions = {
       type: EventsConstants.MOUSE_DOWN,
       item: null
     })
-    
+
   },
   onWindowBlur() {
 
@@ -53,7 +53,6 @@ const Actions = {
 
   },
   onSpacePress() {
-    console.log( 'space' )
     Dispatcher.dispatch({
       type: EventsConstants.SPACE_PRESS,
       item: null

@@ -22,7 +22,6 @@ class Indochine02 extends Group {
   constructor( scene, controlsContainer ) {
 
     super()
-
     this.name = 'indochine-02'
     this.scene = scene
     this.config = Config.indochine_02
@@ -31,22 +30,25 @@ class Indochine02 extends Group {
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
     this.observer.enableSpline()
 
+    this.backgroundHands = new BackgroundHands()
     this.handWoman = new HandWoman( this.observer.duration )
     this.handMan = new HandMan( this.observer.duration )
 
+    this.add(  this.backgroundHands.particles.mesh  )
     this.add( this.handWoman )
     this.add( this.handMan )
-    this.objects = [ this.handWoman, this.handMan ]
+    this.objects = [ this.handWoman, this.handMan, this.backgroundHands.particles ]
 
     this.initPostProcessing()
     this.setupReverse()
+    this.count = 0
 
   }
 
   bind() {
 
     [ 'resize', 'update', 'reverse', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
-        .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
+      .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
 
@@ -70,8 +72,13 @@ class Indochine02 extends Group {
     this.objects.push( this.observer )
     this.fadeIn()
     this.observer.init()
+    /**
+    * show spline
+    */
+    this.observer.createGeometry()
     this.observer.start()
     this.observer.play()
+
     this.handWoman.init()
     this.handMan.init()
     this.addListeners()

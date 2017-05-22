@@ -4,12 +4,11 @@ import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
 import GUI from './../../../../../../../../helpers/GUI'
 
-class HandWoman extends Object3D {
+class handMan extends Object3D {
 
   constructor( duration ) {
 
     super()
-.handMAn
     this.config = Config.handMan
     this.duration = duration
 
@@ -18,6 +17,7 @@ class HandWoman extends Object3D {
     this.max = 0
 
     const model = Store.getResource( '01_hand_man' )
+    // TODO
     const spline = Store.getResource( 'spline-hand-men' )
 
     model.traverse(( child ) => {
@@ -63,7 +63,7 @@ class HandWoman extends Object3D {
     this.mesh.uniforms.size.range = [ 1, 50 ]
 
     GUI.panel
-      .addGroup({ label: 'HandWoman', enable: false })
+      .addGroup({ label: 'HandMan', enable: false })
         .addSubGroup({ label: 'Position' })
           .addSlider( this.mesh.position, 'x', 'range', { step: 1 } )
           .addSlider( this.mesh.position, 'y', 'range', { step: 1 } )
@@ -85,19 +85,26 @@ class HandWoman extends Object3D {
     this.tl.to( this.mesh.position, this.duration, { x: this.config.endPosition.x }, 0 )
     this.tl.to( this.mesh.position, this.duration, { y: this.config.endPosition.y }, 0 )
     this.tl.to( this.mesh.position, this.duration, { z: this.config.endPosition.z }, 0 )
+
     this.tl.to( this.mesh.rotation, this.duration, { x: this.config.endRotation.x }, 0 )
     this.tl.to( this.mesh.rotation, this.duration, { y: this.config.endRotation.y }, 0 )
     this.tl.to( this.mesh.rotation, this.duration, { z: this.config.endRotation.z }, 0 )
+
     this.tl.to( this.mesh.uniforms.color.value, this.duration, { r: this.config.endColor.r }, 0 )
     this.tl.to( this.mesh.uniforms.color.value, this.duration, { g: this.config.endColor.g }, 0 )
     this.tl.to( this.mesh.uniforms.color.value, this.duration, { b: this.config.endColor.b }, 0 )
+
+    this.tl.to( this.mesh.uniforms.size, this.duration, { value: this.config.endSize }, 0 )
+    this.tl.to( this.mesh.uniforms.frequency, this.duration, { value: this.config.endFrequency }, 0 )
+    this.tl.to( this.mesh.uniforms.amplitude, this.duration, { value: this.config.endAmplitude }, 0 )
 
   }
 
   reverse( d ) {
 
     this.tl.reverse()
-    setTimeout( () => this.tl.play(), d * 1000 )
+    this.tl.timeScale += .2
+    setTimeout( () => this.tl.play(), d * 2000 )
 
   }
 
@@ -109,4 +116,4 @@ class HandWoman extends Object3D {
 
 }
 
-export default HandWoman
+export default handMan

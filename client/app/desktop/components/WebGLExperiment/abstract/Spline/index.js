@@ -36,7 +36,7 @@ class Spline {
     this.material = new THREE.LineBasicMaterial({
       color: 0xFF0000
     })
-		
+
     this.line = new THREE.Line( this.geometry, this.material )
     this.scene.add( this.line )
 
@@ -82,8 +82,6 @@ class Spline {
 
     if( this.enabled ) {
 
-      const prevCamPos = this.curve.getPoint( this.time )
-
       this.camPos = this.curve.getPoint( this.time + 0.01 )
 
       const vector = {
@@ -93,15 +91,14 @@ class Spline {
 
       const angle = Math.atan2( vector.x, vector.z )
 
-      this.controlsContainer.position.x = this.camPos.x
-      this.controlsContainer.position.y = this.camPos.y
-      this.controlsContainer.position.z = this.camPos.z
+      const nextCamPos = this.curve.getPoint( this.time + 0.01 )
 
-      this.controlsContainer.translateZ( this.camPos.z - prevCamPos.z )
-      this.controlsContainer.translateX( this.camPos.x - prevCamPos.x )
-      this.controlsContainer.translateY( this.camPos.y - prevCamPos.y )
+      this.controlsContainer.position.x = (nextCamPos.x*2)-nextCamPos.x
+      this.controlsContainer.position.y = (nextCamPos.y*2)-nextCamPos.y
+      this.controlsContainer.position.z = (nextCamPos.z*2)-nextCamPos.z
 
-      this.controlsContainer.rotation.y = angle
+      this.controlsContainer.rotation.y = 9.3 //TODO
+
 
     }
 

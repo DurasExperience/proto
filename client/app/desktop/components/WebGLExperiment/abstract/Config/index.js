@@ -1,5 +1,7 @@
 import particlesMesh from './_particlesMesh'
+import particlesSystem from './_particlesSystem'
 
 export default {
-  particlesMesh: particlesMesh
+  particlesMesh: particlesMesh,
+  particlesSystem: particlesSystem
 }

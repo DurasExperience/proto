@@ -12,7 +12,10 @@ class Observer extends AudioSpline {
     super( scene, controlsContainer, '01_02' )
     this.fadeOut = fadeOut
     this.config = Config.observer
-    // this.duration = 50
+    /**
+    * change audioSpline duration
+    */
+    this.duration = 30
     this.bind()
 
   }
@@ -58,9 +61,9 @@ class Observer extends AudioSpline {
 
     }
     this.points = [
-      new Vector3( 0, 0, 1300 ),
-      new Vector3( 0, 50, 800 ),
-      new Vector3( 0, -10, 500 )
+      new Vector3( 0, 10, 500 ),
+      new Vector3( 0, -50, 800 ),
+      new Vector3( 0, 0, 1300 )
     ]
     super.init()
 
