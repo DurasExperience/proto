@@ -125,8 +125,15 @@ class Indochine01 extends Group {
     this.zoomBlurPass.params.range = [ 0, 2 ]
     this.multiPassBloomPass.params.range = [ 0, 5 ]
     this.godrayPass.params.range = [ 0, 5 ]
+    
+    this.lowpassFilter.frequency.range = [ 20, 2000 ]
+
+    
 
     GUI.panel
+      .addGroup({ label: 'Tuna', enable: true })
+      .addSubGroup({ label: 'Fq Filter' })
+          .addSlider( this.lowpassFilter.frequency, 'value', 'range', { step: 1, label: 'frequency' } )
       .addGroup({ label: 'Post Processing', enable: false })
         .addSubGroup({ label: 'Vignette Pass' })
           .addSlider( this.vignettePass.params, 'boost', 'range', { step: 0.05 } )
@@ -161,6 +168,7 @@ class Indochine01 extends Group {
     this.underwaterAmbientSound = AudioManager.get( '01_01_underwater_ambient' )
     this.surfaceSound = AudioManager.get( '01_01_surface' )
     this.surfaceAmbientSound = AudioManager.get( '01_01_surface_ambient' )
+    this.lowpassFilter = new AudioManager.tuna.Filter( this.config.tuna.fq )
 
   }
 
@@ -171,11 +179,11 @@ class Indochine01 extends Group {
     this.isAnimating = true
     this.drownTl.timeScale( 0.5 )
     this.drownTl.play()
-    AudioManager.rate( '01_01_voice', 0.9, this.journey.voiceId )
     AudioManager.fade( '01_01_surface', 0.7, 0, 300, this.surfaceSoundId )
     AudioManager.fade( '01_01_surface_ambient', 0.3, 0, 300, this.surfaceAmbientSoundId )
     AudioManager.fade( '01_01_underwater', 0, 0.7, 500, this.underwaterSoundId )
     AudioManager.fade( '01_01_underwater_ambient', 0, 0.3, 800, this.underwaterAmbientSoundId )
+    AudioManager.addEffect( this.lowpassFilter )
 
   }
 
@@ -190,7 +198,7 @@ class Indochine01 extends Group {
     setTimeout( () => {
       AudioManager.fade( '01_01_surface', 0, 0.7, 300, this.surfaceSoundId )
       AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
-      AudioManager.rate( '01_01_voice', 1, this.journey.voiceId )
+      AudioManager.removeEffect( this.lowpassFilter )
     }, 2000 )
     
   }
@@ -250,6 +258,7 @@ class Indochine01 extends Group {
     this.scene.setupPostProcessing( this.passes )
     this.drownTl.clear()
     this.fadeOutTl.clear()
+    AudioManager.removeEffect( this.lowpassFilter )
     Actions.changeSubpage( '/indochine/02' )
 
   }

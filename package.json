@@ -46,6 +46,7 @@
     "glslify-fancy-imports": "^1.0.1",
     "glslify-hex": "^2.1.1",
     "glslify-loader": "^1.0.2",
+    "howler-plugin-effect-chain": "^0.1.2",
     "html-webpack-plugin": "^2.28.0",
     "ify-loader": "^1.0.3",
     "immutable": "^3.8.1",
@@ -57,6 +58,7 @@
     "style-loader": "^0.13.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
+    "tunajs": "^1.0.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "2"
   },
