@@ -85,7 +85,7 @@ class Spline {
 
   update() {
 
-    if( this.enabled ) {
+    if( this.enabled & this.time < 0.99 ) {
 
       this.camPos = this.curve.getPoint( this.time + 0.01 )
 

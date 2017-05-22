@@ -110,7 +110,7 @@ class AudioManager {
     Howler.addEffect( filter )
 
   }
-
+  
   removeEffect( filter ) {
 
     Howler.removeEffect( filter )
@@ -127,6 +127,15 @@ class AudioManager {
 
     if( typeof sound === 'undefined' ) return
     return sound.play()
+
+  }
+
+  stop( id ) {
+
+    const sound = Store.getResource( id )
+
+    if( typeof sound === 'undefined' ) return
+    return sound.stop()
 
   }
 

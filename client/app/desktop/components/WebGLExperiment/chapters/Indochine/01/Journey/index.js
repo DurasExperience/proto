@@ -9,7 +9,7 @@ class Journey extends AudioSpline {
 
     super( scene, controlsContainer, '01_01_voice' )
     this.fadeOut = fadeOut
-    this.duration = 100
+    // this.duration = 100
     this.bind()
 
   }
@@ -25,11 +25,9 @@ class Journey extends AudioSpline {
 
 
     this.points = [
-      new Vector3( 400, 10, 2000 ),
-      new Vector3( 1100, 10, -3000 ),
-      new Vector3( 1200, 10, -4000 ),
-      new Vector3( 1200, 10, -4500 ),
-      new Vector3( 1200, 10, -8000 )
+      new Vector3( 0, 10, 6000 ),
+      new Vector3( 1100, 10, 1000 ),
+      new Vector3( 1200, 10, -3500 )
     ]
     if ( GlobalConfig.debug ) this.scene.camera.position.set( this.points[ 0 ].x, this.points[ 0 ].y, this.points[ 0 ].z )
     super.init()

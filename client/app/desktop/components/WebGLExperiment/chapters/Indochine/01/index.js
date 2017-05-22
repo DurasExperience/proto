@@ -74,6 +74,13 @@ class Indochine01 extends Group {
 
   }
 
+  removeListeners() {
+
+    if ( GlobalConfig.mobileConnect ) Store.socketRoom.off( 'pinch', this.reverse )
+    else Store.off( EventsConstants.SPACE_PRESS, this.ascend )
+
+  }
+
   start() {
 
     this.scene.setupPostProcessing( this.passes )
@@ -93,8 +100,8 @@ class Indochine01 extends Group {
 
     this.surfaceSoundId = this.surfaceSound.play()
     this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
-    AudioManager.fade( '01_01_surface', 0, 0.7, 500, this.surfaceSoundId )
-    AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
+    this.surfaceSound.fade( 0, 0.7, 500, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0, 0.3, 500, this.surfaceAmbientSoundId )
     setTimeout( () => { this.firstDrown() }, 2000 )
 
   }
@@ -131,7 +138,7 @@ class Indochine01 extends Group {
 
 
     GUI.panel
-      .addGroup({ label: 'Tuna', enable: true })
+      .addGroup({ label: 'Tuna', enable: false })
       .addSubGroup({ label: 'Fq Filter' })
           .addSlider( this.lowpassFilter.frequency, 'value', 'range', { step: 1, label: 'frequency' } )
       .addGroup({ label: 'Post Processing', enable: false })
@@ -179,10 +186,10 @@ class Indochine01 extends Group {
     this.isAnimating = true
     this.drownTl.timeScale( 0.5 )
     this.drownTl.play()
-    AudioManager.fade( '01_01_surface', 0.7, 0, 300, this.surfaceSoundId )
-    AudioManager.fade( '01_01_surface_ambient', 0.3, 0, 300, this.surfaceAmbientSoundId )
-    AudioManager.fade( '01_01_underwater', 0, 0.7, 500, this.underwaterSoundId )
-    AudioManager.fade( '01_01_underwater_ambient', 0, 0.3, 800, this.underwaterAmbientSoundId )
+    this.surfaceSound.fade( 0.7, 0, 300, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
+    this.underwaterSound.fade( 0, 0.7, 500, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0, 0.3, 800, this.underwaterAmbientSoundId )
     AudioManager.addEffect( this.lowpassFilter )
 
   }
@@ -193,11 +200,11 @@ class Indochine01 extends Group {
     this.isAnimating = true
     this.drownTl.timeScale( 1 )
     this.drownTl.reverse()
-    AudioManager.fade( '01_01_underwater', 0.7, 0, 2500, this.underwaterSoundId )
-    AudioManager.fade( '01_01_underwater_ambient', 0.3, 0, 2500, this.underwaterAmbientSoundId )
+    this.underwaterSound.fade( 0.7, 0, 2500, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0.3, 0, 2500, this.underwaterAmbientSoundId )
     setTimeout( () => {
-      AudioManager.fade( '01_01_surface', 0, 0.7, 300, this.surfaceSoundId )
-      AudioManager.fade( '01_01_surface_ambient', 0, 0.3, 500, this.surfaceAmbientSoundId )
+      this.surfaceSound.fade( 0, 0.7, 300, this.surfaceSoundId )
+      this.surfaceAmbientSound.fade( 0, 0.3, 500, this.surfaceAmbientSoundId )
       AudioManager.removeEffect( this.lowpassFilter )
     }, 2000 )
 
@@ -240,6 +247,8 @@ class Indochine01 extends Group {
 
   fadeOut() {
 
+    this.isAnimating = false
+    this.drown()
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
     this.scene.passes.push( this.vignettePass )
@@ -250,6 +259,7 @@ class Indochine01 extends Group {
 
   clearGroup() {
 
+    this.removeListeners()
     this.remove( this.journey )
     this.remove( this.floorPath )
     this.remove( this.mountains )
@@ -259,6 +269,17 @@ class Indochine01 extends Group {
     this.drownTl.clear()
     this.fadeOutTl.clear()
     AudioManager.removeEffect( this.lowpassFilter )
+    AudioManager.stop( '01_01_voice' )
+    this.surfaceSound.fade( 0.3, 0, 300, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
+    this.underwaterSound.fade( 0.3, 0, 300, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0.3, 0, 300, this.underwaterAmbientSoundId )
+    setTimeout( () => {
+      this.surfaceSound.stop()
+      this.surfaceAmbientSound.stop()
+      this.underwaterSound.stop()
+      this.underwaterAmbientSound.stop()
+    }, 300 )
     Actions.changeSubpage( '/indochine/02' )
 
   }
