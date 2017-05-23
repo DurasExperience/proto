@@ -33,7 +33,7 @@ export default {
   },
   tuna: {
     fq: {
-      frequency: 1500, //20 to 22050
+      frequency: 2000, //20 to 22050
       Q: 1, //0.001 to 100
       gain: 0, //-40 to 40 (in decibels)
       filterType: 'lowpass', //lowpass, highpass, bandpass, lowshelf, highshelf, peaking, notch, allpass

@@ -1,18 +1,24 @@
 import Actions from './../../flux/actions/'
 
 
+const KEY_STATE = {
+  DOWN: 'DOWN',
+  UP: 'UP'
+}
+
 class InitialState {
 
   constructor(){
 
     this.bind()
     this.addListeners()
+    this.keyState = undefined
 
   }
 
   bind() {
 
-    [ 'onWindowResize', 'onMouseMove', 'onMouseUp', 'onMouseDown', 'onWindowBlur', 'onWindowFocus', 'onKeyPress' ]
+    [ 'onWindowResize', 'onMouseMove', 'onMouseUp', 'onMouseDown', 'onWindowBlur', 'onWindowFocus', 'onKeyDown', 'onKeyUp' ]
       .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -25,7 +31,8 @@ class InitialState {
     dom.event.on( window, 'mousedown', this.onMouseDown )
     dom.event.on( window, 'blur', this.onWindowBlur )
     dom.event.on( window, 'focus', this.onWindowFocus )
-    dom.event.on( window, 'keydown', this.onKeyPress )
+    dom.event.on( window, 'keydown', this.onKeyDown )
+    dom.event.on( window, 'keyup', this.onKeyUp )
 
   }
 
@@ -72,10 +79,23 @@ class InitialState {
 
   }
 
-  onKeyPress = ( e ) => {
+  onKeyDown = ( e ) => {
 
     const char = e.which || e.keyCode
-    if ( char === 32 ) Actions.onSpacePress()
+    if ( char === 32 && this.keyState !== KEY_STATE.DOWN ) {
+      this.keyState = KEY_STATE.DOWN
+      Actions.onSpaceDown()
+    }
+
+  }
+
+  onKeyUp = ( e ) => {
+
+    const char = e.which || e.keyCode
+    if ( char === 32 ) {
+      this.keyState = KEY_STATE.UP
+      Actions.onSpaceUp()
+    }
 
   }
 

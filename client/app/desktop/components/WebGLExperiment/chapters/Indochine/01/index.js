@@ -27,7 +27,6 @@ class Indochine01 extends Group {
     this.name = 'indochine-01'
     this.scene = scene
     this.config = Config.indochine_01
-    this.isAnimating = false
     this.level = 'surface'
 
     this.bind()
@@ -54,6 +53,10 @@ class Indochine01 extends Group {
     this.add( this.floor )
     this.objects = [ this.mountains, this.floor ]
 
+    this.needFirstDrown = true
+    this.limit = this.journey.duration - 4
+    this.FILTER_ACTIVE = false
+
     this.initPostProcessing()
     this.setupTimelines()
     this.setupSound()
@@ -70,14 +73,20 @@ class Indochine01 extends Group {
   addListeners() {
 
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else Store.on( EventsConstants.SPACE_PRESS, this.ascend )
+    else {
+      Store.on( EventsConstants.SPACE_DOWN, this.ascend )
+      Store.on( EventsConstants.SPACE_UP, this.drown )
+    }
 
   }
 
   removeListeners() {
 
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.off( 'pinch', this.reverse )
-    else Store.off( EventsConstants.SPACE_PRESS, this.ascend )
+    else {
+      Store.off( EventsConstants.SPACE_DOWN, this.ascend )
+      Store.off( EventsConstants.SPACE_UP, this.drown )
+    }
 
   }
 
@@ -102,7 +111,7 @@ class Indochine01 extends Group {
     this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
     this.surfaceSound.fade( 0, 0.7, 500, this.surfaceSoundId )
     this.surfaceAmbientSound.fade( 0, 0.3, 500, this.surfaceAmbientSoundId )
-    setTimeout( () => { this.firstDrown() }, 2000 )
+    setTimeout( () => { this.firstDrown() }, 1000 )
 
   }
 
@@ -120,6 +129,7 @@ class Indochine01 extends Group {
     this.godrayPass.params.fExposure = this.config.postProcessing.godrayPass.fExposure
 
     this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
+    this.initPassesLength = this.passes.length
 
   }
 
@@ -133,7 +143,7 @@ class Indochine01 extends Group {
     this.multiPassBloomPass.params.range = [ 0, 5 ]
     this.godrayPass.params.range = [ 0, 5 ]
 
-    this.lowpassFilter.frequency.range = [ 20, 2000 ]
+    this.lowpassFilter.frequency.range = [ 20, 4000 ]
 
 
 
@@ -165,7 +175,6 @@ class Indochine01 extends Group {
     this.underwaterSoundId = this.underwaterSound.play()
     this.underwaterAmbientSoundId = this.underwaterAmbientSound.play()
     this.drown()
-    this.addListeners()
 
   }
 
@@ -181,32 +190,31 @@ class Indochine01 extends Group {
 
   drown() {
 
-    if( this.isAnimating || this.level === 'underwater' ) return
-    this.scene.passes.push( this.godrayPass )
-    this.isAnimating = true
-    this.drownTl.timeScale( 0.5 )
+    const disableDrown = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
+    if( disableDrown ) return
+    if ( this.scene.passes.length === this.initPassesLength ) this.scene.passes.push( this.godrayPass )
+    this.drownTl.timeScale( 0.75 )
     this.drownTl.play()
     this.surfaceSound.fade( 0.7, 0, 300, this.surfaceSoundId )
     this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
     this.underwaterSound.fade( 0, 0.7, 500, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0, 0.3, 800, this.underwaterAmbientSoundId )
     AudioManager.addEffect( this.lowpassFilter )
+    this.FILTER_ACTIVE = true
 
   }
 
   ascend() {
 
-    if( this.isAnimating || this.level === 'surface' ) return
-    this.isAnimating = true
-    this.drownTl.timeScale( 1 )
+    const disableAscend = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
+    if( disableAscend ) return
+
+    this.drownTl.timeScale( 1.5 )
     this.drownTl.reverse()
     this.underwaterSound.fade( 0.7, 0, 2500, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0.3, 0, 2500, this.underwaterAmbientSoundId )
-    setTimeout( () => {
-      this.surfaceSound.fade( 0, 0.7, 300, this.surfaceSoundId )
-      this.surfaceAmbientSound.fade( 0, 0.3, 500, this.surfaceAmbientSoundId )
-      AudioManager.removeEffect( this.lowpassFilter )
-    }, 2000 )
+    this.surfaceSound.fade( 0, 0.7, 500, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0, 0.3, 800, this.surfaceAmbientSoundId )
 
   }
 
@@ -215,8 +223,11 @@ class Indochine01 extends Group {
     this.drownTl = new TimelineMax({
       paused: true,
       onComplete: () => {
-        this.isAnimating = false
         this.level = 'underwater'
+        if ( this.needFirstDrown ) {
+          this.addListeners()
+          this.needFirstDrown = false
+        }
       }
     })
     this.drownTl.fromTo( this.journey.shift, 3, { y: 0 }, { y: -50 }, 0 )
@@ -227,13 +238,14 @@ class Indochine01 extends Group {
     this.drownTl.fromTo( this.godrayPass.params, 1, { fDensity: this.config.postProcessing.godrayPass.fDensity }, { fDensity: 0.6 }, 0.1 )
     this.drownTl.fromTo( this.godrayPass.params, 1, { fWeight: this.config.postProcessing.godrayPass.fWeight }, { fWeight: 0.3 }, 0.1 )
     this.drownTl.fromTo( this.floor.uniforms.size, 1, { value: this.floor.config.size }, { value: 30 }, 1 )
-    this.drownTl.timeScale( 0.5 )
+    this.drownTl.timeScale( 0.75 )
 
     this.drownTl.eventCallback( 'onReverseComplete', () => {
-      this.scene.passes.pop()
-      this.isAnimating = false
+      console.log( 'ascend complete' )
+      if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
       this.level = 'surface'
-      setTimeout( () => { this.drown() }, 3000 )
+      if ( this.FILTER_ACTIVE ) AudioManager.removeEffect( this.lowpassFilter )
+      this.FILTER_ACTIVE = false
     } )
 
   }
@@ -247,7 +259,6 @@ class Indochine01 extends Group {
 
   fadeOut() {
 
-    this.isAnimating = false
     this.drown()
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
@@ -268,19 +279,19 @@ class Indochine01 extends Group {
     this.scene.setupPostProcessing( this.passes )
     this.drownTl.clear()
     this.fadeOutTl.clear()
-    AudioManager.removeEffect( this.lowpassFilter )
     AudioManager.stop( '01_01_voice' )
     this.surfaceSound.fade( 0.3, 0, 300, this.surfaceSoundId )
     this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
     this.underwaterSound.fade( 0.3, 0, 300, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0.3, 0, 300, this.underwaterAmbientSoundId )
+    if ( this.FILTER_ACTIVE ) AudioManager.removeEffect( this.lowpassFilter )
     setTimeout( () => {
       this.surfaceSound.stop()
       this.surfaceAmbientSound.stop()
       this.underwaterSound.stop()
       this.underwaterAmbientSound.stop()
+      Actions.changeSubpage( '/indochine/02' )
     }, 300 )
-    Actions.changeSubpage( '/indochine/02' )
 
   }
 

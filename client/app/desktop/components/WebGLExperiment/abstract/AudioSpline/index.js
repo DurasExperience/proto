@@ -20,7 +20,7 @@ class AudioSpline extends Spline {
   play() {
 
     this.voiceId = this.voice.play()
-    AudioManager.fade( this.track, 0, 1, 500, this.voiceId )
+    this.voice.fade( 0, 1, 500, this.voiceId )
 
   }
 
@@ -28,24 +28,22 @@ class AudioSpline extends Spline {
 
     super.reverse( d )
 
-    AudioManager.fade( this.track, 1, 0, 400, this.voiceId )
-    AudioManager.rate( this.track, 0.75, this.voiceId )
+    this.voice.fade( 1, 0, 400, this.voiceId )
     setTimeout( this.restartSound, d * 500 )
 
   }
 
   fadeOutSound() {
 
-    AudioManager.fade( this.track, 1, 0, 200, this.voiceId )
+    this.voice.fade( this.track, 1, 0, 200, this.voiceId )
 
   }
 
   restartSound() {
 
     const newTime = this.voice.seek() - this.d
-    AudioManager.rate( this.track, 1, this.voiceId )
-    AudioManager.setTime( this.track, newTime, this.voiceId )
-    AudioManager.fade( this.track, 0, 1, 300, this.voiceId )
+    this.voice.setTime( newTime, this.voiceId )
+    this.voice.fade( 0, 1, 300, this.voiceId )
 
   }
   

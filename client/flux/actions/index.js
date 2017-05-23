@@ -52,9 +52,16 @@ const Actions = {
     })
 
   },
-  onSpacePress() {
+  onSpaceDown() {
     Dispatcher.dispatch({
-      type: EventsConstants.SPACE_PRESS,
+      type: EventsConstants.SPACE_DOWN,
+      item: null
+    })
+
+  },
+  onSpaceUp() {
+    Dispatcher.dispatch({
+      type: EventsConstants.SPACE_UP,
       item: null
     })
 
