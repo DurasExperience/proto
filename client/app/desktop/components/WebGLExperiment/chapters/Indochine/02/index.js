@@ -57,7 +57,7 @@ class Indochine02 extends Group {
   addListeners() {
 
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
-    else Store.on( EventsConstants.SPACE_PRESS, this.reverse )
+    else Store.on( EventsConstants.SPACE_DOWN, this.reverse )
 
   }
 

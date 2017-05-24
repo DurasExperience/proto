@@ -55,7 +55,6 @@ class Indochine01 extends Group {
 
     this.needFirstDrown = true
     this.limit = this.journey.duration - 4
-    this.FILTER_ACTIVE = false
 
     this.initPostProcessing()
     this.setupTimelines()
@@ -143,14 +142,7 @@ class Indochine01 extends Group {
     this.multiPassBloomPass.params.range = [ 0, 5 ]
     this.godrayPass.params.range = [ 0, 5 ]
 
-    this.lowpassFilter.frequency.range = [ 20, 4000 ]
-
-
-
     GUI.panel
-      .addGroup({ label: 'Tuna', enable: false })
-      .addSubGroup({ label: 'Fq Filter' })
-          .addSlider( this.lowpassFilter.frequency, 'value', 'range', { step: 1, label: 'frequency' } )
       .addGroup({ label: 'Post Processing', enable: false })
         .addSubGroup({ label: 'Vignette Pass' })
           .addSlider( this.vignettePass.params, 'boost', 'range', { step: 0.05 } )
@@ -184,7 +176,6 @@ class Indochine01 extends Group {
     this.underwaterAmbientSound = AudioManager.get( '01_01_underwater_ambient' )
     this.surfaceSound = AudioManager.get( '01_01_surface' )
     this.surfaceAmbientSound = AudioManager.get( '01_01_surface_ambient' )
-    this.lowpassFilter = new AudioManager.tuna.Filter( this.config.tuna.fq )
 
   }
 
@@ -199,8 +190,6 @@ class Indochine01 extends Group {
     this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
     this.underwaterSound.fade( 0, 0.7, 500, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0, 0.3, 800, this.underwaterAmbientSoundId )
-    AudioManager.addEffect( this.lowpassFilter )
-    this.FILTER_ACTIVE = true
 
   }
 
@@ -244,8 +233,6 @@ class Indochine01 extends Group {
       console.log( 'ascend complete' )
       if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
       this.level = 'surface'
-      if ( this.FILTER_ACTIVE ) AudioManager.removeEffect( this.lowpassFilter )
-      this.FILTER_ACTIVE = false
     } )
 
   }
@@ -284,7 +271,6 @@ class Indochine01 extends Group {
     this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
     this.underwaterSound.fade( 0.3, 0, 300, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0.3, 0, 300, this.underwaterAmbientSoundId )
-    if ( this.FILTER_ACTIVE ) AudioManager.removeEffect( this.lowpassFilter )
     setTimeout( () => {
       this.surfaceSound.stop()
       this.surfaceAmbientSound.stop()

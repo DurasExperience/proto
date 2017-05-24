@@ -3029,10 +3029,6 @@ hosted-git-info@^2.1.4:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.4.1.tgz#4b0445e41c004a8bd1337773a4ff790ca40318c8"
 
-howler-plugin-effect-chain@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/howler-plugin-effect-chain/-/howler-plugin-effect-chain-0.1.2.tgz#9d7bdd5f19be7a9c6b43ac3ac69544d6bea46ce5"
-
 howler@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/howler/-/howler-2.0.3.tgz#a76ab5a37ae5cc1e4a5a0f3ce279ca2c72b5efc7"
@@ -5599,10 +5595,6 @@ tryit@^1.0.1:
 tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
-
-tunajs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/tunajs/-/tunajs-1.0.0.tgz#488f00a0fbe95a4c2e30aaa910476bdbd5f27258"
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

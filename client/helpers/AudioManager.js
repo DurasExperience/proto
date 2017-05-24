@@ -1,6 +1,4 @@
 import { Howl, Howler } from 'howler'
-import 'howler-plugin-effect-chain'
-import Tuna from 'tunajs'
 import Store from './../flux/store/desktop'
 import EventsConstants from './../flux/constants/EventsConstants'
 
@@ -17,7 +15,7 @@ class AudioManager {
 
   bind() {
 
-    [ 'onWindowBlur', 'onWindowFocus', 'setupTuna' ]
+    [ 'onWindowBlur', 'onWindowFocus' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -26,13 +24,6 @@ class AudioManager {
 
     Store.on( EventsConstants.WINDOW_ON_FOCUS, this.onWindowFocus )
     Store.on( EventsConstants.WINDOW_ON_BLUR, this.onWindowBlur )
-    Store.on( EventsConstants.RESOURCES_READY, this.setupTuna )
-
-  }
-
-  setupTuna() {
-
-    this.tuna = new Tuna( Howler.ctx )
 
   }
 
@@ -102,18 +93,6 @@ class AudioManager {
     const sound = Store.getResource( id )
     if( typeof sound === 'undefined' ) return false
     return sound
-
-  }
-
-  addEffect( filter ) {
-
-    Howler.addEffect( filter )
-
-  }
-  
-  removeEffect( filter ) {
-
-    Howler.removeEffect( filter )
 
   }
 
