@@ -7,6 +7,7 @@ import { Clock, Mesh, MeshBasicMaterial, BoxBufferGeometry } from 'three'
 import BaseScene from './core/BaseScene'
 import Indochine01 from './chapters/Indochine/01'
 import Indochine02 from './chapters/Indochine/02'
+import Troubles01 from './chapters/Troubles/01'
 import Config from './../../../../config'
 
 class WebGLExperiment extends React.Component {
@@ -69,12 +70,13 @@ class WebGLExperiment extends React.Component {
       this.controlsContainer = this.scene.controlsContainer
     }
 
-    const indochine01 = new Indochine01( this.scene, this.controlsContainer )
-    const indochine02 = new Indochine02( this.scene, this.controlsContainer )
-    this.chapters = [
-      indochine01,
-      indochine02
-    ]
+    // const indochine01 = new Indochine01( this.scene, this.controlsContainer )
+    // const indochine02 = new Indochine02( this.scene, this.controlsContainer )
+    // const troubles01 = new Troubles01( this.scene, this.controlsContainer )
+    // this.chapters = [
+    //   indochine01,
+    //   indochine02
+    // ]
     if ( Store.Routes.newRoute !== '/' ) this.routeChanged( Store.Routes )
 
   }
@@ -119,21 +121,24 @@ class WebGLExperiment extends React.Component {
   routeChanged( routes ) {
 
     if ( this.currentChapter !== undefined ) this.scene.remove( this.currentChapter )
+    
     switch ( routes.newRoute ) {
 
       case '/indochine/01':
-        this.currentChapter = this.chapters[ 0 ]
-        this.currentChapter.start()
-        this.scene.add( this.currentChapter )
+        this.currentChapter = new Indochine01( this.scene, this.controlsContainer )
         break
 
       case '/indochine/02':
-        this.currentChapter = this.chapters[ 1 ]
-        this.currentChapter.start()
-        this.scene.add( this.currentChapter )
+        this.currentChapter = new Indochine02( this.scene, this.controlsContainer )
         break
-        
+
+      case '/troubles/01':
+        this.currentChapter = new Troubles01( this.scene, this.controlsContainer )
+        break
     }
+
+    this.currentChapter.start()
+    this.scene.add( this.currentChapter )
 
   }
 

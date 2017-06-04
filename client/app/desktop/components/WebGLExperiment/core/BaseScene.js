@@ -3,8 +3,8 @@ import EventsConstants from './../../../../../flux/constants/EventsConstants'
 import OrbitControls from './../../../../../utils/webgl/OrbitControls'
 import PointerLockControls from './../../../../../utils/webgl/PointerLockControls'
 import { Scene, WebGLRenderer, PerspectiveCamera, AxisHelper, Vector3, Object3D, AmbientLight, PointLight } from 'three'
-import Wagner from '@superguigui/wagner'
-import FXAAPass from '@superguigui/wagner/src/passes/fxaa/FXAAPass'
+import Wagner from 'avdp-wagner'
+import FXAAPass from 'avdp-wagner/src/passes/fxaa/FXAAPass'
 import GUI from './../../../../../helpers/GUI'
 import Config from './Config/'
 import GlobalConfig from './../../../../../config'
@@ -29,14 +29,14 @@ class BaseScene extends Scene {
     this.camera = new PerspectiveCamera( 50, width / height, 1, 15000 )
 
     this.setControls()
-    // this.axisHelper = new AxisHelper( 200 )
-    // this.add( this.axisHelper )
+    this.axisHelper = new AxisHelper( 200 )
+    this.add( this.axisHelper )
 
     this.passes = []
 
-    // this.initLights()
+    this.initLights()
     this.initPostProcessing()
-    // this.addGUI()
+    this.addGUI()
 
   }
 
@@ -71,16 +71,19 @@ class BaseScene extends Scene {
 
   addGUI() {
 
-    const sceneFolder = GUI.addFolder( 'Scene' )
-    sceneFolder.open()
-    const cameraFolder = sceneFolder.addFolder( 'Camera' )
-    cameraFolder.add( this.camera.position, 'x' ).min( -1000 ).max( 1000 ).step( 10 )
-    cameraFolder.add( this.camera.position, 'y' ).min( -1000 ).max( 1000 ).step( 10 )
-    cameraFolder.add( this.camera.position, 'z' ).min( -10000 ).max( 1000 ).step( 10 )
-    cameraFolder.add( this.camera.rotation, 'x' ).min( -3 ).max( 3 ).step( 0.01 )
-    cameraFolder.add( this.camera.rotation, 'y' ).min( -3 ).max( 3 ).step( 0.01 )
-    cameraFolder.add( this.camera.rotation, 'z' ).min( -3 ).max( 3 ).step( 0.01 )
-    cameraFolder.open()
+    this.camera.position.range = [ -1000, 1000 ]
+    this.camera.rotation.range = [ -3, 3 ]
+
+    GUI.panel
+      .addGroup({ label: 'Scene Camera', enable: true })
+        .addSubGroup({ label: 'Position' })
+          .addSlider( this.camera.position, 'x', 'range', { step: 10 } )
+          .addSlider( this.camera.position, 'y', 'range', { step: 10 } )
+          .addSlider( this.camera.position, 'z', 'range', { step: 10 } )
+        .addSubGroup({ label: 'Rotation' })
+          .addSlider( this.camera.rotation, 'x', 'range', { step: 0.01 } )
+          .addSlider( this.camera.rotation, 'y', 'range', { step: 0.01 } )
+          .addSlider( this.camera.rotation, 'z', 'range', { step: 0.01 } )
 
   }
 
@@ -123,11 +126,11 @@ class BaseScene extends Scene {
 
     this.composer.reset()
     this.composer.render( this, this.camera )
-    for ( const pass of this.passes ) {
+    // for ( const pass of this.passes ) {
 
-      this.composer.pass( pass )
+    //   this.composer.pass( pass )
 
-    }
+    // }
     this.composer.pass( this.fxaaPass )
     this.composer.toScreen()
 

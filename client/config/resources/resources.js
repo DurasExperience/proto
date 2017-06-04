@@ -94,6 +94,12 @@ export default [
     id: 'hands_particle_background',
     url: '/assets/images/01/02/particle.png'
   },
+  ///////// Chapitre 1.2
+  {
+    type: 'model',
+    id: '02_01_building',
+    url: '/assets/models/02/01/building.awd'
+  },
   ///////// Phone
   {
     type: 'json',

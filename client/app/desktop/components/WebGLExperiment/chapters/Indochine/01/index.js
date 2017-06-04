@@ -1,4 +1,4 @@
-import { Group, Mesh, SphereBufferGeometry, MeshBasicMaterial } from 'three'
+import { Group, Mesh, MeshBasicMaterial } from 'three'
 import Mountains from './Mountains'
 import Floor from './Floor'
 import Journey from './Journey'
@@ -11,12 +11,12 @@ import EventsConstants from './../../../../../../../flux/constants/EventsConstan
 import GUI from './../../../../../../../helpers/GUI'
 import AudioManager from './../../../../../../../helpers/AudioManager'
 
-import BoxBlurPass from '@superguigui/wagner/src/passes/box-blur/BoxBlurPass'
-import VignettePass from '@superguigui/wagner/src/passes/vignette/VignettePass'
-import ZoomBlurPass from '@superguigui/wagner/src/passes/zoom-blur/ZoomBlurPass'
-import MultiPassBloomPass from '@superguigui/wagner/src/passes/bloom/MultiPassBloomPass'
-import BlendPass from '@superguigui/wagner/src/passes/blend/BlendPass'
-import GodrayPass from '@superguigui/wagner/src/passes/godray/godraypass'
+import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
+import VignettePass from 'avdp-wagner/src/passes/vignette/VignettePass'
+import ZoomBlurPass from 'avdp-wagner/src/passes/zoom-blur/ZoomBlurPass'
+import MultiPassBloomPass from 'avdp-wagner/src/passes/bloom/MultiPassBloomPass'
+import BlendPass from 'avdp-wagner/src/passes/blend/BlendPass'
+import GodrayPass from 'avdp-wagner/src/passes/godray/godraypass'
 
 class Indochine01 extends Group {
 

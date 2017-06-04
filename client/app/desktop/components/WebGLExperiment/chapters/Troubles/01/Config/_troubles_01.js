@@ -29,6 +29,10 @@ export default {
       bluramount: 1.2,
       center: 1,
       stepSize: 0.005
+    },
+    kaleidoscopePass: {
+      sides: 8,
+      angle: 0
     }
   }
 }
