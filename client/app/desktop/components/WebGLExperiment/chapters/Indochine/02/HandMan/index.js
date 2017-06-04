@@ -45,7 +45,7 @@ class handMan extends Object3D {
 
     })
 
-    this.mesh = new ParticlesMesh( 'hand_man', this.geometry.attributes.position, this.config )
+    this.mesh = new ParticlesMesh( 'hand_man', this.geometry, this.config )
     this.mesh.position.set( this.config.position.x, this.config.position.y, this.config.position.z )
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
     this.add( this.mesh )

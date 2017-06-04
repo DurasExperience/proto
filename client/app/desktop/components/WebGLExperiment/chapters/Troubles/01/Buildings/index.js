@@ -12,7 +12,7 @@ class Mountains extends Object3D {
 
     this.config = Config
 
-    const geometry = new BufferGeometry()
+    this.geometry = new BufferGeometry()
 
     this.max = 0
 
@@ -31,14 +31,14 @@ class Mountains extends Object3D {
             child.geometry.attributes.position.array[ i3 + 0 ] += 0.1 * Math.random()
             child.geometry.attributes.position.array[ i3 + 1 ] += 0.05 * Math.random()
             child.geometry.attributes.position.array[ i3 + 2 ] += 0.1 * Math.random()
-            // child.material = material
+
           }
         }
 
       }
 
     })
-    geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 3 ) )
+    this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 3 ) )
     let offset = 0
     const scaleMatrix = new Matrix4()
     scaleMatrix.makeScale( 1, 1, 1.25 )
@@ -50,31 +50,33 @@ class Mountains extends Object3D {
         child.geometry.computeBoundingBox()
         const w = Math.abs( child.geometry.boundingBox.min.x ) + child.geometry.boundingBox.max.x
 
+        // Right side
         for ( let i = 0; i < this.config.slices; i++ ) {
           
           child.geometry.translate( -i * w, 0 , 0 )
-          geometry.merge( child.geometry, offset )
+          this.geometry.merge( child.geometry, offset )
           offset += child.geometry.attributes.position.count
           child.geometry.translate( i * w, 0 , 0 )
 
         }
 
-
+        // Left side
         child.geometry.rotateY( Math.PI )
 
         for ( let i = 0; i < this.config.slices; i++ ) {
           
           child.geometry.translate( -i * w, 0 , - w )
-          geometry.merge( child.geometry, offset )
+          this.geometry.merge( child.geometry, offset )
           offset += child.geometry.attributes.position.count
           child.geometry.translate( i * w, 0 , w )
 
         }
 
+        // Opposite
         child.geometry.rotateY( -Math.PI / 2 )
-        child.geometry.translate( w, 0 , -w / 3 )        
+        child.geometry.translate( w, 0 , -w / 3 )   
         child.geometry.applyMatrix( scaleMatrix )
-        geometry.merge( child.geometry, offset )
+        this.geometry.merge( child.geometry, offset )
         offset += child.geometry.attributes.position.count
         child.geometry.translate( -w, 0 , w / 3 )
 
@@ -82,7 +84,7 @@ class Mountains extends Object3D {
 
     })
 
-    geometry.rotateY( Math.PI / 2 )
+    this.geometry.rotateY( Math.PI / 2 )
 
     const mat = new MeshBasicMaterial({
       color: 0xffffff,
@@ -95,7 +97,7 @@ class Mountains extends Object3D {
 
     // this.mesh = new Mesh( geometry, mat )
 
-    this.mesh = new ParticlesMesh( 'buildings', geometry.attributes.position, this.config )
+    this.mesh = new ParticlesMesh( 'buildings', this.geometry, this.config )
     this.mesh.position.x = this.config.position.x
     this.mesh.position.z = this.config.position.z
     this.add( this.mesh )

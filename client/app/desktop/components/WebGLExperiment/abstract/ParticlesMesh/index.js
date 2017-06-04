@@ -12,13 +12,12 @@ class ParticlesMesh extends Object3D {
    * @param {BufferAtribute} positions
    * @param {object} config
    */
-  constructor( name, positions, config = Config ) {
+  constructor( name, geometry, config = Config ) {
 
     super()
 
     this.config = config
-    this.geometry = new BufferGeometry()
-    this.geometry.addAttribute( 'position', positions )
+    this.geometry = geometry
 
     // this.geometry.center( this.geometry )
     const scaleMatrix = new THREE.Matrix4()

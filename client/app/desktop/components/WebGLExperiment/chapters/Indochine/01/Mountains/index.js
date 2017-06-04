@@ -49,7 +49,7 @@ class Mountains extends Object3D {
 
     })
 
-    this.mesh = new ParticlesMesh( 'mountains', this.geometry.attributes.position, this.config )
+    this.mesh = new ParticlesMesh( 'mountains', this.geometry, this.config )
     // this.mesh.position.y = -10
     // this.mesh.position.z = -200
     this.add( this.mesh )
