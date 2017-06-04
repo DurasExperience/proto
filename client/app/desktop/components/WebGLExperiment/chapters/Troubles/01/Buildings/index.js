@@ -41,7 +41,7 @@ class Mountains extends Object3D {
     this.geometry.addAttribute( 'position', new BufferAttribute( new Float32Array( ( this.max * 3 ) ), 3 ) )
     let offset = 0
     const scaleMatrix = new Matrix4()
-    scaleMatrix.makeScale( 1, 1, 1.25 )
+    scaleMatrix.makeScale( 1, 1, 1.5 )
 
     model.traverse(( child ) => {
 
@@ -65,10 +65,10 @@ class Mountains extends Object3D {
 
         for ( let i = 0; i < this.config.slices; i++ ) {
           
-          child.geometry.translate( -i * w, 0 , - w )
+          child.geometry.translate( -i * w, 0 , - 1.25 * w )
           this.geometry.merge( child.geometry, offset )
           offset += child.geometry.attributes.position.count
-          child.geometry.translate( i * w, 0 , w )
+          child.geometry.translate( i * w, 0 , 1.25 * w )
 
         }
 

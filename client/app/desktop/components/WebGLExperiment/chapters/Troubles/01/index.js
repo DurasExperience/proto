@@ -34,7 +34,7 @@ class Troubles01 extends Group {
     this.objects = [ this.buildings ]
 
 
-    this.initPostProcessing()
+    // this.initPostProcessing()
     // this.setupSound()
 
   }
@@ -72,7 +72,7 @@ class Troubles01 extends Group {
     // Store.on( EventsConstants.START_CHAPTER, this.play )
     // this.addListeners()
     this.play()
-    this.addGUI()
+    // this.addGUI()
 
   }
 
