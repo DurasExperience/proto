@@ -11,7 +11,6 @@ import GUI from './../../../../../../../helpers/GUI'
 import AudioManager from './../../../../../../../helpers/AudioManager'
 
 import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
-import VignettePass from 'avdp-wagner/src/passes/vignette/VignettePass'
 import MultiPassBloomPass from 'avdp-wagner/src/passes/bloom/MultiPassBloomPass'
 import KaleidoscopePass from 'avdp-wagner/src/passes/kaleidoscope/KaleidoscopePass'
 
@@ -39,7 +38,7 @@ class Troubles01 extends Group {
     this.objects = [ this.walk, this.buildings ]
     this.splines = []
     for ( let i = 0; i < splinesConfig.length; i++ ) {
-      const spline = new LineSpline( splinesConfig[ i ], this.scene.camera )
+      const spline = new LineSpline( splinesConfig[ i ], this.scene.camera, controlsContainer )
       this.splines.push( spline )
       this.add( spline )
       this.objects.push( spline )
@@ -48,7 +47,7 @@ class Troubles01 extends Group {
     this.limit = this.walk.duration - 2
 
     this.initPostProcessing()
-    this.setupTimeline()
+    this.setupTimelines()
     this.setupSound()
 
   }
@@ -99,9 +98,9 @@ class Troubles01 extends Group {
     this.ambientSoundId = this.ambientSound.play()
     this.drunkAmbientSoundId = this.drunkAmbientSound.play()
     this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
-
     this.timeout = setTimeout( () => { this.splines[ 0 ].start() }, 1500 )
-    this.splinesTl.play()
+    this.splinesTimeout = setTimeout( () => { this.splinesTlOut.play() }, (this.walk.duration - 5) * 1000 )
+    this.splinesTlIn.play()
     
   }
 
@@ -112,7 +111,6 @@ class Troubles01 extends Group {
       angle: this.config.postProcessing.kaleidoscopePass.angle
     })
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
-    this.vignettePass = new VignettePass( this.config.postProcessing.vignettePass )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
 
     this.passes = [ this.boxBlurPass, this.multiPassBloomPass ]
@@ -124,30 +122,34 @@ class Troubles01 extends Group {
 
     // this.buildings.addGUI()
 
-    this.vignettePass.params.range = [ 0, 10 ]
     this.multiPassBloomPass.params.range = [ 0, 5 ]
     this.kaleidoscopePass.params.rangeSides = [ 0, 12 ]
 
     GUI.panel
-      .addGroup({ label: 'Post Processing', enable: true })
+      .addGroup({ label: 'Post Processing', enable: false })
         .addSubGroup({ label: 'Kaleidoscope Pass' })
           .addSlider( this.kaleidoscopePass.params, 'sides', 'rangeSides', { step: 1 } )
-        .addSubGroup({ label: 'Vignette Pass' })
-          .addSlider( this.vignettePass.params, 'boost', 'range', { step: 0.05 } )
-          .addSlider( this.vignettePass.params, 'reduction', 'range', { step: 0.05 } )
         .addSubGroup({ label: 'Multi Pass Bloom Pass' })
           .addSlider( this.multiPassBloomPass.params, 'blurAmount', 'range', { step: 0.05 } )
           .addSlider( this.multiPassBloomPass.params, 'zoomBlurStrength', 'range', { step: 0.05 } )
 
   }
 
-  setupTimeline() {
+  setupTimelines() {
 
-    this.splinesTl = new TimelineMax({ paused: true })
+    this.splinesTlIn = new TimelineMax({ paused: true })
     for ( let i = 1; i < this.splines.length; i++ ) {
-      this.splinesTl.add( () => { this.splines[ i ].start() }, this.config.timeDelay * i )
-
+      this.splinesTlIn.add( () => { this.splines[ i ].start() }, this.config.timeDelay * i )
     }
+
+    this.splinesTlOut = new TimelineMax({ paused: true })
+    for ( let i = 1; i < this.splines.length - 1; i++ ) {
+      this.splinesTlOut.to( this.splines[ i ].mesh.material.uniforms.opacity, 3, { value: 0, ease: Expo.easeOut }, i * 0.1)
+    }
+
+    this.fadeOutTl = new TimelineMax({ paused: true, onComplete: this.clearGroup })
+    this.fadeOutTl.to( this.buildings.position, 1.5, { y: -1000, ease: Expo.easeIn }, 0 )
+    this.fadeOutTl.to( this.buildings.mesh.uniforms.alpha, 1.5, { value: 0 }, 0.1 )
 
   }
 
@@ -177,6 +179,8 @@ class Troubles01 extends Group {
 
   clean() {
 
+    const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
+    if( disableMess ) return
     this.scene.passes.pop()
     this.drunkAmbientSound.fade( 1, 0, 300, this.drunkAmbientSoundId )
     this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
@@ -186,18 +190,14 @@ class Troubles01 extends Group {
   fadeOut() {
 
     if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
-    this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
-    this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.scene.passes.push( this.vignettePass )
-    this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
-    this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
+    this.fadeOutTl.play()
 
   }
 
   clearGroup() {
-
     this.removeListeners()
     clearTimeout( this.timeout )
+    clearTimeout( this.splinesTimeout )
     for ( let i = this.children.length - 1; i >= 0; i--) {
       this.remove( this.children[ i ] )
     }

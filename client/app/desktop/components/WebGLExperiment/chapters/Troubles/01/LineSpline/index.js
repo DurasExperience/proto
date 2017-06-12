@@ -3,14 +3,14 @@ import { MeshLine, MeshLineMaterial } from 'three.meshline'
 
 class LineSpline extends Object3D {
 
-  constructor( config, camera ) {
+  constructor( config, camera, controlsContainer ) {
 
     super()
     this.config = config
-    this.duration = 5 + 2 * Math.random()
+    this.duration = 2 + 1 * Math.random()
     this.progress = 0
     this.geometry = new Geometry()
-    this.geometry.vertices.push( new Vector3( this.config.start.x, this.config.start.y, this.config.start.z ) )
+    this.geometry.vertices.push( new Vector3( this.config.start.x, this.config.start.y, controlsContainer.position.z ) )
     this.geometry.vertices.push( new Vector3( this.config.end.x, this.config.end.y, this.config.end.z ) )
 
     this.line = new MeshLine()
