@@ -20,7 +20,6 @@ class handMan extends Object3D {
 
     //TODO ADD spline
     const splineHandMan = Store.getResource( 'spline-hand-man' )
-    console.log( splineHandMan );
 
     model.traverse(( child ) => {
 
@@ -106,7 +105,7 @@ class handMan extends Object3D {
 
     this.tl.reverse()
     this.tl.timeScale += .2
-    setTimeout( () => this.tl.play(), d * 1200 )
+    setTimeout( () => this.tl.play(), d * 700 )
 
   }
 

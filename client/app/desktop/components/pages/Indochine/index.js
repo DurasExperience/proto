@@ -47,7 +47,7 @@ class Indochine extends Page {
           <div className="page--indochine">
             <SoundLevel/>
             <Menu/>
-            <div className="page--text">  //TODO layout event start
+            <div className="page--text">
               <h1> {this.props.chapter } </h1>
             </div>
           </div>

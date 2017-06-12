@@ -23,7 +23,7 @@ class Troubles01 extends Group {
     this.name = 'troubles-01'
     this.scene = scene
     this.config = Config
-    
+
 
     this.bind()
     // this.scene.camera.position.z = 5000
@@ -101,7 +101,7 @@ class Troubles01 extends Group {
     this.timeout = setTimeout( () => { this.splines[ 0 ].start() }, 1500 )
     this.splinesTimeout = setTimeout( () => { this.splinesTlOut.play() }, (this.walk.duration - 5) * 1000 )
     this.splinesTlIn.play()
-    
+
   }
 
   initPostProcessing() {
@@ -155,7 +155,7 @@ class Troubles01 extends Group {
 
   setupSound() {
 
-    this.ambientSound = AudioManager.get( '02_01_ambient' )
+    this.ambientSound = AudioManager.get( '02_01_musique' )
     this.drunkAmbientSound = AudioManager.get( '02_01_drunk_ambient' )
 
   }
@@ -168,7 +168,7 @@ class Troubles01 extends Group {
   }
 
   mess() {
-    
+
     const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
     if( disableMess ) return
     this.scene.passes.push( this.kaleidoscopePass )

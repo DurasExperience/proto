@@ -28,7 +28,7 @@ class AudioSpline extends Spline {
 
     super.reverse( d )
 
-    this.voice.fade( 1, 0, 400, this.voiceId )
+    this.voice.fade( 1, 0, 500, this.voiceId )
     setTimeout( this.restartSound, d * 500 )
 
   }
@@ -46,7 +46,7 @@ class AudioSpline extends Spline {
     this.voice.fade( 0, 1, 300, this.voiceId )
 
   }
-  
+
 }
 
 export default AudioSpline
