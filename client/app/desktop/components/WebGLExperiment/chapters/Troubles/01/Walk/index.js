@@ -11,7 +11,7 @@ class Walk extends AudioSpline {
     super( scene, controlsContainer, '02_01_voice' )
     this.config = Config
     this.fadeOut = fadeOut
-    // this.duration = 10
+    this.duration = 12
     this.bind()
 
   }

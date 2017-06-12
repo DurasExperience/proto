@@ -99,7 +99,7 @@ class Troubles01 extends Group {
     this.drunkAmbientSoundId = this.drunkAmbientSound.play()
     this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
     this.timeout = setTimeout( () => { this.splines[ 0 ].start() }, 1500 )
-    this.splinesTimeout = setTimeout( () => { this.splinesTlOut.play() }, (this.walk.duration - 5) * 1000 )
+    this.splinesTimeout = setTimeout( () => { this.splinesTlOut.play() }, (this.walk.duration - 3) * 1000 )
     this.splinesTlIn.play()
 
   }
