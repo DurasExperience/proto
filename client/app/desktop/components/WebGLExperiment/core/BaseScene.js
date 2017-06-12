@@ -75,7 +75,7 @@ class BaseScene extends Scene {
     this.camera.rotation.range = [ -3, 3 ]
 
     GUI.panel
-      .addGroup({ label: 'Scene Camera', enable: true })
+      .addGroup({ label: 'Scene Camera', enable: false })
         .addSubGroup({ label: 'Position' })
           .addSlider( this.camera.position, 'x', 'range', { step: 10 } )
           .addSlider( this.camera.position, 'y', 'range', { step: 10 } )
@@ -126,11 +126,11 @@ class BaseScene extends Scene {
 
     this.composer.reset()
     this.composer.render( this, this.camera )
-    // for ( const pass of this.passes ) {
+    for ( const pass of this.passes ) {
 
-    //   this.composer.pass( pass )
+      this.composer.pass( pass )
 
-    // }
+    }
     this.composer.pass( this.fxaaPass )
     this.composer.toScreen()
 

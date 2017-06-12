@@ -4,7 +4,7 @@ import { Object3D, BufferGeometry, BufferAttribute, Mesh, MeshBasicMaterial, Mat
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
 import GUI from './../../../../../../../../helpers/GUI'
 
-class Mountains extends Object3D {
+class Buildings extends Object3D {
 
   constructor() {
 
@@ -137,4 +137,4 @@ class Mountains extends Object3D {
 
 }
 
-export default Mountains
+export default Buildings

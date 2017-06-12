@@ -12,9 +12,9 @@ export default {
   position: {
     x: 1100,
     y: 0,
-    z: -8000
+    z: -9000
   },
-  size: 80,
+  size: 40,
   amplitude: 3.3,
   frequency: 2.
 }

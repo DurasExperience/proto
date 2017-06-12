@@ -1,4 +1,4 @@
-import { CatmullRomCurve3, Geometry } from 'three'
+import { CatmullRomCurve3, Geometry, LineBasicMaterial, Line } from 'three'
 
 class Spline {
 
@@ -38,11 +38,11 @@ class Spline {
 
     this.geometry = new Geometry()
     this.geometry.vertices = this.curve.getPoints( 50 )
-    this.material = new THREE.LineBasicMaterial({
+    this.material = new LineBasicMaterial({
       color: 0xFF0000
     })
 
-    this.line = new THREE.Line( this.geometry, this.material )
+    this.line = new Line( this.geometry, this.material )
     this.scene.add( this.line )
 
   }
