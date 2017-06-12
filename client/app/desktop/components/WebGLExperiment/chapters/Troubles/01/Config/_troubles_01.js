@@ -34,5 +34,6 @@ export default {
       sides: 8,
       angle: 0
     }
-  }
+  },
+  timeDelay: 3
 }

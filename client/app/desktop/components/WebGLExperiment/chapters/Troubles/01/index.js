@@ -2,6 +2,7 @@ import { Group, Mesh, BufferGeometry, Geometry, BufferAttribute, GeometryUtils }
 import { troubles_01 as Config, splines as splinesConfig } from './Config'
 import Buildings from './Buildings'
 import LineSpline from './LineSpline'
+import Walk from './Walk'
 import GlobalConfig from '././../../../../../../../config'
 import Store from './../../../../../../../flux/store/desktop/index'
 import Actions from './../../../../../../../flux/actions'
@@ -23,25 +24,32 @@ class Troubles01 extends Group {
     this.name = 'troubles-01'
     this.scene = scene
     this.config = Config
+    
 
     this.bind()
-    this.scene.camera.position.z = 5000
+    // this.scene.camera.position.z = 5000
 
+    this.walk = new Walk( scene, controlsContainer, this.fadeOut )
+    this.walk.init()
+    this.walk.enableSpline()
+    this.walk.update()
+    if ( GlobalConfig.debug ) this.walk.createGeometry()
     this.buildings = new Buildings()
     this.add( this.buildings )
-    this.objects = [ this.buildings ]
+    this.objects = [ this.walk, this.buildings ]
     this.splines = []
     for ( let i = 0; i < splinesConfig.length; i++ ) {
-      const spline = new LineSpline( splinesConfig[ i ] )
+      const spline = new LineSpline( splinesConfig[ i ], this.scene.camera )
       this.splines.push( spline )
       this.add( spline )
       this.objects.push( spline )
     }
-    // this.add( this.splines[ 0 ] )
 
+    this.limit = this.walk.duration - 2
 
     this.initPostProcessing()
-    // this.setupSound()
+    this.setupTimeline()
+    this.setupSound()
 
   }
 
@@ -85,6 +93,15 @@ class Troubles01 extends Group {
   play() {
 
     // Store.off( EventsConstants.START_CHAPTER, this.play )
+    this.walk.start()
+    this.walk.play()
+
+    this.ambientSoundId = this.ambientSound.play()
+    this.drunkAmbientSoundId = this.drunkAmbientSound.play()
+    this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
+
+    this.timeout = setTimeout( () => { this.splines[ 0 ].start() }, 1500 )
+    this.splinesTl.play()
     
   }
 
@@ -124,12 +141,20 @@ class Troubles01 extends Group {
 
   }
 
+  setupTimeline() {
+
+    this.splinesTl = new TimelineMax({ paused: true })
+    for ( let i = 1; i < this.splines.length; i++ ) {
+      this.splinesTl.add( () => { this.splines[ i ].start() }, this.config.timeDelay * i )
+
+    }
+
+  }
+
   setupSound() {
 
-    this.underwaterSound = AudioManager.get( '01_01_underwater' )
-    this.underwaterAmbientSound = AudioManager.get( '01_01_underwater_ambient' )
-    this.surfaceSound = AudioManager.get( '01_01_surface' )
-    this.surfaceAmbientSound = AudioManager.get( '01_01_surface_ambient' )
+    this.ambientSound = AudioManager.get( '02_01_ambient' )
+    this.drunkAmbientSound = AudioManager.get( '02_01_drunk_ambient' )
 
   }
 
@@ -141,21 +166,26 @@ class Troubles01 extends Group {
   }
 
   mess() {
-
-    this.splines[ 0 ].start()
-    // this.scene.passes.push( this.kaleidoscopePass )
+    
+    const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
+    if( disableMess ) return
+    this.scene.passes.push( this.kaleidoscopePass )
+    this.ambientSound.fade( 1, 0, 300, this.ambientSoundId )
+    this.drunkAmbientSound.fade( 0, 1, 300, this.drunkAmbientSoundId )
 
   }
 
   clean() {
 
-    // this.scene.passes.pop()
+    this.scene.passes.pop()
+    this.drunkAmbientSound.fade( 1, 0, 300, this.drunkAmbientSoundId )
+    this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
 
   }
 
   fadeOut() {
 
-    this.drown()
+    if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
     this.scene.passes.push( this.vignettePass )
@@ -167,6 +197,10 @@ class Troubles01 extends Group {
   clearGroup() {
 
     this.removeListeners()
+    clearTimeout( this.timeout )
+    for ( let i = this.children.length - 1; i >= 0; i--) {
+      this.remove( this.children[ i ] )
+    }
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
     Actions.changeSubpage( '/troubles/02' )

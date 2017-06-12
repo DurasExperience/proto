@@ -3,10 +3,11 @@ import { MeshLine, MeshLineMaterial } from 'three.meshline'
 
 class LineSpline extends Object3D {
 
-  constructor( config ) {
+  constructor( config, camera ) {
 
     super()
     this.config = config
+    this.duration = 5 + 2 * Math.random()
     this.progress = 0
     this.geometry = new Geometry()
     this.geometry.vertices.push( new Vector3( this.config.start.x, this.config.start.y, this.config.start.z ) )
@@ -24,9 +25,9 @@ class LineSpline extends Object3D {
       useAlphaMap: 0,
       lineWidth: this.config.lineWidth,
       resolution: this.resolution,
-      sizeAttenuation: 1,
-      depthWrite: false,
-      depthTest: false,
+      sizeAttenuation: 0,
+      near: camera.near,
+      far: camera.far,
       transparent: true
     })
     this.material.uniforms.visibility.value = 0.
@@ -46,7 +47,7 @@ class LineSpline extends Object3D {
 
   start() {
 
-    TweenMax.to( this, 5, { progress: 0.5 } )
+    TweenMax.to( this, this.duration, { progress: 0.5 } )
 
   }
 

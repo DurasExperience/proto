@@ -2,12 +2,14 @@ import AudioSpline from './../../../../abstract/AudioSpline'
 import { Vector3 } from 'three'
 import AudioManager from './../../../../../../../../helpers/AudioManager'
 import GlobalConfig from './../../../../../../../../config'
+import { walk as Config } from './../Config'
 
 class Walk extends AudioSpline {
 
   constructor( scene, controlsContainer, fadeOut ) {
 
-    super( scene, controlsContainer, '01_01_voice' )
+    super( scene, controlsContainer, '02_01_voice' )
+    this.config = Config
     this.fadeOut = fadeOut
     // this.duration = 20
     this.bind()
@@ -25,11 +27,28 @@ class Walk extends AudioSpline {
 
 
     this.points = [
-      new Vector3( 0, 10, 4000 ),
-      new Vector3( 1100, 10, 1000 ),
-      new Vector3( 1200, 10, -5500 )
+      new Vector3( 0, 400, 0 ),
+      new Vector3( 0, 400, -6000 )
     ]
-    if ( GlobalConfig.debug ) this.scene.camera.position.set( this.points[ 0 ].x, this.points[ 0 ].y, this.points[ 0 ].z )
+    if ( GlobalConfig.debug ) {
+
+      this.controlsContainer.position.x = this.config.camera.position.x
+      this.controlsContainer.position.y = this.config.camera.position.y
+      this.controlsContainer.position.z = this.config.camera.position.z
+      this.controlsContainer.rotation.x = this.config.camera.rotation.x
+      this.controlsContainer.rotation.y = this.config.camera.rotation.y
+      this.controlsContainer.rotation.z = this.config.camera.rotation.z
+
+    } else {
+
+      this.scene.camera.position.x = this.config.camera.position.x
+      this.scene.camera.position.y = this.config.camera.position.y
+      this.scene.camera.position.z = this.config.camera.position.z
+      this.scene.camera.rotation.x = this.config.camera.rotation.x
+      this.scene.camera.rotation.y = this.config.camera.rotation.y
+      this.scene.camera.rotation.z = this.config.camera.rotation.z
+
+    }
     super.init()
 
   }

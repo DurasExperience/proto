@@ -26,7 +26,7 @@ class BaseScene extends Scene {
     this.renderer.gammaInput = true
     this.renderer.gammaOutput = true
 
-    this.camera = new PerspectiveCamera( 50, width / height, 1, 15000 )
+    this.camera = new PerspectiveCamera( 50, width / height, 0.1, 15000 )
 
     this.setControls()
     this.axisHelper = new AxisHelper( 200 )

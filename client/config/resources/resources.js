@@ -100,6 +100,34 @@ export default [
     id: '02_01_building',
     url: '/assets/models/02/01/building.awd'
   },
+  ///////// Chapitre 2.1
+  {
+    type: 'audio',
+    id: '02_01_voice',
+    url: '/assets/sounds/02/01/voice.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
+  {
+    type: 'audio',
+    id: '02_01_ambient',
+    url: '/assets/sounds/02/01/ambient.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
+  {
+    type: 'audio',
+    id: '02_01_drunk_ambient',
+    url: '/assets/sounds/02/01/drunk_ambient.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
   ///////// Phone
   {
     type: 'json',
