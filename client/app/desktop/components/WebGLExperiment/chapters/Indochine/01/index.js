@@ -192,11 +192,11 @@ class Indochine01 extends Group {
     this.drownTl.timeScale( this.depth )
     this.drownTl.play()
 
-    this.surfaceSound.fade( 1, 0, 250, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 1, 0, 250, this.surfaceAmbientSoundId )
+    this.surfaceSound.fade( 1, 0, 1000, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 1, 0, 1000, this.surfaceAmbientSoundId )
 
-    this.underwaterSound.fade( 0, 0.5, 900, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0, 0.5, 900, this.underwaterAmbientSoundId )
+    this.underwaterSound.fade( 0, 1, 1300, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0, 0.5, 1300, this.underwaterAmbientSoundId )
 
   }
 
@@ -208,11 +208,11 @@ class Indochine01 extends Group {
     this.drownTl.timeScale( 1.5 )
     this.drownTl.reverse()
 
-    this.underwaterSound.fade( 0.5, 0, 1000, this.underwaterSoundId )
+    this.underwaterSound.fade( 1, 0, 1000, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0.5, 0, 1000, this.underwaterAmbientSoundId )
 
-    this.surfaceSound.fade( 0, 1, 900, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 0, 1, 900, this.surfaceAmbientSoundId )
+    this.surfaceSound.fade( 0, 1, 1300, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0, 1, 1300, this.surfaceAmbientSoundId )
 
   }
 
