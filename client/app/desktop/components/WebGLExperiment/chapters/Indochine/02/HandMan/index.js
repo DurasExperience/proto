@@ -17,8 +17,10 @@ class handMan extends Object3D {
     this.max = 0
 
     const model = Store.getResource( '01_hand_man' )
-    // TODO
-    const spline = Store.getResource( 'spline-hand-men' )
+
+    //TODO ADD spline
+    const splineHandMan = Store.getResource( 'spline-hand-man' )
+    console.log( splineHandMan );
 
     model.traverse(( child ) => {
 

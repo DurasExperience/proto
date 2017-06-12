@@ -81,13 +81,13 @@ export default [
   },
   {
     type: 'model',
-    id: 'spline-hand-men',
-    url: '/assets/models/01/02/spline-hand-men.awd'
+    id: 'spline-hand-man',
+    url: '/assets/models/01/02/spline-hand-man.awd'
   },
   {
     type: 'model',
-    id: 'spline-hand-women',
-    url: '/assets/models/01/02/spline-hand-women.awd'
+    id: 'spline-hand-woman',
+    url: '/assets/models/01/02/spline-hand-woman.awd'
   },
   {
     type: 'image',
