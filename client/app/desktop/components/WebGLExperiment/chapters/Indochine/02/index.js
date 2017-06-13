@@ -4,6 +4,7 @@ import HandMan from './HandMan'
 import BackgroundHands from './BackgroundHands'
 import Observer from './Observer'
 
+import Actions from './../../../../../../../flux/actions'
 import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import AudioManager from './../../../../../../../helpers/AudioManager'
@@ -61,6 +62,13 @@ class Indochine02 extends Group {
 
   }
 
+  removeListeners() {
+
+    // Store.off( EventsConstants.END_AMBIENT, this.clearAmbientSound )
+
+  }
+
+
   start() {
 
     this.scene.setupPostProcessing( this.passes )
@@ -102,7 +110,10 @@ class Indochine02 extends Group {
 
   setupSound(){
 
+    this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
+
     this.surfaceSound = AudioManager.get( '01_02_voice' )
+    this.duration = Math.ceil( this.surfaceSound.duration() )
 
   }
 
@@ -186,6 +197,20 @@ class Indochine02 extends Group {
     for ( let obj of this.objects ) {
 
       obj.update( time )
+
+    }
+
+    const newTime = this.duration - this.surfaceSound.seek()
+
+    if( newTime === this.duration ){
+
+      Actions.endAmbient( )
+
+      setTimeout( () => {
+
+        Actions.changeSubpage( '/troubles/01' )
+
+      }, 300)
 
     }
 

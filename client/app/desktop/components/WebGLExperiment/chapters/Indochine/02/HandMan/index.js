@@ -105,7 +105,7 @@ class handMan extends Object3D {
 
     this.tl.reverse()
     this.tl.timeScale += .2
-    setTimeout( () => this.tl.play(), d * 700 )
+    setTimeout( () => this.tl.play(), d * 500 )
 
   }
 

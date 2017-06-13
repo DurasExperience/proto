@@ -145,6 +145,14 @@ const Actions = {
       item: undefined
     })
 
+  },
+  endAmbient() {
+
+    Dispatcher.dispatch({
+      type: EventsConstants.END_AMBIENT,
+      item: undefined
+    })
+
   }
 
 }

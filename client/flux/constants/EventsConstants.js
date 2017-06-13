@@ -24,6 +24,8 @@ const EventsConstants = {
 
   MOBILE_ON_PINCH: 'MOBILE_ON_PINCH',
   START_CHAPTER: 'START_CHAPTER',
+  END_AMBIENT: 'END_AMBIENT',
+
 
 }
 

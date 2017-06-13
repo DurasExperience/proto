@@ -65,7 +65,7 @@ class Indochine01 extends Group {
 
   bind() {
 
-    [ 'resize', 'update', 'firstDrown', 'drown', 'ascend', 'fadeIn', 'fadeOut', 'play', 'clearGroup' ]
+    [ 'resize', 'update', 'firstDrown', 'drown', 'ascend', 'fadeIn', 'fadeOut', 'play', 'clearGroup', 'clearAmbientSound' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -76,6 +76,7 @@ class Indochine01 extends Group {
     else {
       Store.on( EventsConstants.SPACE_DOWN, this.ascend )
       Store.on( EventsConstants.SPACE_UP, this.drown )
+      Store.on( EventsConstants.END_AMBIENT, this.clearAmbientSound )
     }
 
   }
@@ -108,6 +109,7 @@ class Indochine01 extends Group {
     this.journey.play()
 
     this.surfaceSoundId = this.journey.voiceId
+
     this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
 
     this.surfaceSound.fade( 0, 1, 500, this.surfaceSoundId )
@@ -193,10 +195,13 @@ class Indochine01 extends Group {
     this.drownTl.play()
 
     this.surfaceSound.fade( 1, 0, 250, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 1, 0, 250, this.surfaceAmbientSoundId )
-
     this.underwaterSound.fade( 0, 0.5, 900, this.underwaterSoundId )
+
     this.underwaterAmbientSound.fade( 0, 0.5, 900, this.underwaterAmbientSoundId )
+
+    if(!this.end){
+      this.surfaceAmbientSound.fade( 1, 0, 250, this.surfaceAmbientSoundId )
+    }
 
   }
 
@@ -277,17 +282,28 @@ class Indochine01 extends Group {
 
     AudioManager.stop( '01_01_voice_surface' )
     this.surfaceSound.fade( 1, 0, 500, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 1, 0, 500, this.surfaceAmbientSoundId )
+    this.surfaceAmbientSound.fade( 1, 0.5, 500, this.surfaceAmbientSoundId )
 
     this.underwaterSound.fade( 0.5, 0, 500, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0.5, 0, 500, this.underwaterAmbientSoundId )
 
     setTimeout( () => {
       this.surfaceSound.stop()
-      this.surfaceAmbientSound.stop()
       this.underwaterSound.stop()
       this.underwaterAmbientSound.stop()
       Actions.changeSubpage( '/indochine/02' )
+    }, 300 )
+
+  }
+
+  clearAmbientSound(){
+
+    this.surfaceAmbientSound.fade( 1, 0, 1500, this.surfaceAmbientSoundId )
+
+    setTimeout( () => {
+
+      this.surfaceAmbientSound.stop()
+
     }, 300 )
 
   }
@@ -305,7 +321,6 @@ class Indochine01 extends Group {
     if(this.end){
       this.depth = 0.1
       this.drown()
-      // TODO fadeout
     }
 
   }
