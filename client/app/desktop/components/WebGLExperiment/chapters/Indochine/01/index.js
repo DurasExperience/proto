@@ -95,7 +95,7 @@ class Indochine01 extends Group {
 
     this.scene.setupPostProcessing( this.passes )
     Store.on( EventsConstants.START_CHAPTER, this.play )
-    this.addGUI()
+    //this.addGUI()
 
   }
 
@@ -213,11 +213,11 @@ class Indochine01 extends Group {
     this.drownTl.timeScale( 1.5 )
     this.drownTl.reverse()
 
-    this.underwaterSound.fade( 0.5, 0, 1000, this.underwaterSoundId )
+    this.underwaterSound.fade( 1, 0, 1000, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0.5, 0, 1000, this.underwaterAmbientSoundId )
 
-    this.surfaceSound.fade( 0, 1, 900, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 0, 1, 900, this.surfaceAmbientSoundId )
+    this.surfaceSound.fade( 0, 1, 1300, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0, 1, 1300, this.surfaceAmbientSoundId )
 
   }
 
@@ -298,13 +298,13 @@ class Indochine01 extends Group {
 
   clearAmbientSound(){
 
-    this.surfaceAmbientSound.fade( 1, 0, 1500, this.surfaceAmbientSoundId )
+    this.surfaceAmbientSound.fade( 1, 0, 2500, this.surfaceAmbientSoundId )
 
-    setTimeout( () => {
-
-      this.surfaceAmbientSound.stop()
-
-    }, 300 )
+    // setTimeout( () => {
+    //
+    //   this.surfaceAmbientSound.stop()
+    //
+    // }, 3000 )
 
   }
 

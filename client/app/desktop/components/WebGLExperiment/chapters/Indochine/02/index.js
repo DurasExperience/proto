@@ -210,7 +210,7 @@ class Indochine02 extends Group {
 
         Actions.changeSubpage( '/troubles/01' )
 
-      }, 300)
+      }, 2500)
 
     }
 

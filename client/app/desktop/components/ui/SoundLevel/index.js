@@ -6,7 +6,7 @@ class SoundLevel extends React.Component {
 
     return(
       <div className="sound">
-        <div className="sound__level"> A propos </div>
+        <div className="sound__level"> ||||| </div>
       </div>
     )
 

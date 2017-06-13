@@ -33,7 +33,12 @@ class BackgroundHands extends Object3D {
 
     let obj = Store.getResource("hands_particle_background")
     this.particles = new ParticlesSystem( obj )
+
+    this.particles.mesh.material.opacity = 0
     this.particles.mesh.name = "hands_particle_background"
+
+    this.tl = new TimelineMax()
+    this.tl.to( this.particles.mesh.material, 10, { opacity: 1 }, 0 )
 
   }
 

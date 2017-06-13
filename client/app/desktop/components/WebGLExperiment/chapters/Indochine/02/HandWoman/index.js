@@ -46,6 +46,7 @@ class HandWoman extends Object3D {
     this.mesh = new ParticlesMesh( 'hand_woman', this.geometry, this.config )
     this.mesh.position.set( this.config.position.x, this.config.position.y, this.config.position.z )
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
+    this.mesh.uniforms.alpha.value = 0
     this.add( this.mesh )
 
   }
@@ -77,7 +78,9 @@ class HandWoman extends Object3D {
 
   init() {
 
-    this.tl = new TimelineMax() //{ onComplete: () => this.mesh.uniforms.amplitude.value = this.config.endAmplitude }
+    this.tl = new TimelineMax()
+    this.tl.to( this.mesh.uniforms.alpha, 10, { value: 1 }, 0 )
+
     this.tl.to( this.mesh.position, this.duration, { x: this.config.endPosition.x }, 0 )
     this.tl.to( this.mesh.position, this.duration, { y: this.config.endPosition.y }, 0 )
     this.tl.to( this.mesh.position, this.duration, { z: this.config.endPosition.z }, 0 )
