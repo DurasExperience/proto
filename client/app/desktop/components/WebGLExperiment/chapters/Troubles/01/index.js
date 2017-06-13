@@ -155,7 +155,7 @@ class Troubles01 extends Group {
 
   setupSound() {
 
-    this.ambientSound = AudioManager.get( '02_01_musique' )
+    this.ambientSound = AudioManager.get( '02_01_ambient' )
     this.drunkAmbientSound = AudioManager.get( '02_01_drunk_ambient' )
 
   }

@@ -5,3 +5,4 @@ doc/
 *.log
 dist/
 .vscode/
+client/config/index.js

@@ -91,7 +91,7 @@ export default [
   {
     type: 'audio',
     id: '02_01_voice',
-    url: '/assets/sounds/02/VOIX.mp3',
+    url: '/assets/sounds/02/01/voice.mp3',
     options: {
       loop: false,
       volume: 0
@@ -99,17 +99,8 @@ export default [
   },
   {
     type: 'audio',
-    id: '02_01_musique_kaleidoscope',
-    url: '/assets/sounds/02/MUSIQUE-KALEIDOSCOPE.mp3',
-    options: {
-      loop: false,
-      volume: 0
-    }
-  },
-  {
-    type: 'audio',
-    id: '02_01_musique',
-    url: '/assets/sounds/02/MUSIQUE-NORMALE.mp3',
+    id: '02_01_ambient',
+    url: '/assets/sounds/02/01/ambient.mp3',
     options: {
       loop: false,
       volume: 0
