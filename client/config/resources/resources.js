@@ -81,13 +81,12 @@ export default [
     id: 'spline-hand-woman',
     url: '/assets/models/01/02/spline-hand-woman.awd'
   },
-  ///////// Chapitre 2.0
+  ///////// Chapitre 2.1
   {
     type: 'model',
     id: '02_01_building',
     url: '/assets/models/02/01/building.awd'
   },
-  ///////// Chapitre 2.1
   {
     type: 'audio',
     id: '02_01_voice',
@@ -114,6 +113,12 @@ export default [
       loop: false,
       volume: 0
     }
+  },
+  ///////// Chapitre 2.2
+  {
+    type: 'model',
+    id: '02_01_rails',
+    url: '/assets/models/02/01/rails.awd'
   },
   ///////// Chapitre 3.0
   {

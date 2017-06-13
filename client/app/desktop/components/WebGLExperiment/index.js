@@ -135,6 +135,7 @@ class WebGLExperiment extends React.Component {
       case '/troubles/01':
         this.currentChapter = new Troubles01( this.scene, this.controlsContainer )
         break
+
     }
 
     this.currentChapter.start()
