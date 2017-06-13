@@ -38,7 +38,7 @@ class Indochine02 extends Group {
     this.add(  this.backgroundHands.particles.mesh  )
     this.add( this.handWoman )
     this.add( this.handMan )
-    this.objects = [ this.handWoman, this.handMan, this.backgroundHands.particles ]
+    this.objects = [ this.handWoman, this.handMan, this.backgroundHands ]
 
     this.initPostProcessing()
     this.setupReverse()
@@ -102,6 +102,8 @@ class Indochine02 extends Group {
 
   setupSound(){
 
+    this.surfaceSound = AudioManager.get( '01_02_voice' )
+
   }
 
   initPostProcessing() {
@@ -144,8 +146,6 @@ class Indochine02 extends Group {
 
     this.reverseTl.play( 0 )
     //this.observer.reverse( 4 )
-
-    // TODO reverse main -> rouge,
     this.handWoman.reverse( 4 )
     this.handMan.reverse( 4 )
     this.backgroundHands.reverse()

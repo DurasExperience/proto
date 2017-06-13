@@ -35,5 +35,5 @@ export default {
       angle: 0
     }
   },
-  timeDelay: 2.5
+  timeDelay: 0.5
 }

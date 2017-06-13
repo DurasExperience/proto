@@ -1,4 +1,4 @@
-# Three.js - Boilerplate
+# React + Three.js - Boilerplate
 
 Experiment boilerplate with three.js, Wagner, Webpack 2 & gsap
 

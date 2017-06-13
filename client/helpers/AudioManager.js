@@ -10,6 +10,7 @@ class AudioManager {
 
     this.bind()
     this.addListeners()
+    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
   }
 
@@ -60,6 +61,26 @@ class AudioManager {
 
   }
 
+  getFrequency( sound ){
+    //
+    // let audioSource = this.audioCtx.createBufferSource()
+    // this.analyser = this.audioCtx.createAnalyser()
+    //
+    // this.sound = sound._sounds[0]._node
+    //
+    // let buffer = this.sound.bufferSource.buffer
+    // audioSource.buffer = buffer
+    //
+    // audioSource.connect( this.analyser )
+    //
+    // let frequencyData = new Uint8Array( this.analyser.frequencyBinCount )
+    // this.analyser.getByteFrequencyData( frequencyData )
+    //
+    // console.log( frequencyData );
+    // console.log("buf ", buffer, "audS ", this.analyser, "frqs ",frequencyData );
+
+  }
+
   /**
    * Load audio file
    * @param {string} url
@@ -75,6 +96,7 @@ class AudioManager {
       src: url,
       volume: options.volume,
       loop: options.loop,
+      buffer: options.buffer,
       onload: () => {
 
         onLoad( audio )
@@ -149,7 +171,7 @@ class AudioManager {
   /**
    * Rate sound at id
    * @param {string} id
-   * @param {float} position 
+   * @param {float} position
    * @param {int} soundId
    */
   setTime( id, position, soundId ) {

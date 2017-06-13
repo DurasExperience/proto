@@ -2,8 +2,8 @@ export default [
   ///////// Chapitre 1.1
   {
     type: 'audio',
-    id: '01_01_voice',
-    url: '/assets/sounds/01/01/voice.mp3',
+    id: '01_01_voice_surface',
+    url: '/assets/sounds/01/01/VOIX-SURFACE.mp3',
     options: {
       loop: false,
       volume: 0
@@ -11,8 +11,17 @@ export default [
   },
   {
     type: 'audio',
-    id: '01_01_underwater',
-    url: '/assets/sounds/01/01/underwater.mp3',
+    id: '01_01_voice_underwater',
+    url: '/assets/sounds/01/01/VOIX-DANS-LEAU.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
+  {
+    type: 'audio',
+    id: '01_01_musique_surface',
+    url: '/assets/sounds/01/01/MUSIQUE-SURFACE.mp3',
     options: {
       loop: true,
       volume: 0
@@ -20,28 +29,10 @@ export default [
   },
   {
     type: 'audio',
-    id: '01_01_underwater_ambient',
-    url: '/assets/sounds/01/01/underwater_ambient.mp3',
-    options: {
-      loop: false,
-      volume: 0
-    }
-  },
-  {
-    type: 'audio',
-    id: '01_01_surface',
-    url: '/assets/sounds/01/01/surface.mp3',
+    id: '01_01_musique_underwater',
+    url: '/assets/sounds/01/01/MUSIQUE-DANS-LEAU.mp3',
     options: {
       loop: true,
-      volume: 0
-    }
-  },
-  {
-    type: 'audio',
-    id: '01_01_surface_ambient',
-    url: '/assets/sounds/01/01/surface_ambient.mp3',
-    options: {
-      loop: false,
       volume: 0
     }
   },
@@ -64,7 +55,7 @@ export default [
   {
     type: 'audio',
     id: '01_02_voice',
-    url: '/assets/sounds/01/02/voice.mp3',
+    url: '/assets/sounds/01/02/VOIX-PARTIE2-SURFACE.mp3',
     options: {
       loop: false,
       volume: 1
@@ -73,10 +64,11 @@ export default [
   {
     type: 'audio',
     id: 'heartbeat',
-    url: '/assets/sounds/01/02/Battements-de-coeur.mp3',
+    url: '/assets/sounds/01/02/HEART-BEAT.mp3',
     options: {
-      loop: false,
-      volume: 0
+      loop: true,
+      volume: 0,
+      buffer: true
     }
   },
   {
@@ -89,12 +81,7 @@ export default [
     id: 'spline-hand-woman',
     url: '/assets/models/01/02/spline-hand-woman.awd'
   },
-  {
-    type: 'image',
-    id: 'hands_particle_background',
-    url: '/assets/images/01/02/particle.png'
-  },
-  ///////// Chapitre 1.2
+  ///////// Chapitre 2.0
   {
     type: 'model',
     id: '02_01_building',
@@ -104,7 +91,7 @@ export default [
   {
     type: 'audio',
     id: '02_01_voice',
-    url: '/assets/sounds/02/01/voice.mp3',
+    url: '/assets/sounds/02/VOIX.mp3',
     options: {
       loop: false,
       volume: 0
@@ -112,8 +99,17 @@ export default [
   },
   {
     type: 'audio',
-    id: '02_01_ambient',
-    url: '/assets/sounds/02/01/ambient.mp3',
+    id: '02_01_musique_kaleidoscope',
+    url: '/assets/sounds/02/MUSIQUE-KALEIDOSCOPE.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
+  {
+    type: 'audio',
+    id: '02_01_musique',
+    url: '/assets/sounds/02/MUSIQUE-NORMALE.mp3',
     options: {
       loop: false,
       volume: 0
@@ -123,6 +119,25 @@ export default [
     type: 'audio',
     id: '02_01_drunk_ambient',
     url: '/assets/sounds/02/01/drunk_ambient.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
+  ///////// Chapitre 3.0
+  {
+    type: 'audio',
+    id: '03_musique',
+    url: '/assets/sounds/03/MUSIQUE.mp3',
+    options: {
+      loop: false,
+      volume: 0
+    }
+  },
+  {
+    type: 'audio',
+    id: '03_voice',
+    url: '/assets/sounds/03/VOIX.mp3',
     options: {
       loop: false,
       volume: 0

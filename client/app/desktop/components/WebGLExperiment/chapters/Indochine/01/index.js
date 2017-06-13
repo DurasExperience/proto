@@ -54,7 +54,8 @@ class Indochine01 extends Group {
     this.objects = [ this.mountains, this.floor ]
 
     this.needFirstDrown = true
-    this.limit = this.journey.duration - 4
+    this.limit = this.journey.duration - 1.2
+    this.depth = 0.75
 
     this.initPostProcessing()
     this.setupTimelines()
@@ -106,11 +107,13 @@ class Indochine01 extends Group {
     this.floorPath.start()
     this.journey.play()
 
-    this.surfaceSoundId = this.surfaceSound.play()
+    this.surfaceSoundId = this.journey.voiceId
     this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
-    this.surfaceSound.fade( 0, 0.7, 500, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 0, 0.3, 500, this.surfaceAmbientSoundId )
-    setTimeout( () => { this.firstDrown() }, 1000 )
+
+    this.surfaceSound.fade( 0, 1, 500, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0, 1, 500, this.surfaceAmbientSoundId )
+
+    this.firstDrown()
 
   }
 
@@ -166,30 +169,34 @@ class Indochine01 extends Group {
 
     this.underwaterSoundId = this.underwaterSound.play()
     this.underwaterAmbientSoundId = this.underwaterAmbientSound.play()
-    this.drown()
+
+    setTimeout( () => { this.drown() }, 3000 )
 
   }
 
   setupSound() {
 
-    this.underwaterSound = AudioManager.get( '01_01_underwater' )
-    this.underwaterAmbientSound = AudioManager.get( '01_01_underwater_ambient' )
-    this.surfaceSound = AudioManager.get( '01_01_surface' )
-    this.surfaceAmbientSound = AudioManager.get( '01_01_surface_ambient' )
-
+    this.surfaceSound = this.journey.voice
+    this.underwaterSound = AudioManager.get( '01_01_voice_underwater' )
+    this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
+    this.underwaterAmbientSound = AudioManager.get( '01_01_musique_underwater' )
   }
 
   drown() {
 
-    const disableDrown = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
-    if( disableDrown ) return
+    // const disableDrown = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
+    // if( disableDrown ) return
+
     if ( this.scene.passes.length === this.initPassesLength ) this.scene.passes.push( this.godrayPass )
-    this.drownTl.timeScale( 0.75 )
+
+    this.drownTl.timeScale( this.depth )
     this.drownTl.play()
-    this.surfaceSound.fade( 0.7, 0, 300, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
-    this.underwaterSound.fade( 0, 0.7, 500, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0, 0.3, 800, this.underwaterAmbientSoundId )
+
+    this.surfaceSound.fade( 1, 0, 1000, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 1, 0, 1000, this.surfaceAmbientSoundId )
+
+    this.underwaterSound.fade( 0, 1, 1300, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0, 0.5, 1300, this.underwaterAmbientSoundId )
 
   }
 
@@ -200,10 +207,12 @@ class Indochine01 extends Group {
 
     this.drownTl.timeScale( 1.5 )
     this.drownTl.reverse()
-    this.underwaterSound.fade( 0.7, 0, 2500, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0.3, 0, 2500, this.underwaterAmbientSoundId )
-    this.surfaceSound.fade( 0, 0.7, 500, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 0, 0.3, 800, this.surfaceAmbientSoundId )
+
+    this.underwaterSound.fade( 1, 0, 1000, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0.5, 0, 1000, this.underwaterAmbientSoundId )
+
+    this.surfaceSound.fade( 0, 1, 1300, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 0, 1, 1300, this.surfaceAmbientSoundId )
 
   }
 
@@ -219,8 +228,8 @@ class Indochine01 extends Group {
         }
       }
     })
-    this.drownTl.fromTo( this.journey.shift, 3, { y: 0 }, { y: -50 }, 0 )
-    this.drownTl.fromTo( this.mountains.mesh.uniforms.alpha, 1.5, { value: this.mountains.config.alpha }, { value: 0 }, 0 )
+    this.drownTl.fromTo( this.journey.shift, 3, { y: 0 }, { y: -80 }, 0 )
+    this.drownTl.fromTo( this.mountains.mesh.uniforms.alpha, 0.5, { value: this.mountains.config.alpha }, { value: 0 }, 0 )
     this.drownTl.fromTo( this.godrayPass.params, 1, { fY: this.config.postProcessing.godrayPass.fY }, { fY: 1 }, 0 )
     this.drownTl.fromTo( this.godrayPass.params, 1, { fDecay: this.config.postProcessing.godrayPass.fDecay }, { fDecay: 0.91 }, 0 )
     this.drownTl.fromTo( this.godrayPass.params, 1, { fExposure: this.config.postProcessing.godrayPass.fExposure }, { fExposure: 0.27 }, 0 )
@@ -230,7 +239,6 @@ class Indochine01 extends Group {
     this.drownTl.timeScale( 0.75 )
 
     this.drownTl.eventCallback( 'onReverseComplete', () => {
-      console.log( 'ascend complete' )
       if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
       this.level = 'surface'
     } )
@@ -266,11 +274,14 @@ class Indochine01 extends Group {
     this.scene.setupPostProcessing( this.passes )
     this.drownTl.clear()
     this.fadeOutTl.clear()
-    AudioManager.stop( '01_01_voice' )
-    this.surfaceSound.fade( 0.3, 0, 300, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 0.3, 0, 300, this.surfaceAmbientSoundId )
-    this.underwaterSound.fade( 0.3, 0, 300, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0.3, 0, 300, this.underwaterAmbientSoundId )
+
+    AudioManager.stop( '01_01_voice_surface' )
+    this.surfaceSound.fade( 1, 0, 500, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 1, 0, 500, this.surfaceAmbientSoundId )
+
+    this.underwaterSound.fade( 0.5, 0, 500, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 0.5, 0, 500, this.underwaterAmbientSoundId )
+
     setTimeout( () => {
       this.surfaceSound.stop()
       this.surfaceAmbientSound.stop()
@@ -288,6 +299,13 @@ class Indochine01 extends Group {
 
       obj.update( time )
 
+    }
+
+    this.end = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
+    if(this.end){
+      this.depth = 0.1
+      this.drown()
+      // TODO fadeout
     }
 
   }

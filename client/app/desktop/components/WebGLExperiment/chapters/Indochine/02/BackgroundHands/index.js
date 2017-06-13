@@ -12,7 +12,6 @@ class BackgroundHands extends Object3D {
 
     super()
 
-    // TODO AUDIO
     this.createParticules()
     this.setupSound()
     this.addGUI()
@@ -24,8 +23,7 @@ class BackgroundHands extends Object3D {
     if( this.count == 0 ){
 
       this.heartbeatId = this.heartbeat.play()
-      AudioManager.fade( 'heartbeat', 0, 0.7, 500, this.heartbeatId )
-      // TODO change particule size with frequency
+      AudioManager.fade( 'heartbeat', 0, 1.5, 1500, this.heartbeatId )
       setTimeout( () => this.down(), 2000)
 
     }
@@ -56,7 +54,7 @@ class BackgroundHands extends Object3D {
 
   down(){
 
-    AudioManager.fade( 'heartbeat', 0.7, 0, 300, this.heartbeatId )
+    AudioManager.fade( 'heartbeat', 1.5, 0, 1500, this.heartbeatId )
     setTimeout( () => this.particles.down(), 200)
     this.count = 0
 
@@ -69,6 +67,7 @@ class BackgroundHands extends Object3D {
   update( time ) {
 
     this.particles.update( time )
+    // AudioManager.getFrequency( this.heartbeat )
 
   }
 
