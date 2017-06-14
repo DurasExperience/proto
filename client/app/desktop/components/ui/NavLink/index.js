@@ -20,7 +20,9 @@ class NavLink extends React.Component {
     return (
 
       <div className="navigation__item" onClick={ this.changePage }>
-        <div className="navigation__title" className={this.props.activeClassName}>{ this.props.title }</div>
+        <div className="navigation__title" className={this.props.activeClassName}>
+          <div className="navigation__index">{ this.props.title }</div>
+        </div>
       </div>
 
     )

@@ -27,7 +27,7 @@ export default (
     <PropsRoute path="/indochine/01" component={ Layout } data={indochineText.indochine}/>
     <PropsRoute path="/indochine/02" component={ Layout } data={indochineText.indochine} />
     <PropsRoute path="/troubles/01" component={ Layout } data={indochineText.resistance} />
-    <PropsRoute path="/renaissance/01" component={ Layout } data={indochineText.renaissance} />
+    <PropsRoute path="/notoriete/01" component={ Layout } data={indochineText.notoriete} />
     <Route component={ NotFound } />
   </Switch>
 )

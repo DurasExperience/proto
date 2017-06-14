@@ -153,6 +153,14 @@ const Actions = {
       item: undefined
     })
 
+  },
+  tutoDisplay( state ) {
+
+    Dispatcher.dispatch({
+      type: EventsConstants.TUTO_DISPLAY,
+      item: state
+    })
+
   }
 
 }

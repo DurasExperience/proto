@@ -64,6 +64,7 @@ class Indochine02 extends Group {
 
   removeListeners() {
 
+    Store.off( EventsConstants.SPACE_DOWN, this.reverse )
     // Store.off( EventsConstants.END_AMBIENT, this.clearAmbientSound )
 
   }
@@ -110,8 +111,7 @@ class Indochine02 extends Group {
 
   setupSound(){
 
-    this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
-
+    //this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
     this.surfaceSound = AudioManager.get( '01_02_voice' )
     this.duration = Math.ceil( this.surfaceSound.duration() )
 
@@ -204,7 +204,9 @@ class Indochine02 extends Group {
 
     if( newTime === this.duration ){
 
-      Actions.endAmbient( )
+      Actions.endAmbient()
+      this.removeListeners()
+      this.backgroundHands.stop()
 
       setTimeout( () => {
 

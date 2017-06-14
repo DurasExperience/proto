@@ -4,11 +4,7 @@ class Chapter extends React.Component {
 
   componentDidMount() {
 
-    setTimeout( ()=>{
-
-      this.animationText()
-
-    }, 2000)
+    this.animationText()
 
   }
 

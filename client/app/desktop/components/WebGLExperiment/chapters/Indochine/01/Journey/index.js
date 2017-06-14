@@ -25,7 +25,7 @@ class Journey extends AudioSpline {
 
 
     this.points = [
-      new Vector3( 0, 10, 4000 ),
+      new Vector3( 0, 15, 4000 ),
       new Vector3( 1100, 10, 1000 ),
       new Vector3( 1200, 10, -5500 )
     ]

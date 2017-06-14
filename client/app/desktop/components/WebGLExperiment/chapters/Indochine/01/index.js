@@ -95,7 +95,7 @@ class Indochine01 extends Group {
 
     this.scene.setupPostProcessing( this.passes )
     Store.on( EventsConstants.START_CHAPTER, this.play )
-    //this.addGUI()
+    this.addGUI()
 
   }
 
@@ -172,7 +172,12 @@ class Indochine01 extends Group {
     this.underwaterSoundId = this.underwaterSound.play()
     this.underwaterAmbientSoundId = this.underwaterAmbientSound.play()
 
-    setTimeout( () => { this.drown() }, 3000 )
+    setTimeout( () => {
+
+      Actions.tutoDisplay( true )
+      this.drown()
+
+    }, 3000 )
 
   }
 

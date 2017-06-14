@@ -45,12 +45,12 @@ export default [
   {
     type: 'model',
     id: '01_hand_man',
-    url: '/assets/models/01/02/hand_man.awd'
+    url: '/assets/models/01/02/arm.awd'
   },
   {
     type: 'model',
     id: '01_hand_woman',
-    url: '/assets/models/01/02/hand_woman.awd'
+    url: '/assets/models/01/02/arm.awd'
   },
   {
     type: 'audio',

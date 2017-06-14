@@ -5,22 +5,22 @@ export default {
   endColor: new Color( 0xffffff ),
   alpha: 1,
   position: {
-    x: -75,
-    y: 25,
-    z: -52
+    x: -775,
+    y: 355,
+    z: -200
   },
   endPosition: {
-    x: -430,
+    x: -1230,
     y: 361,
     z: -90
   },
   rotation: {
-    x: -0.5,
+    x: -0.8,
     y: -2.53,
-    z: -0.98,
+    z: -1.29,
   },
   endRotation: {
-    x: -0.,
+    x: -1.,
     y: -2.6,
     z: -0.98
   },
@@ -29,7 +29,7 @@ export default {
     y: 110,
     z: 110
   },
-  size: 20.,
+  size: 10.,
   amplitude: 5.,
   frequency: 5.,
   endSize: 20.,

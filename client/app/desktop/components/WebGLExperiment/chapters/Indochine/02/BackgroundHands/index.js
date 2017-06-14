@@ -20,6 +20,7 @@ class BackgroundHands extends Object3D {
 
   play(){
 
+    console.log("play heartbeat");
     if( this.count == 0 ){
 
       this.heartbeatId = this.heartbeat.play()
@@ -27,6 +28,14 @@ class BackgroundHands extends Object3D {
       setTimeout( () => this.down(), 2000)
 
     }
+  }
+
+  stop(){
+
+    console.log("stop heartbeat");
+    AudioManager.stop( 'heartbeat' )
+    this.heartbeat.fade( 1, 0, 200, this.heartbeatId )
+
   }
 
   createParticules(){

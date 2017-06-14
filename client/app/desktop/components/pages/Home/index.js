@@ -4,6 +4,7 @@ import EventsConstants from './../../../../../flux/constants/EventsConstants'
 import Store from './../../../../../flux/store/desktop'
 import bodymovin from 'bodymovin'
 import miniVideo from 'mini-video'
+import Synchro from './../../ui/Synchro'
 
 class Home extends Page {
 
@@ -11,6 +12,8 @@ class Home extends Page {
 
     super( props )
     this.history = props.history
+    this.video = true
+    this.synchro = false
 
   }
 
@@ -28,8 +31,14 @@ class Home extends Page {
       this.mVideo.play( 70 )
 
     })
-    this.mVideo.on('ended', () => this.history.push( '/indochine/01' ) )
 
+    this.mVideo.on('ended', () =>{
+      this.video = false
+      this.synchro = true
+      this.setState({ render: true })
+    })
+
+    //TODO input enter
   }
 
 
@@ -69,11 +78,13 @@ class Home extends Page {
 
     return(
       <div className="page" ref="parent" id="Home">
-        <div className="video-container" ref="videoContainer"></div>
+        {(this.video == true  ? <div className="video-container" ref="videoContainer"></div>: null)}
+        {(this.synchro == true  ? <Synchro />: null)}
       </div>
     )
 
   }
+
   didTransitionOutComplete() {
 
     super.didTransitionOutComplete()

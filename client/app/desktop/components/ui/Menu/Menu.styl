@@ -1,8 +1,6 @@
 @import './../../../../../style/app.styl'
 
-
 .navigation
-  z-index 100
   position absolute
   display flex
   flex-flow column
@@ -13,18 +11,22 @@
   width $MENU_WIDTH
   color $WHITE
 
+  &__index
+    margin-top -8px
+    margin-left -15px
+    opacity 0
+
   &__about
     margin-top: $ABOUT_TOP
 
     .about
       font-family "Roboto-Regular"
-      font-size 14px
+      font-size 12px
       text-transform uppercase
       color rgba(255, 245, 245, 1)
       text-align right
 
     .about:hover
-      opacity 10%
       cursor pointer
       color rgba(255, 245, 245, 0.7)
 
@@ -44,23 +46,23 @@
         height 1.5px
         background-color $WHITE
         float right
-        margin-bottom 50px
+        margin-bottom 30px
 
       &__inactive
         width 20px
         height 2px
         background-color $WHITE
         float right
-        margin-bottom 50px
+        margin-bottom 30px
         animation-name: toInactiveChapter;
         animation-duration: 0.2s;
 
     li
-      padding 4px
+      padding 6px
       width 25px
       height 2px
       float right
-      margin-bottom 50px
+      margin-bottom 30px
       background-color transparent
 
 

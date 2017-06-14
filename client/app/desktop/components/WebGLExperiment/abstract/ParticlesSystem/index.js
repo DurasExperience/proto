@@ -28,10 +28,10 @@ class ParticlesSystem extends Object3D  {
     let texture = this.createCanvasMaterial('#'+'dcdded', 32)
 
     this.particleMaterial = new PointsMaterial({
-      size: 8,
+      size: 4,
       fog: true,
       map: texture,
-      opacity: 0.6,
+      opacity: 0,
       transparent: true
     })
 
@@ -45,14 +45,19 @@ class ParticlesSystem extends Object3D  {
     this.particleMaterial.map = this.createCanvasMaterial('#'+'ff0000', 64)
 
     this.tl = new TimelineMax({ restart: 1 })
-    this.tl.to( this.particleMaterial, 0.5, { size: 24 }, 0)
+    this.tl.to( this.particleMaterial, 0.4, { size: 14 }, 0.4)
+    this.tl.to( this.particleMaterial, 0.2, { size: 2 }, 1)
+    this.tl.to( this.particleMaterial, 0.4, { size: 14 }, 1.2)
+    this.tl.to( this.particleMaterial, 0.2, { size: 4 }, 1.6)
+    this.tl.to( this.particleMaterial, 0.4, { size: 14 }, 2)
+    this.tl.to( this.particleMaterial, 0.2, { size: 4 }, 2.4)
 
   }
 
   down(){
 
     this.particleMaterial.map = this.createCanvasMaterial('#'+'dcdded', 32)
-    this.tl.reverse()
+    //this.tl.reverse()
 
   }
 
