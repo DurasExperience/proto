@@ -1,7 +1,9 @@
 import { Group, Mesh, BufferGeometry, Geometry, BufferAttribute, GeometryUtils } from 'three'
-import { troubles_01 as Config, splines as splinesConfig } from './Config'
+import { troubles_01 as Config, linesSplines as linesSplinesConfig, arcSplines as arcSplinesConfig } from './Config'
 import Buildings from './Buildings'
+import Rails from './Rails'
 import LineSpline from './LineSpline'
+import ArcSpline from './ArcSpline'
 import Walk from './Walk'
 import GlobalConfig from '././../../../../../../../config'
 import Store from './../../../../../../../flux/store/desktop/index'
@@ -11,6 +13,7 @@ import GUI from './../../../../../../../helpers/GUI'
 import AudioManager from './../../../../../../../helpers/AudioManager'
 
 import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
+import VignettePass from 'avdp-wagner/src/passes/vignette/VignettePass'
 import MultiPassBloomPass from 'avdp-wagner/src/passes/bloom/MultiPassBloomPass'
 import KaleidoscopePass from 'avdp-wagner/src/passes/kaleidoscope/KaleidoscopePass'
 
@@ -36,14 +39,22 @@ class Troubles01 extends Group {
     this.buildings = new Buildings()
     this.add( this.buildings )
     this.objects = [ this.walk, this.buildings ]
-    this.splines = []
-    for ( let i = 0; i < splinesConfig.length; i++ ) {
-      const spline = new LineSpline( splinesConfig[ i ], this.scene.camera, controlsContainer )
-      this.splines.push( spline )
+    // this.objects = [ this.rails ]
+    this.linesSplines = []
+    for ( let i = 0; i < linesSplinesConfig.length; i++ ) {
+      const spline = new LineSpline( linesSplinesConfig[ i ], this.scene.camera, controlsContainer )
+      this.linesSplines.push( spline )
       this.add( spline )
       this.objects.push( spline )
     }
-
+    this.arcSplines = []
+    for ( let i = 0; i < arcSplinesConfig.length; i++ ) {
+      const spline = new ArcSpline( arcSplinesConfig[ i ], this.scene.camera, controlsContainer )
+      this.arcSplines.push( spline )
+      this.add( spline )
+      this.objects.push( spline )
+    }
+    this.rails = new Rails()
     this.limit = this.walk.duration - 2
 
     this.initPostProcessing()
@@ -85,7 +96,7 @@ class Troubles01 extends Group {
     // Store.on( EventsConstants.START_CHAPTER, this.play )
     this.addListeners()
     this.play()
-    this.addGUI()
+    // this.addGUI()
 
   }
 
@@ -98,9 +109,9 @@ class Troubles01 extends Group {
     this.ambientSoundId = this.ambientSound.play()
     this.drunkAmbientSoundId = this.drunkAmbientSound.play()
     this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
-    this.timeout = setTimeout( () => { this.splines[ 0 ].start() }, 1500 )
-    this.splinesTimeout = setTimeout( () => { this.splinesTlOut.play() }, (this.walk.duration - 3) * 1000 )
-    this.splinesTlIn.play()
+    this.timeout = setTimeout( () => { this.linesSplines[ 0 ].start() }, 1500 )
+    this.linesSplinesTimeout = setTimeout( () => { this.linesSplinesTlOut.play() }, 10 * 1000 )
+    this.linesSplinesTlIn.play()
 
   }
 
@@ -112,6 +123,7 @@ class Troubles01 extends Group {
     })
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
+    this.vignettePass = new VignettePass( this.config.postProcessing.vignettePass )
 
     this.passes = [ this.boxBlurPass, this.multiPassBloomPass ]
     this.initPassesLength = this.passes.length
@@ -121,6 +133,7 @@ class Troubles01 extends Group {
   addGUI() {
 
     // this.buildings.addGUI()
+    this.rails.addGUI()
 
     this.multiPassBloomPass.params.range = [ 0, 5 ]
     this.kaleidoscopePass.params.rangeSides = [ 0, 12 ]
@@ -137,19 +150,39 @@ class Troubles01 extends Group {
 
   setupTimelines() {
 
-    this.splinesTlIn = new TimelineMax({ paused: true })
-    for ( let i = 1; i < this.splines.length; i++ ) {
-      this.splinesTlIn.add( () => { this.splines[ i ].start() }, this.config.timeDelay * i )
+    this.linesSplinesTlIn = new TimelineMax({ paused: true })
+    for ( let i = 1; i < this.linesSplines.length; i++ ) {
+      this.linesSplinesTlIn.add( () => { this.linesSplines[ i ].start() }, this.config.timeDelay * i )
     }
 
-    this.splinesTlOut = new TimelineMax({ paused: true })
-    for ( let i = 1; i < this.splines.length - 1; i++ ) {
-      this.splinesTlOut.to( this.splines[ i ].mesh.material.uniforms.opacity, 3, { value: 0, ease: Expo.easeOut }, i * 0.1)
+    this.arcSplinesTlIn = new TimelineMax({ paused: true })
+    for ( let i = 0; i < this.arcSplines.length; i++ ) {
+      this.arcSplinesTlIn.add( () => { this.arcSplines[ i ].start() }, 0.5 * i )
     }
 
+    this.linesSplinesTlOut = new TimelineMax({
+      paused: true,
+      onComplete: () => {
+        this.swapTl.play()
+      }
+    })
+    for ( let i = 1; i < this.linesSplines.length - 1; i++ ) {
+      this.linesSplinesTlOut.to( this.linesSplines[ i ].mesh.material.uniforms.opacity, 3, { value: 0, ease: Expo.easeOut }, i * 0.1)
+    }
+    this.linesSplinesTlOut.add( () => { this.addRails() }, 0.1 )
+
+    this.swapTl = new TimelineMax({
+      paused: true,
+      onComplete: () => {
+        this.arcSplinesTlIn.play()
+      }
+    })
+    this.swapTl.to( this.buildings.position, 1.5, { y: -1000, ease: Expo.easeIn }, 0 )
+    this.swapTl.to( this.buildings.mesh.uniforms.alpha, 1.5, { value: 0 }, 0.1 )
+
+    
     this.fadeOutTl = new TimelineMax({ paused: true, onComplete: this.clearGroup })
-    this.fadeOutTl.to( this.buildings.position, 1.5, { y: -1000, ease: Expo.easeIn }, 0 )
-    this.fadeOutTl.to( this.buildings.mesh.uniforms.alpha, 1.5, { value: 0 }, 0.1 )
+    this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
 
   }
 
@@ -169,27 +202,40 @@ class Troubles01 extends Group {
 
   mess() {
 
-    const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
-    if( disableMess ) return
-    this.scene.passes.push( this.kaleidoscopePass )
-    this.ambientSound.fade( 1, 0, 300, this.ambientSoundId )
-    this.drunkAmbientSound.fade( 0, 1, 300, this.drunkAmbientSoundId )
+    // this.arcSplines[ 0 ].start()
+    this.arcSplinesTlIn.play()
+    // const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
+    // if( disableMess ) return
+    // this.scene.passes.push( this.kaleidoscopePass )
+    // this.ambientSound.fade( 1, 0, 300, this.ambientSoundId )
+    // this.drunkAmbientSound.fade( 0, 1, 300, this.drunkAmbientSoundId )
 
   }
 
   clean() {
 
-    const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
-    if( disableMess ) return
-    this.scene.passes.pop()
-    this.drunkAmbientSound.fade( 1, 0, 300, this.drunkAmbientSoundId )
-    this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
+    // const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
+    // if( disableMess ) return
+    // this.scene.passes.pop()
+    // this.drunkAmbientSound.fade( 1, 0, 300, this.drunkAmbientSoundId )
+    // this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
+
+  }
+
+  addRails() {
+
+    this.add( this.rails )
+    this.objects.push( this.rails )
+    this.rails.transitionIn()
 
   }
 
   fadeOut() {
 
     if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
+    this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
+    this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
+    this.scene.passes.push( this.vignettePass )
     this.fadeOutTl.play()
 
   }
@@ -197,13 +243,13 @@ class Troubles01 extends Group {
   clearGroup() {
     this.removeListeners()
     clearTimeout( this.timeout )
-    clearTimeout( this.splinesTimeout )
+    clearTimeout( this.linesSplinesTimeout )
     for ( let i = this.children.length - 1; i >= 0; i--) {
       this.remove( this.children[ i ] )
     }
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
-    Actions.changeSubpage( '/troubles/02' )
+    // Actions.changeSubpage( '/troubles/02' )
 
   }
 
@@ -220,7 +266,7 @@ class Troubles01 extends Group {
 
   resize( newWidth, newHeight ) {
 
-    for ( let spline of this.splines ) {
+    for ( let spline of this.linesSplines ) {
 
       spline.resize( newWidth, newHeight )
 

@@ -11,7 +11,7 @@ class Walk extends AudioSpline {
     super( scene, controlsContainer, '02_01_voice' )
     this.config = Config
     this.fadeOut = fadeOut
-    this.duration = 12
+    // this.duration = 12
     this.bind()
 
   }
@@ -28,7 +28,7 @@ class Walk extends AudioSpline {
 
     this.points = [
       new Vector3( 0, 400, 0 ),
-      new Vector3( 0, 400, -6000 )
+      new Vector3( 0, 400, -15000 )
     ]
     if ( GlobalConfig.debug ) {
 
@@ -40,7 +40,6 @@ class Walk extends AudioSpline {
       this.controlsContainer.rotation.z = this.config.camera.rotation.z
 
     } else {
-
       this.scene.camera.position.x = this.config.camera.position.x
       this.scene.camera.position.y = this.config.camera.position.y
       this.scene.camera.position.z = this.config.camera.position.z
