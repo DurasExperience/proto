@@ -4,19 +4,19 @@ import ParseVec3 from './../../../../utils/ParseVector3'
 
 class ArcSpline extends Object3D {
 
-  constructor( config, camera, controlsContainer ) {
+  constructor( id, config, camera, controlsContainer ) {
 
     super()
     this.config = config
-    this.duration = 2 + 1 * Math.random()
+    this.duration = 3 + 1 * Math.random()
     this.progress = 0
+    this.name= `arcSpline-${id}`
 
-    this.curve =  new THREE.CatmullRomCurve3( ParseVec3( this.config.points ) )
+    this.curve =  new CatmullRomCurve3( ParseVec3( this.config.points ) )
 
     this.geometry = new Geometry()
     this.geometry.vertices = this.curve.getPoints( 50 )
     this.geometry.computeBoundingBox()
-    console.log( this.geometry.boundingBox )
 
 
     this.line = new MeshLine()
@@ -41,8 +41,8 @@ class ArcSpline extends Object3D {
     this.mesh = new Mesh( this.line.geometry, this.material )
     this.mesh.scale.set( 3, 3, 3 )
     this.mesh.position.x = -30 + this.config.start.x
-    this.mesh.position.y = 150
-    this.mesh.position.z = -7000 + this.config.start.z
+    this.mesh.position.y = 100
+    this.mesh.position.z = -6000 + this.config.start.z
     this.add( this.mesh )
     this.bind()
 

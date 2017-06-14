@@ -11,6 +11,8 @@ import Actions from './../../../../../../../flux/actions'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import GUI from './../../../../../../../helpers/GUI'
 import AudioManager from './../../../../../../../helpers/AudioManager'
+import ClearObject3D from './../../../utils/ClearObject3D'
+import Numbers from './../../../utils/Numbers'
 
 import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from 'avdp-wagner/src/passes/vignette/VignettePass'
@@ -27,35 +29,35 @@ class Troubles01 extends Group {
     this.scene = scene
     this.config = Config
 
+    this.LEVEL = 'buildings'
+    this.STATE = 'clean'
 
     this.bind()
-    // this.scene.camera.position.z = 5000
+    this.buildings = new Buildings()
+    this.add( this.buildings )
 
     this.walk = new Walk( scene, controlsContainer, this.fadeOut )
     this.walk.init()
     this.walk.enableSpline()
     this.walk.update()
     if ( GlobalConfig.debug ) this.walk.createGeometry()
-    this.buildings = new Buildings()
-    this.add( this.buildings )
-    this.objects = [ this.walk, this.buildings ]
-    // this.objects = [ this.rails ]
+    this.objects = [ this.buildings, this.walk ]
     this.linesSplines = []
     for ( let i = 0; i < linesSplinesConfig.length; i++ ) {
-      const spline = new LineSpline( linesSplinesConfig[ i ], this.scene.camera, controlsContainer )
+      const spline = new LineSpline( i, linesSplinesConfig[ i ], this.scene.camera, controlsContainer )
       this.linesSplines.push( spline )
       this.add( spline )
       this.objects.push( spline )
     }
     this.arcSplines = []
     for ( let i = 0; i < arcSplinesConfig.length; i++ ) {
-      const spline = new ArcSpline( arcSplinesConfig[ i ], this.scene.camera, controlsContainer )
+      const spline = new ArcSpline( i, arcSplinesConfig[ i ], this.scene.camera, controlsContainer )
       this.arcSplines.push( spline )
       this.add( spline )
       this.objects.push( spline )
     }
     this.rails = new Rails()
-    this.limit = this.walk.duration - 2
+    this.limit = this.walk.duration - 12
 
     this.initPostProcessing()
     this.setupTimelines()
@@ -65,7 +67,7 @@ class Troubles01 extends Group {
 
   bind() {
 
-    [ 'resize', 'update', 'fadeIn', 'fadeOut', 'play', 'clearGroup', 'mess', 'clean' ]
+    [ 'resize', 'update', 'fadeOut', 'play', 'clearGroup', 'mess', 'clean', 'forceMess' ]
         .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -93,16 +95,16 @@ class Troubles01 extends Group {
   start() {
 
     this.scene.setupPostProcessing( this.passes )
-    // Store.on( EventsConstants.START_CHAPTER, this.play )
-    this.addListeners()
-    this.play()
+    Store.on( EventsConstants.START_CHAPTER, this.play )
+    // this.play()
     // this.addGUI()
 
   }
 
   play() {
 
-    // Store.off( EventsConstants.START_CHAPTER, this.play )
+    Store.off( EventsConstants.START_CHAPTER, this.play )
+    this.addListeners()
     this.walk.start()
     this.walk.play()
 
@@ -111,6 +113,7 @@ class Troubles01 extends Group {
     this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
     this.timeout = setTimeout( () => { this.linesSplines[ 0 ].start() }, 1500 )
     this.linesSplinesTimeout = setTimeout( () => { this.linesSplinesTlOut.play() }, 10 * 1000 )
+    this.messTimeout = setTimeout( this.forceMess, this.limit * 1000 )
     this.linesSplinesTlIn.play()
 
   }
@@ -152,12 +155,13 @@ class Troubles01 extends Group {
 
     this.linesSplinesTlIn = new TimelineMax({ paused: true })
     for ( let i = 1; i < this.linesSplines.length; i++ ) {
-      this.linesSplinesTlIn.add( () => { this.linesSplines[ i ].start() }, this.config.timeDelay * i )
+      this.linesSplinesTlIn.add( () => { this.linesSplines[ i ].start() }, 0.7 * i )
     }
 
     this.arcSplinesTlIn = new TimelineMax({ paused: true })
     for ( let i = 0; i < this.arcSplines.length; i++ ) {
-      this.arcSplinesTlIn.add( () => { this.arcSplines[ i ].start() }, 0.5 * i )
+      const delay = ( 0.5 * i ) - ( 0.3 * i )
+      this.arcSplinesTlIn.add( () => { this.arcSplines[ i ].start() }, delay )
     }
 
     this.linesSplinesTlOut = new TimelineMax({
@@ -167,7 +171,7 @@ class Troubles01 extends Group {
       }
     })
     for ( let i = 1; i < this.linesSplines.length - 1; i++ ) {
-      this.linesSplinesTlOut.to( this.linesSplines[ i ].mesh.material.uniforms.opacity, 3, { value: 0, ease: Expo.easeOut }, i * 0.1)
+      this.linesSplinesTlOut.to( this.linesSplines[ i ].mesh.material.uniforms.opacity, 3, { value: 0, ease: Expo.easeOut }, i * 0.1 )
     }
     this.linesSplinesTlOut.add( () => { this.addRails() }, 0.1 )
 
@@ -175,6 +179,9 @@ class Troubles01 extends Group {
       paused: true,
       onComplete: () => {
         this.arcSplinesTlIn.play()
+        this.swapClear()
+        this.LEVEL = 'rails'
+        if ( this.STATE === 'mess' ) this.scene.camera.rotation.x = -1.89
       }
     })
     this.swapTl.to( this.buildings.position, 1.5, { y: -1000, ease: Expo.easeIn }, 0 )
@@ -182,7 +189,7 @@ class Troubles01 extends Group {
 
     
     this.fadeOutTl = new TimelineMax({ paused: true, onComplete: this.clearGroup })
-    this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
+    this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut }, 0 )
 
   }
 
@@ -193,32 +200,75 @@ class Troubles01 extends Group {
 
   }
 
-  fadeIn() {
-
-    this.fadeInTl = new TimelineMax()
-    this.fadeInTl.to( this.vignettePass.params, 1, { boost: 1, ease: Sine.easeIn } )
-
-  }
-
   mess() {
 
-    // this.arcSplines[ 0 ].start()
-    this.arcSplinesTlIn.play()
-    // const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
-    // if( disableMess ) return
-    // this.scene.passes.push( this.kaleidoscopePass )
-    // this.ambientSound.fade( 1, 0, 300, this.ambientSoundId )
-    // this.drunkAmbientSound.fade( 0, 1, 300, this.drunkAmbientSoundId )
+    if ( this.STATE === 'forceMess' ) {
+      const side = Math.random() > 0.5 ? -1 : 1
+      const random = {
+        x: this.scene.camera.rotation.x + Numbers.randomInRange( -0.25, 0.25 ),
+        z: this.scene.camera.rotation.z + Numbers.randomInRange( -0.25, 0.25 )
+      }
+      this.kaleidoscopePass.params.sides += side
+      TweenMax.to( this.kaleidoscopePass.params, 0.5, { angle: Numbers.randomInRange( -Math.PI, Math.PI ) } )
+      TweenMax.to( this.scene.camera.rotation, 0.5, { x: random.x, z: random.z } )
+
+    } else {
+
+      this.scene.passes.push( this.kaleidoscopePass )
+      this.ambientSound.fade( 1, 0, 300, this.ambientSoundId )
+      this.drunkAmbientSound.fade( 0, 1, 300, this.drunkAmbientSoundId )
+      if ( this.LEVEL === 'rails' ) this.scene.camera.rotation.x = -1.89
+      this.STATE = 'mess'
+
+    }
 
   }
 
   clean() {
 
-    // const disableMess = Math.ceil( this.walk.time * this.walk.duration ) > this.limit
-    // if( disableMess ) return
-    // this.scene.passes.pop()
-    // this.drunkAmbientSound.fade( 1, 0, 300, this.drunkAmbientSoundId )
-    // this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
+    if ( this.STATE === 'forceMess' ) return
+    this.scene.passes.pop()
+    this.drunkAmbientSound.fade( 1, 0, 300, this.drunkAmbientSoundId )
+    this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
+    if ( this.LEVEL === 'rails' ) this.scene.camera.rotation.x = 1
+    this.STATE = 'clean'
+
+  }
+
+  forceMess() {
+
+    this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
+    this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
+    this.scene.passes.push( this.vignettePass )
+    this.forceMessTl = new TimelineMax()
+    this.forceMessTl.to( this.vignettePass.params, 1, { boost: 0, ease: Sine.easeOut } )
+    this.forceMessTl.add( () => {
+      this.mess()
+      this.STATE = 'forceMess'
+      this.kaleidoscopePass.params.sides = this.config.postProcessing.kaleidoscopePass.sides + 2
+      this.scene.camera.rotation.x = -2
+      this.scene.camera.rotation.z = 0.58
+    } )
+    this.forceMessTl.to( this.vignettePass.params, 1, { boost: this.config.postProcessing.vignettePass.boost, ease: Sine.easeOut } )
+
+  }
+
+  swapClear() {
+
+    // Clear buildings
+    this.objects.shift()
+    this.remove( this.buildings )
+    ClearObject3D( this.buildings )
+
+    // Clear lines 1 to max - 1
+    for ( let i = 1; i < linesSplinesConfig.length - 1; i++ ) {
+      const spline = this.linesSplines[ 0 ]
+      this.objects.splice( 1, 1 )
+      this.linesSplines.shift()
+      this.remove( spline )
+      ClearObject3D( spline )
+    }
+
 
   }
 
@@ -232,30 +282,44 @@ class Troubles01 extends Group {
 
   fadeOut() {
 
-    if ( this.scene.passes.length > this.initPassesLength ) this.scene.passes.pop()
+    // if ( this.scene.passes.length > this.initPassesLength + 1 ) this.scene.passes.pop()
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.scene.passes.push( this.vignettePass )
+    // this.scene.passes.push( this.vignettePass )
+    this.ambientSound.stop()
+    this.drunkAmbientSound.fade( 1, 0, 1000, this.drunkAmbientSoundId )
     this.fadeOutTl.play()
 
   }
 
   clearGroup() {
+
     this.removeListeners()
     clearTimeout( this.timeout )
     clearTimeout( this.linesSplinesTimeout )
     for ( let i = this.children.length - 1; i >= 0; i--) {
-      this.remove( this.children[ i ] )
+      const child = this.children[ i ]
+      this.remove( child )
+      ClearObject3D( child )
     }
+    this.objects = []
+    this.walk.clear()
+    this.fadeOutTl.clear()
+    this.linesSplinesTlIn.clear()
+    this.linesSplinesTlOut.clear()
+    this.arcSplinesTlIn.clear()
+    clearTimeout( this.timeout )
+    clearTimeout( this.linesSplinesTimeout )
+    clearTimeout( this.messTimeout )
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
-    // Actions.changeSubpage( '/troubles/02' )
+    // Actions.changeSubpage( '/indochine/02' )
 
   }
 
 
   update( time ) {
-
+    
     for ( let obj of this.objects ) {
 
       obj.update( time )

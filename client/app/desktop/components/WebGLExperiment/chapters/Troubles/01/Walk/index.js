@@ -11,7 +11,7 @@ class Walk extends AudioSpline {
     super( scene, controlsContainer, '02_01_voice' )
     this.config = Config
     this.fadeOut = fadeOut
-    // this.duration = 12
+    // this.duration = 20
     this.bind()
 
   }
@@ -28,7 +28,8 @@ class Walk extends AudioSpline {
 
     this.points = [
       new Vector3( 0, 400, 0 ),
-      new Vector3( 0, 400, -15000 )
+      new Vector3( 0, 400, -6500 ),
+      new Vector3( 0, 400, -13000 )
     ]
     if ( GlobalConfig.debug ) {
 

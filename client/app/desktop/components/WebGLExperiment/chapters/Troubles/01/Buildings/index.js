@@ -86,17 +86,12 @@ class Buildings extends Object3D {
 
     this.geometry.rotateY( Math.PI / 2 )
 
-    const mat = new MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true
-    })
-
     // const scaleMatrix = new Matrix4()
     // scaleMatrix.makeScale( 200, 200, 200 )
     // geometry.applyMatrix( scaleMatrix )
 
     // this.mesh = new Mesh( geometry, mat )
-
+    console.log( 'buildings', this.max )
     this.mesh = new ParticlesMesh( 'buildings', this.geometry, this.config )
     this.mesh.position.x = this.config.position.x
     this.mesh.position.z = this.config.position.z

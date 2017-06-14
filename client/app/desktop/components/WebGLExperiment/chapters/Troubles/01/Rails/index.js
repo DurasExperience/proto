@@ -69,11 +69,15 @@ class Rails extends Object3D {
       wireframe: true
     })
 
+    console.log( 'rails', this.max )
     this.mesh = new ParticlesMesh( 'rails', this.geometry, this.config )
     this.mesh.position.x = this.config.position.x
     this.mesh.position.y = this.config.position.y
     this.mesh.position.z = this.config.end.z
     this.add( this.mesh )
+
+    this.MOVE = false
+    this.SHIFT = 0
 
     this.transitionIn = this.transitionIn.bind( this )
 
@@ -81,8 +85,12 @@ class Rails extends Object3D {
 
   transitionIn() {
 
-    this.tlIn = new TimelineMax()
-    this.tlIn.to( this.mesh.uniforms.alpha, 3, { value: 1 }, 0 )
+    this.tlIn = new TimelineMax({
+      onComplete: () => {
+        this.MOVE = true
+      }
+    })
+    this.tlIn.to( this.mesh.uniforms.alpha, 3, { value: 1, ease: Sine.easeIn }, 0 )
     this.tlIn.to( this.mesh.position, 3, { y: this.config.end.y }, 0 )
     // this.tlIn.to( this.mesh.position, 4, { z: this.config.end.z }, 0 )
   }
@@ -113,7 +121,11 @@ class Rails extends Object3D {
   }
 
   update( time ) {
-
+    
+    // if( this.MOVE ) {
+    //   this.mesh.position.z += 1 + this.SHIFT
+    //   this.SHIFT += 0.02
+    // }
     this.mesh.update( time )
 
   }

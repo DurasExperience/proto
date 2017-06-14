@@ -20,7 +20,7 @@ class BaseScene extends Scene {
     this.renderer = new WebGLRenderer({ antialias: true })
     this.renderer.setSize( width, height )
     this.renderer.setPixelRatio( window.devicePixelRatio )
-    this.renderer.precision = 'lowp'
+    // this.renderer.precision = 'lowp'
 
     this.renderer.setClearColor( 0x07080E, 1 )
     this.renderer.autoClear = false
@@ -127,12 +127,12 @@ class BaseScene extends Scene {
 
     this.composer.reset()
     this.composer.render( this, this.camera )
-    // for ( const pass of this.passes ) {
+    for ( const pass of this.passes ) {
 
-    //   this.composer.pass( pass )
+      this.composer.pass( pass )
 
-    // }
-    // this.composer.pass( this.fxaaPass )
+    }
+    this.composer.pass( this.fxaaPass )
     this.composer.toScreen()
 
   }

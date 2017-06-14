@@ -1,7 +1,7 @@
 import { Color } from 'three'
 
 export default {
-  slices: 10,
+  slices: 16,
   color: new Color( 0xAFB1F1 ),
   alpha: 0,
   scale: {
@@ -10,14 +10,14 @@ export default {
     z: 200
   },
   position: {
-    x: 5,
+    x: -50,
     y: 0,
     z: -9000
   },
   end: {
-    x: 5,
+    x: -50,
     y: 0,
-    z: -13000
+    z: -20500
   },
   size: 11,
   amplitude: 3.3,
