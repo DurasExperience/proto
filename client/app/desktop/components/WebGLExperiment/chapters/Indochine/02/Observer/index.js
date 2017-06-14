@@ -63,7 +63,7 @@ class Observer extends AudioSpline {
     this.points = [
       new Vector3( 0, 10, 500 ),
       new Vector3( 0, -50, 800 ),
-      new Vector3( 0, 0, 1300 )
+      new Vector3( 0, 0, 1100 )
     ]
     super.init()
 

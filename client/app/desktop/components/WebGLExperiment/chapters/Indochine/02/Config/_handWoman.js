@@ -20,14 +20,14 @@ export default {
     z: -1.1,
   },
   endRotation: {
-    x: 2.45,
+    x: 2.36,
     y: 0.17,
     z: -1.30
   },
   scale: {
-    x: 110,
-    y: 110,
-    z: 110
+    x: 90,
+    y: 90,
+    z: 90
   },
   size: 15.,
   amplitude: 5.,

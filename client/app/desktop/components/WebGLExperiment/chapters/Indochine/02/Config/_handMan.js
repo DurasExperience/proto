@@ -22,7 +22,7 @@ export default {
   endRotation: {
     x: -1.,
     y: -2.6,
-    z: -0.98
+    z: -0.7
   },
   scale: {
     x: 110,

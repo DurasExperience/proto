@@ -2,6 +2,7 @@ import { Group, Mesh, SphereBufferGeometry, MeshBasicMaterial } from 'three'
 import HandWoman from './HandWoman'
 import HandMan from './HandMan'
 import BackgroundHands from './BackgroundHands'
+import Background from './Background'
 import Observer from './Observer'
 
 import Actions from './../../../../../../../flux/actions'
@@ -32,17 +33,16 @@ class Indochine02 extends Group {
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
     this.observer.enableSpline()
 
-    this.backgroundHands = new BackgroundHands()
+    this.background = new Background()
     this.handWoman = new HandWoman( this.observer.duration )
     this.handMan = new HandMan( this.observer.duration )
 
-    this.add(  this.backgroundHands.particles.mesh  )
+    this.add( this.background  )
     this.add( this.handWoman )
     this.add( this.handMan )
-    this.objects = [ this.handWoman, this.handMan, this.backgroundHands ]
+    this.objects = [ this.handWoman, this.handMan, this.background ]
 
     this.initPostProcessing()
-    this.setupReverse()
     this.setupSound()
     this.count = 0
 
@@ -100,18 +100,10 @@ class Indochine02 extends Group {
 
   }
 
-  setupReverse() {
-
-    this.reverseTl = new TimelineMax({ paused: true })
-    this.reverseTl.to( this.zoomBlurPass.params, 1, { strength: 0.35 }, 0 )
-    this.reverseTl.to( this.zoomBlurPass.params, 0.5, { strength: 0.0025 }, 1.2 )
-    this.reverseTl.timeScale( 2 )
-
-  }
-
   setupSound(){
 
     //this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
+    
     this.surfaceSound = AudioManager.get( '01_02_voice' )
     this.duration = Math.ceil( this.surfaceSound.duration() )
 
@@ -135,6 +127,7 @@ class Indochine02 extends Group {
     this.observer.addGUI()
     this.handWoman.addGUI()
     this.handMan.addGUI()
+    this.background.addGUI()
 
     this.vignettePass.params.range = [ 0, 10 ]
     this.zoomBlurPass.params.range = [ 0, 2 ]
@@ -155,11 +148,9 @@ class Indochine02 extends Group {
 
   reverse() {
 
-    this.reverseTl.play( 0 )
-    //this.observer.reverse( 4 )
+    this.background.reverse()
     this.handWoman.reverse( 4 )
     this.handMan.reverse( 4 )
-    this.backgroundHands.reverse()
 
   }
 
