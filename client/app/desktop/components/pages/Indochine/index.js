@@ -1,15 +1,12 @@
-import './layout.styl'
+import './Indochine.styl'
 import Page from './../../base/Page'
 import Menu from './../../ui/Menu'
 import SoundLevel from './../../ui/SoundLevel'
-import Chapter from './../../ui/Chapter'
-import Tuto from './../../ui/Tuto'
-import Synchro from './../../ui/Synchro'
 import Store from './../../../../../flux/store/desktop/index'
 import Actions from './../../../../../flux/actions'
 import Config from './../../../../../config'
 
-class Layout extends Page {
+class Indochine extends Page {
 
   constructor( props ) {
 
@@ -46,13 +43,23 @@ class Layout extends Page {
       return(
         <div className="page" ref="parent">
           <div className="page__gradient"></div>
-          <div className="page--layout">
+
+          <div className="page--indochine">
             <SoundLevel/>
-            <Menu activeChapter={this} />
-            <Chapter chapterText={this.props}/>
-            <Tuto />
-            <Synchro />
+            <Menu/>
+            <div className="page--indochine__chapter">
+              <div  className="page--indochine__text">
+                <div>
+                  <div> {this.props.chapter } </div>
+                  <div id="slash"></div>
+                </div>
+                <h2> {this.props.title } </h2>
+                <h3> {this.props.subtitle } </h3>
+                <p> {this.props.text } </p>
+              </div>
+            </div>
           </div>
+
         </div>
       )
     } else return null
@@ -79,4 +86,4 @@ class Layout extends Page {
 
 }
 
-export default Layout
+export default Indochine

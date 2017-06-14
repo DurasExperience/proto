@@ -2,6 +2,7 @@
 
 
 .navigation
+  z-index 100
   position absolute
   display flex
   flex-flow column
@@ -14,41 +15,60 @@
 
   &__about
     margin-top: $ABOUT_TOP
-    font-family "Roboto-Regular"
-    font-size 14px
-    color #FFF5F5
+
+    .about
+      font-family "Roboto-Regular"
+      font-size 14px
+      text-transform uppercase
+      color rgba(255, 245, 245, 1)
+      text-align right
+
+    .about:hover
+      opacity 10%
+      cursor pointer
+      color rgba(255, 245, 245, 0.7)
 
   &__chapter
     margin-top auto
     margin-bottom auto
-    justify-content center
+    margin-left auto
     width 30px
 
-    &__list, li
-      text-align right
-      color white
+    &__list
+      background-color green
 
-    li, .activeChapter
-      width 45px
-      height 1.5px
-      background-color $WHITE
-      float right
+    .chapter
+
+      &__active
+        width 45px
+        height 1.5px
+        background-color $WHITE
+        float right
+        margin-bottom 50px
+
+      &__inactive
+        width 20px
+        height 2px
+        background-color $WHITE
+        float right
+        margin-bottom 50px
+        animation-name: toInactiveChapter;
+        animation-duration: 0.2s;
 
     li
-      width 20px
-      height 1.5px
-      background-color $WHITE
+      padding 4px
+      width 25px
+      height 2px
+      float right
+      margin-bottom 50px
+      background-color transparent
+
 
     li:hover
-      background-color red
       cursor pointer
 
-    li:not(:first-child)
-      margin-top 50px
-
-// li:has(> .active)
-// .active
-//   color red
-//   width 45px
-//   height 1.5px
-//   background-color $WHITE
+    li:hover> .navigation__item >.chapter__inactive
+      cursor pointer
+      animation-name: toActiveChapter;
+      animation-duration: 0.2s;
+      width 45px
