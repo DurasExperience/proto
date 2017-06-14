@@ -86,7 +86,7 @@ class Background extends Object3D {
     this.uniforms.amountByDegree.range = [ 0, 20 ]
 
     GUI.panel
-      .addGroup({ label: 'Background', enable: true })
+      .addGroup({ label: 'Background', enable: false })
         .addSubGroup({ label: 'Position' })
           .addSlider( this.mesh.position, 'x', 'range', { step: 1 } )
           .addSlider( this.mesh.position, 'y', 'range', { step: 1 } )

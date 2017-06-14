@@ -1,4 +1,4 @@
-import Config from './../Config/'
+import { handMan as Config } from './../Config/'
 import Store from './../../../../../../../../flux/store/desktop'
 import { Object3D, BufferGeometry, BufferAttribute } from 'three'
 import ParticlesMesh from './../../../../abstract/ParticlesMesh'
@@ -9,7 +9,7 @@ class handMan extends Object3D {
   constructor( duration ) {
 
     super()
-    this.config = Config.handMan
+    this.config = Config
     this.duration = duration
 
     this.geometry = new BufferGeometry()
@@ -17,9 +17,6 @@ class handMan extends Object3D {
     this.max = 0
 
     const model = Store.getResource( '01_hand_man' )
-
-    //TODO ADD spline
-    const splineHandMan = Store.getResource( 'spline-hand-man' )
 
     model.traverse(( child ) => {
 

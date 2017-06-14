@@ -30,8 +30,8 @@ class BaseScene extends Scene {
     this.camera = new PerspectiveCamera( 50, width / height, 0.1, 15000 )
 
     this.setControls()
-    // this.axisHelper = new AxisHelper( 200 )
-    // this.add( this.axisHelper )
+    this.axisHelper = new AxisHelper( 200 )
+    this.add( this.axisHelper )
 
     this.passes = []
 

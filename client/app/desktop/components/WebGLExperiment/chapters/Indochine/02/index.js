@@ -1,6 +1,7 @@
 import { Group, Mesh, SphereBufferGeometry, MeshBasicMaterial } from 'three'
 import HandWoman from './HandWoman'
 import HandMan from './HandMan'
+// import HandSplines from './HandSplines'
 import BackgroundHands from './BackgroundHands'
 import Background from './Background'
 import Observer from './Observer'
@@ -10,7 +11,7 @@ import Store from './../../../../../../../flux/store/desktop'
 import EventsConstants from './../../../../../../../flux/constants/EventsConstants'
 import AudioManager from './../../../../../../../helpers/AudioManager'
 import GUI from './../../../../../../../helpers/GUI'
-import Config from './Config/'
+import { indochine_02 as Config, handManSplines as handManSplinesConfig } from './Config/'
 import GlobalConfig from '././../../../../../../../config'
 
 import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
@@ -27,7 +28,8 @@ class Indochine02 extends Group {
     super()
     this.name = 'indochine-02'
     this.scene = scene
-    this.config = Config.indochine_02
+    this.config = Config
+    this.handManSplinesConfig = handManSplinesConfig
     this.bind()
 
     this.observer = new Observer( scene, controlsContainer, this.fadeOut )
@@ -36,10 +38,12 @@ class Indochine02 extends Group {
     this.background = new Background()
     this.handWoman = new HandWoman( this.observer.duration )
     this.handMan = new HandMan( this.observer.duration )
+    // this.handManSplines = new HandSplines( 'man', this.handManSplinesConfig, this.scene.camera )
 
     this.add( this.background  )
     this.add( this.handWoman )
     this.add( this.handMan )
+    // this.add( this.handManSplines )
     this.objects = [ this.handWoman, this.handMan, this.background ]
 
     this.initPostProcessing()
