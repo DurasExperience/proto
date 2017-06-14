@@ -13,6 +13,7 @@ import AudioManager from './../../../../../../../helpers/AudioManager'
 import GUI from './../../../../../../../helpers/GUI'
 import { indochine_02 as Config, handManSplines as handManSplinesConfig } from './Config/'
 import GlobalConfig from '././../../../../../../../config'
+import ClearObject3D from './../../../utils/ClearObject3D'
 
 import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from 'avdp-wagner/src/passes/vignette/VignettePass'
@@ -47,7 +48,6 @@ class Indochine02 extends Group {
     this.objects = [ this.handWoman, this.handMan, this.background ]
 
     this.initPostProcessing()
-    this.setupSound()
     this.count = 0
 
   }
@@ -101,15 +101,6 @@ class Indochine02 extends Group {
   }
 
   down(){
-
-  }
-
-  setupSound(){
-
-    //this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
-    
-    this.surfaceSound = AudioManager.get( '01_02_voice' )
-    this.duration = Math.ceil( this.surfaceSound.duration() )
 
   }
 
@@ -167,6 +158,7 @@ class Indochine02 extends Group {
 
   fadeOut() {
 
+    console.log( 'fadeout' )
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
     this.scene.passes.push( this.vignettePass )
@@ -177,11 +169,24 @@ class Indochine02 extends Group {
 
   clearGroup() {
 
+    this.removeListeners()
     this.remove( this.observer )
     this.remove( this.handWoman )
     this.remove( this.handMan )
+    for ( let i = this.children.length - 1; i >= 0; i--) {
+      const child = this.children[ i ]
+      this.remove( child )
+      ClearObject3D( child )
+    }
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
+    this.objects = []
+    this.fadeInTl.clear()
+    this.fadeOutTl.clear()
+    this.handWoman.clear()
+    this.handMan.clear()
+    Actions.endAmbient()
+    Actions.changeSubpage( '/troubles/01' )
 
 
   }
@@ -192,22 +197,6 @@ class Indochine02 extends Group {
     for ( let obj of this.objects ) {
 
       obj.update( time )
-
-    }
-
-    const newTime = this.duration - this.surfaceSound.seek()
-
-    if( newTime === this.duration ){
-
-      Actions.endAmbient()
-      this.removeListeners()
-      this.backgroundHands.stop()
-
-      setTimeout( () => {
-
-        Actions.changeSubpage( '/troubles/01' )
-
-      }, 2500)
 
     }
 

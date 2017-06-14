@@ -112,6 +112,12 @@ class HandWoman extends Object3D {
 
   }
 
+  clear() {
+
+    this.tl.clear()
+
+  }
+
   update( time ) {
 
     this.mesh.update( time )

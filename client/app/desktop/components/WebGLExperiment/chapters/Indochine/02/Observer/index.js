@@ -15,7 +15,7 @@ class Observer extends AudioSpline {
     /**
     * change audioSpline duration
     */
-    this.duration = 30
+    // this.duration = 30
     this.bind()
 
   }
@@ -66,6 +66,13 @@ class Observer extends AudioSpline {
       new Vector3( 0, 0, 1100 )
     ]
     super.init()
+
+  }
+
+  onComplete() {
+
+    super.onComplete()
+    this.fadeOut()
 
   }
 
