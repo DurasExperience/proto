@@ -5,24 +5,24 @@ export default {
   endColor: new Color( 0xffffff ),
   alpha: 1,
   position: {
-    x: -75,
-    y: 25,
-    z: -52
+    x: -525,
+    y: 267,
+    z: -890
   },
   endPosition: {
-    x: -430,
-    y: 361,
-    z: -90
+    x: -1172,
+    y: 592,
+    z: -990
   },
   rotation: {
-    x: -0.5,
-    y: -2.53,
-    z: -0.98,
+    x: -1.34,
+    y: -2.52,
+    z: -0.86,
   },
   endRotation: {
-    x: -0.,
+    x: -1.39,
     y: -2.6,
-    z: -0.98
+    z: -0.7
   },
   scale: {
     x: 110,

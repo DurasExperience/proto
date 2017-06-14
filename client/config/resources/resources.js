@@ -3,7 +3,7 @@ export default [
   {
     type: 'audio',
     id: '01_01_voice_surface',
-    url: '/assets/sounds/01/01/VOIX-SURFACE.mp3',
+    url: '/assets/sounds/01/01/voice_surface.mp3',
     options: {
       loop: false,
       volume: 0
@@ -12,7 +12,7 @@ export default [
   {
     type: 'audio',
     id: '01_01_voice_underwater',
-    url: '/assets/sounds/01/01/VOIX-DANS-LEAU.mp3',
+    url: '/assets/sounds/01/01/voice_underwater.mp3',
     options: {
       loop: false,
       volume: 0
@@ -20,8 +20,8 @@ export default [
   },
   {
     type: 'audio',
-    id: '01_01_musique_surface',
-    url: '/assets/sounds/01/01/MUSIQUE-SURFACE.mp3',
+    id: '01_01_ambient_surface',
+    url: '/assets/sounds/01/01/ambient_surface.mp3',
     options: {
       loop: true,
       volume: 0
@@ -29,8 +29,8 @@ export default [
   },
   {
     type: 'audio',
-    id: '01_01_musique_underwater',
-    url: '/assets/sounds/01/01/MUSIQUE-DANS-LEAU.mp3',
+    id: '01_01_ambient_underwater',
+    url: '/assets/sounds/01/01/ambient_underwater.mp3',
     options: {
       loop: true,
       volume: 0
@@ -44,18 +44,13 @@ export default [
   ///////// Chapitre 1.2
   {
     type: 'model',
-    id: '01_hand_man',
-    url: '/assets/models/01/02/hand_man.awd'
-  },
-  {
-    type: 'model',
-    id: '01_hand_woman',
-    url: '/assets/models/01/02/hand_woman.awd'
+    id: '01_arm',
+    url: '/assets/models/01/02/arm.awd'
   },
   {
     type: 'audio',
     id: '01_02_voice',
-    url: '/assets/sounds/01/02/VOIX-PARTIE2-SURFACE.mp3',
+    url: '/assets/sounds/01/02/voice.mp3',
     options: {
       loop: false,
       volume: 1
@@ -63,23 +58,13 @@ export default [
   },
   {
     type: 'audio',
-    id: 'heartbeat',
-    url: '/assets/sounds/01/02/HEART-BEAT.mp3',
+    id: '01_heartbeat',
+    url: '/assets/sounds/01/02/heartbeat.mp3',
     options: {
-      loop: true,
+      loop: false,
       volume: 0,
       buffer: true
     }
-  },
-  {
-    type: 'model',
-    id: 'spline-hand-man',
-    url: '/assets/models/01/02/spline-hand-man.awd'
-  },
-  {
-    type: 'model',
-    id: 'spline-hand-woman',
-    url: '/assets/models/01/02/spline-hand-woman.awd'
   },
   ///////// Chapitre 2.1
   {

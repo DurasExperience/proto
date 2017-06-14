@@ -16,7 +16,7 @@ class handMan extends Object3D {
 
     this.max = 0
 
-    const model = Store.getResource( '01_hand_man' )
+    const model = Store.getResource( '01_arm' )
 
     //TODO ADD spline
     const splineHandMan = Store.getResource( 'spline-hand-man' )
@@ -49,7 +49,6 @@ class handMan extends Object3D {
     this.mesh = new ParticlesMesh( 'hand_man', this.geometry, this.config )
     this.mesh.position.set( this.config.position.x, this.config.position.y, this.config.position.z )
     this.mesh.rotation.set( this.config.rotation.x, this.config.rotation.y, this.config.rotation.z )
-    this.mesh.uniforms.alpha.value = 0
     this.add( this.mesh )
 
     this.reverse = this.reverse.bind( this )
@@ -58,7 +57,7 @@ class handMan extends Object3D {
 
   addGUI() {
 
-    this.mesh.position.range = [ -700, 700 ]
+    this.mesh.position.range = [ -1500, 1500 ]
     this.mesh.rotation.range = [ -3, 3 ]
     this.mesh.uniforms.amplitude.range = [ 0, 100 ]
     this.mesh.uniforms.frequency.range = [ 0, 30 ]
@@ -84,23 +83,29 @@ class handMan extends Object3D {
   init() {
 
     this.tl = new TimelineMax()
-    this.tl.to( this.mesh.uniforms.alpha, 10, { value: 1 }, 0 )
+    // this.tl.to( this.mesh.uniforms.alpha, 10, { value: 1 }, 0 )
 
-    this.tl.to( this.mesh.position, this.duration, { x: this.config.endPosition.x }, 0 )
-    this.tl.to( this.mesh.position, this.duration, { y: this.config.endPosition.y }, 0 )
-    this.tl.to( this.mesh.position, this.duration, { z: this.config.endPosition.z }, 0 )
+    this.tl.to( this.mesh.position, this.duration, {
+      x: this.config.endPosition.x,
+      y: this.config.endPosition.y,
+      z: this.config.endPosition.z
+    }, 0 )
 
-    this.tl.to( this.mesh.rotation, this.duration, { x: this.config.endRotation.x }, 0 )
-    this.tl.to( this.mesh.rotation, this.duration, { y: this.config.endRotation.y }, 0 )
-    this.tl.to( this.mesh.rotation, this.duration, { z: this.config.endRotation.z }, 0 )
+    this.tl.to( this.mesh.rotation, this.duration, {
+      x: this.config.endRotation.x,
+      y: this.config.endRotation.y,
+      z: this.config.endRotation.z
+    }, 0 )
 
-    this.tl.to( this.mesh.uniforms.color.value, this.duration, { r: this.config.endColor.r }, 0 )
-    this.tl.to( this.mesh.uniforms.color.value, this.duration, { g: this.config.endColor.g }, 0 )
-    this.tl.to( this.mesh.uniforms.color.value, this.duration, { b: this.config.endColor.b }, 0 )
+    this.tl.to( this.mesh.uniforms.color.value, this.duration, {
+      r: this.config.endColor.r,
+      g: this.config.endColor.g,
+      b: this.config.endColor.b
+    }, 0 )
 
     this.tl.to( this.mesh.uniforms.size, this.duration, { value: this.config.endSize }, 0 )
-    this.tl.to( this.mesh.uniforms.frequency, this.duration, { value: this.config.endFrequency }, 0 )
-    this.tl.to( this.mesh.uniforms.amplitude, this.duration, { value: this.config.endAmplitude }, 0 )
+    // this.tl.to( this.mesh.uniforms.frequency, this.duration, { value: this.config.endFrequency }, 0 )
+    // this.tl.to( this.mesh.uniforms.amplitude, this.duration, { value: this.config.endAmplitude }, 0 )
 
   }
 

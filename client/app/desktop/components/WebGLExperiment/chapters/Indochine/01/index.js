@@ -180,8 +180,8 @@ class Indochine01 extends Group {
 
     this.surfaceSound = this.journey.voice
     this.underwaterSound = AudioManager.get( '01_01_voice_underwater' )
-    this.surfaceAmbientSound = AudioManager.get( '01_01_musique_surface' )
-    this.underwaterAmbientSound = AudioManager.get( '01_01_musique_underwater' )
+    this.surfaceAmbientSound = AudioManager.get( '01_01_ambient_surface' )
+    this.underwaterAmbientSound = AudioManager.get( '01_01_ambient_underwater' )
   }
 
   drown() {
