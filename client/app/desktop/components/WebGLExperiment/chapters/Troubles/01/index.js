@@ -111,7 +111,7 @@ class Troubles01 extends Group {
     this.ambientSoundId = this.ambientSound.play()
     this.drunkAmbientSoundId = this.drunkAmbientSound.play()
     this.ambientSound.fade( 0, 1, 300, this.ambientSoundId )
-    this.timeout = setTimeout( () => { this.linesSplines[ 0 ].start() }, 1500 )
+    // this.timeout = setTimeout( () => { this.linesSplines[ 0 ].start() }, 3500 )
     this.linesSplinesTimeout = setTimeout( () => { this.linesSplinesTlOut.play() }, 10 * 1000 )
     this.messTimeout = setTimeout( this.forceMess, this.limit * 1000 )
     this.linesSplinesTlIn.play()
@@ -153,8 +153,8 @@ class Troubles01 extends Group {
 
   setupTimelines() {
 
-    this.linesSplinesTlIn = new TimelineMax({ paused: true })
-    for ( let i = 1; i < this.linesSplines.length; i++ ) {
+    this.linesSplinesTlIn = new TimelineMax({ paused: true, delay: 2 })
+    for ( let i = 0; i < this.linesSplines.length; i++ ) {
       this.linesSplinesTlIn.add( () => { this.linesSplines[ i ].start() }, 0.7 * i )
     }
 
