@@ -177,7 +177,7 @@ class Indochine01 extends Group {
 
     this.firstDrownTimeout = setTimeout( () => {
 
-      Actions.tutoDisplay( true )
+      // Actions.tutoDisplay( true )
       this.drown()
 
     }, 3000 )

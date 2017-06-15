@@ -80,7 +80,7 @@ class Layout extends Page {
 
     if ( !this.first ) return
     this.first = false
-    TweenMax.to( this.refs.parent, 0.2, { opacity: 0, onComplete: () => {
+    TweenMax.to( this.refs.parent, 0.5, { opacity: 0, onComplete: () => {
 
       setTimeout( Actions.startChapter )
       this.setState({ render: false })
