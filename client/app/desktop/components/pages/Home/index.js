@@ -41,7 +41,6 @@ class Home extends Page {
       Actions.changePage('/indochine/01')
     })
 
-    //TODO input enter
   }
 
 
@@ -88,11 +87,11 @@ class Home extends Page {
 
   }
 
-  didTransitionOutComplete() {		
-   
-    super.didTransitionOutComplete()		
-    this.history.push( this.nextPath )		
-  
+  didTransitionOutComplete() {
+
+    super.didTransitionOutComplete()
+    this.history.push( this.nextPath )
+
   }
 
 }
