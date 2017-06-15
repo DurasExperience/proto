@@ -90,7 +90,7 @@ class Indochine02 extends Group {
     /**
     * show spline
     */
-    this.observer.createGeometry()
+    // this.observer.createGeometry()
     this.observer.start()
     this.observer.play()
 
