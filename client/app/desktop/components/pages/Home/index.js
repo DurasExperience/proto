@@ -37,6 +37,7 @@ class Home extends Page {
       // this.video = false
       // this.synchro = true
       // this.setState({ render: true })
+      console.log( 'ended' )
       Actions.changePage('/indochine/01')
     })
 
@@ -85,6 +86,13 @@ class Home extends Page {
       </div>
     )
 
+  }
+
+  didTransitionOutComplete() {		
+   
+    super.didTransitionOutComplete()		
+    this.history.push( this.nextPath )		
+  
   }
 
 }
