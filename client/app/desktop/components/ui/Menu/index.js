@@ -1,7 +1,18 @@
 import './Menu.styl'
 import NavLink from './../NavLink'
+import Store from './../../../../../flux/store/desktop'
+import EventsConstants from './../../../../../flux/constants/EventsConstants'
 
 class Menu extends React.Component {
+
+  constructor() {
+    super()
+    this.state = {
+      currentRoute: undefined
+    }
+    this.routeChanged = this.routeChanged.bind( this )
+    this.addListeners()
+  }
 
   componentDidMount() {
 
@@ -9,22 +20,21 @@ class Menu extends React.Component {
 
   }
 
-  componentWillMount() {
+  addListeners() {
+
+    Store.on( EventsConstants.ROUTE_CHANGED, this.routeChanged )
 
   }
 
   setupAnimations(){
 
+    const links = Array.prototype.slice.call( this.refs.chapters.children, 0 )
     this.tl = new TimelineMax()
-    this.tl.from( this.refs.home, 0.4, { x: 50, alpha: 0 }, 0 )
-    this.tl.from( this.refs.indochine, 0.4, { x: 50, alpha: 0 }, 0.3 )
-    this.tl.from( this.refs.troubles, 0.4, { x: 50, alpha: 0 }, 0.6 )
-    this.tl.from( this.refs.notoriete, 0.4, { x: 50, alpha: 0 }, 0.9 )
+    this.tl.staggerFrom( links, 0.4, { x: 50, opacity: 0 }, 0.2, 0 )
 
   }
 
   render() {
-
     return(
       <div className="navigation">
 
@@ -34,23 +44,31 @@ class Menu extends React.Component {
 
         <div className="navigation__chapter">
           <ul ref="chapters" className="navigation__list">
-            <li ref="home">
-              <NavLink to="/" title="introduction" activeClassName={(this.props.activeChapter.history.location.pathname == "/"  ? 'chapter__active' : 'chapter__inactive')}/>
+            <li>
+              <NavLink to="/indochine/01" title="indochine" activeClassName={ this.state.currentRoute === ( '/indochine/01' || '/indochine/02' )  ? 'chapter__active' : 'chapter__inactive' }/>
             </li>
-            <li ref="indochine">
-              <NavLink to="/indochine/01" title="indochine" activeClassName={(this.props.activeChapter.history.location.pathname == "/indochine/01" || "/indochine/02"  ? 'chapter__active' : 'chapter__inactive')}/>
+            <li>
+              <NavLink to="/troubles/01" title="troubles" activeClassName={ this.state.currentRoute === '/troubles/01' ? 'chapter__active' : 'chapter__inactive' }/>
             </li>
-            <li ref="troubles">
-              <NavLink to="/troubles/01" title="troubles" activeClassName={(this.props.activeChapter.history.location.pathname == "/troubles/01"  ? 'chapter__active' : 'chapter__inactive')}/>
+            <li>
+              <NavLink to="/notoriete/01" title="notoriete" activeClassName={ this.state.currentRoute === '/notoriete/01' ? 'chapter__active' : 'chapter__inactive' }/>
             </li>
-            <li ref="notoriete">
-              <NavLink to="/notoriete/01" title="notoriete" activeClassName={(this.props.activeChapter.history.location.pathname == "/notoriete/01"  ? 'chapter__active' : 'chapter__inactive')}/>
+            <li>
+              <NavLink to="/duras-song" title="duras song" activeClassName={ this.state.currentRoute === '/duras-song' ? 'chapter__active' : 'chapter__inactive' }/>
             </li>
           </ul>
         </div>
 
       </div>
     )
+
+  }
+
+  routeChanged( routes ) {
+
+    this.setState({
+      currentRoute: routes.newRoute
+    })
 
   }
 

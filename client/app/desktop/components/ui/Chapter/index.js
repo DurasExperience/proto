@@ -11,12 +11,13 @@ class Chapter extends React.Component {
   animationText(){
 
     this.tl = new TimelineMax()
-    this.tl.from( this.refs.title, 1.5, { x: -200, alpha: 0 }, 0 )
-    this.tl.from( this.refs.subtitle, 2.2, { x: -200, alpha: 0 }, 0 )
-    this.tl.from( this.refs.text, 1.5, { x: 200, alpha: 0 }, 0 )
-    this.tl.from( this.refs.slash, 0.5, { width: 0, alpha: 0.9 }, 0.5 )
-    this.tl.from( this.refs.chapter, 2, { x: 50, y: 25 }, 1.2 )
-    this.tl.from( this.refs.chapter, 2, { alpha: 0 }, 2 )
+    this.tl.from( this.refs.title, 1, { x: -200, opacity: 0 }, 0 )
+    this.tl.from( this.refs.subtitle, 1, { x: -200, opacity: 0 }, 0.2 )
+    this.tl.from( this.refs.text, 1, { x: 200, opacity: 0 }, 0 )
+    this.tl.from( this.refs.slash, 0.5, { width: 0, opacity: 0.9 }, 0.5 )
+    this.tl.from( this.refs.chapter, 1, { x: 50, y: 25 }, 1 )
+    this.tl.from( this.refs.chapter, 1, { opacity: 0 }, 1.5 )
+    this.tl.timeScale( 0.75 )
 
   }
 

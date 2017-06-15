@@ -24,6 +24,7 @@ class AppTemplate extends React.Component {
         <Wrapper>
           <Loader />
           { routes }
+          <Menu />
           <WebGLExperiment />
         </Wrapper>
       </Router>

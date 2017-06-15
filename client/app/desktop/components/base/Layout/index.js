@@ -1,4 +1,4 @@
-import './layout.styl'
+import './Layout.styl'
 import Page from './../../base/Page'
 import Menu from './../../ui/Menu'
 import SoundLevel from './../../ui/SoundLevel'
@@ -39,7 +39,7 @@ class Layout extends Page {
   }
 
   componentDidMount() {
-
+    console.log( 'did mount' )
     super.componentDidMount()
     if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.onPinch )
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
@@ -63,7 +63,6 @@ class Layout extends Page {
         {(this.first == true  ? <div className="page__gradient"></div> : null)}
           <div className="page--layout">
             <SoundLevel/>
-            <Menu activeChapter={this} />
             {(this.first == true  ? <Chapter chapterText={this.props}/> : null)}
             {(this.tuto == true  ? <Tuto tutoText={this.props} />: null)}
           </div>
