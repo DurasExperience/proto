@@ -29,7 +29,6 @@ class Menu extends React.Component {
       <div className="navigation">
 
         <div className="navigation__about">
-          <div className="about" >À propos</div>
           <NavLink ref="about" activeClassName="about" to="/a-propos" title="à propos" />
         </div>
 

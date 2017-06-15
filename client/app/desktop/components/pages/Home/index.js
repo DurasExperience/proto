@@ -2,6 +2,7 @@ import Page from './../../base/Page'
 import './Home.styl'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 import Store from './../../../../../flux/store/desktop'
+import Actions from './../../../../../flux/actions/index'
 import bodymovin from 'bodymovin'
 import miniVideo from 'mini-video'
 import Synchro from './../../ui/Synchro'
@@ -28,14 +29,15 @@ class Home extends Page {
     this.mVideo.addTo( this.refs.videoContainer )
     this.mVideo.load( '/assets/videos/intro.mp4', () => {
 
-      this.mVideo.play( 70 )
+      this.mVideo.play( 0 )
 
     })
 
     this.mVideo.on('ended', () =>{
-      this.video = false
-      this.synchro = true
-      this.setState({ render: true })
+      // this.video = false
+      // this.synchro = true
+      // this.setState({ render: true })
+      Actions.changePage('/indochine/01')
     })
 
     //TODO input enter
@@ -82,13 +84,6 @@ class Home extends Page {
         {(this.synchro == true  ? <Synchro />: null)}
       </div>
     )
-
-  }
-
-  didTransitionOutComplete() {
-
-    super.didTransitionOutComplete()
-    this.history.push( this.nextPath )
 
   }
 
