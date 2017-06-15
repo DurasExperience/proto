@@ -57,8 +57,6 @@ class Indochine01 extends Group {
     this.limit = this.journey.duration - 2
     this.depth = 0.75
 
-    this.lastDrown = setTimeout( this.drown, this.limit * 1000 )
-
     this.initPostProcessing()
     this.setupTimelines()
     this.setupSound()
@@ -119,6 +117,7 @@ class Indochine01 extends Group {
     this.surfaceAmbientSound.fade( 0, 1, 500, this.surfaceAmbientSoundId )
 
     this.firstDrown()
+    this.lastDrown = setTimeout( this.drown, this.limit * 1000 )
 
   }
 

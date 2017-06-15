@@ -6,6 +6,7 @@ import Store from './../../../../../flux/store/desktop/index'
 import Actions from './../../../../../flux/actions'
 import EventsConstants from './../../../../../flux/constants/EventsConstants.js'
 import Config from './../../../../../config'
+import AudioManager from './../../../../../helpers/AudioManager'
 import _ from 'underscore'
 
 class Layout extends Page {
@@ -36,11 +37,21 @@ class Layout extends Page {
 
   }
 
+  setupSound() {
+
+    this.transitionSound = AudioManager.get( '00_transition' )
+    if ( !this.transitionSound ) return
+    this.transitionSoundId = this.transitionSound.play()
+    this.transitionSound.fade( 0, 0.25, 500, this.transitionSoundId )
+
+  }
+
   componentDidMount() {
 
     super.componentDidMount()
     if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.onPinch )
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
+    this.setupSound()
 
   }
 
@@ -82,6 +93,7 @@ class Layout extends Page {
     this.first = false
     TweenMax.to( this.refs.parent, 0.5, { opacity: 0, onComplete: () => {
 
+      this.transitionSound.fade( 0.25, 0, 500, this.transitionSoundId )
       setTimeout( Actions.startChapter )
       this.setState({ render: false })
 

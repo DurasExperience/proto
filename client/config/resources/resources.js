@@ -1,4 +1,13 @@
 export default [
+  {
+    type: 'audio',
+    id: '00_transition',
+    url: '/assets/sounds/transition.mp3',
+    options: {
+      loop: true,
+      volume: 0
+    }
+  },
   ///////// Chapitre 1.1
   {
     type: 'audio',
