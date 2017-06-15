@@ -11,7 +11,7 @@ class Chapter extends React.Component {
 
   animationText(){
 
-    this.tl = new TimelineMax()
+    this.tl = new TimelineMax({ delay: 1 })
     this.tl.from( this.refs.title, 1, { x: -200, opacity: 0 }, 0 )
     this.tl.from( this.refs.subtitle, 1, { x: -200, opacity: 0 }, 0.2 )
     this.tl.from( this.refs.text, 1, { x: 200, opacity: 0 }, 0 )

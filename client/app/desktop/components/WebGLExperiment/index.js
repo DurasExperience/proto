@@ -8,6 +8,7 @@ import BaseScene from './core/BaseScene'
 import Indochine01 from './chapters/Indochine/01'
 import Indochine02 from './chapters/Indochine/02'
 import Troubles01 from './chapters/Troubles/01'
+import DurasSong from './chapters/DurasSong'
 import Config from './../../../../config'
 
 class WebGLExperiment extends React.Component {
@@ -134,6 +135,10 @@ class WebGLExperiment extends React.Component {
 
       case '/troubles/01':
         this.currentChapter = new Troubles01( this.scene, this.controlsContainer )
+        break
+
+      case '/duras-song':
+        this.currentChapter = new DurasSong( this.scene, this.controlsContainer )
         break
 
     }

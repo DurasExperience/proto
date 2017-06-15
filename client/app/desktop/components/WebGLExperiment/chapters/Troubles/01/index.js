@@ -96,6 +96,7 @@ class Troubles01 extends Group {
 
     this.scene.setupPostProcessing( this.passes )
     Store.on( EventsConstants.START_CHAPTER, this.play )
+    this.fadeIn()
     // this.play()
     // this.addGUI()
 
@@ -116,6 +117,7 @@ class Troubles01 extends Group {
     this.messTimeout = setTimeout( this.forceMess, this.limit * 1000 )
     this.linesSplinesTlIn.play()
 
+
   }
 
   initPostProcessing() {
@@ -126,9 +128,11 @@ class Troubles01 extends Group {
     })
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
-    this.vignettePass = new VignettePass( this.config.postProcessing.vignettePass )
-
-    this.passes = [ this.boxBlurPass, this.multiPassBloomPass ]
+    this.vignettePass = new VignettePass( {
+      boost: this.config.postProcessing.vignettePass.boost,
+      reduction: this.config.postProcessing.vignettePass.reduction
+    } )
+    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.vignettePass ]
     this.initPassesLength = this.passes.length
 
   }
@@ -239,7 +243,7 @@ class Troubles01 extends Group {
 
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.scene.passes.push( this.vignettePass )
+    // this.scene.passes.push( this.vignettePass )
     this.forceMessTl = new TimelineMax()
     this.forceMessTl.to( this.vignettePass.params, 1, { boost: 0, ease: Sine.easeOut } )
     this.forceMessTl.add( () => {
@@ -280,6 +284,13 @@ class Troubles01 extends Group {
 
   }
 
+  fadeIn() {
+
+    this.fadeInTl = new TimelineMax()
+    this.fadeInTl.fromTo( this.vignettePass.params, 2, { boost: 0 }, { boost: 1, ease: Sine.easeOut } )
+
+  }
+
   fadeOut() {
 
     // if ( this.scene.passes.length > this.initPassesLength + 1 ) this.scene.passes.pop()
@@ -304,6 +315,7 @@ class Troubles01 extends Group {
     }
     this.objects = []
     this.walk.clear()
+    this.fadeInTl.clear()
     this.fadeOutTl.clear()
     this.linesSplinesTlIn.clear()
     this.linesSplinesTlOut.clear()

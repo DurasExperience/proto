@@ -108,12 +108,12 @@ class Indochine02 extends Group {
 
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
     this.vignettePass = new VignettePass( {
-      boost: 1,
-      reduction: 0
+      boost: this.config.postProcessing.vignettePass.boost,
+      reduction: this.config.postProcessing.vignettePass.reduction
     } )
     this.zoomBlurPass = new ZoomBlurPass( this.config.postProcessing.zoomBlurPass )
     this.multiPassBloomPass = new MultiPassBloomPass( this.config.postProcessing.multiPassBloomPass )
-    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
+    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass, this.vignettePass ]
 
   }
 
@@ -152,16 +152,15 @@ class Indochine02 extends Group {
   fadeIn() {
 
     this.fadeInTl = new TimelineMax()
-    this.fadeInTl.to( this.vignettePass.params, 1, { boost: 1, ease: Sine.easeIn } )
+    this.fadeInTl.fromTo( this.vignettePass.params, 2, { boost: 0 }, { boost: 1, ease: Sine.easeOut } )
 
   }
 
   fadeOut() {
 
-    console.log( 'fadeout' )
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.scene.passes.push( this.vignettePass )
+    // this.scene.passes.push( this.vignettePass )
     this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
     this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
 

@@ -129,6 +129,12 @@ export default [
       volume: 0
     }
   },
+  ///////// Chapitre 4
+  {
+    type: 'model',
+    id: '04_beaubourg',
+    url: '/assets/models/04/beaubourg.awd'
+  },
   ///////// Phone
   {
     type: 'json',

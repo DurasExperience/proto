@@ -98,6 +98,7 @@ class Indochine01 extends Group {
     this.scene.setupPostProcessing( this.passes )
     Store.on( EventsConstants.START_CHAPTER, this.play )
     this.addGUI()
+    this.fadeIn()
 
   }
 
@@ -134,7 +135,7 @@ class Indochine01 extends Group {
     this.godrayPass.params.fWeight = this.config.postProcessing.godrayPass.fWeight
     this.godrayPass.params.fExposure = this.config.postProcessing.godrayPass.fExposure
 
-    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass ]
+    this.passes = [ this.boxBlurPass, this.multiPassBloomPass, this.zoomBlurPass, this.vignettePass ]
     this.initPassesLength = this.passes.length
 
   }
@@ -257,7 +258,7 @@ class Indochine01 extends Group {
   fadeIn() {
 
     this.fadeInTl = new TimelineMax()
-    this.fadeInTl.to( this.vignettePass.params, 1, { boost: 1, ease: Sine.easeIn } )
+    this.fadeInTl.fromTo( this.vignettePass.params, 2, { boost: 0 }, { boost: 1, ease: Sine.easeOut } )
 
   }
 
@@ -266,7 +267,7 @@ class Indochine01 extends Group {
     // this.drown()
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.scene.passes.push( this.vignettePass )
+    // this.scene.passes.push( this.vignettePass )
     this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
     this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
 
