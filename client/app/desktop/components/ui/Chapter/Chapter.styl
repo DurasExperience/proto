@@ -54,3 +54,37 @@
       margin-top 4%
       margin-left 20%
       line-height 31px
+
+  &__social
+    margin-top 2%
+    margin-left 20%
+
+    a
+      display inline-block
+      text-decoration none
+      color $WHITE
+      padding 5px 0
+      margin-right 60px
+      position relative
+
+      &:before
+        content ''
+        position absolute
+        display block
+        left 0
+        bottom -10px
+        width 55px
+        height 2px
+        background-color $WHITE
+        transition width 0.2s $easeInOutSine
+
+      &:hover
+        &:before
+          width 100%
+
+  &__list
+    display inline-block
+
+  &__icon
+    display inline-block
+    padding 0 15px

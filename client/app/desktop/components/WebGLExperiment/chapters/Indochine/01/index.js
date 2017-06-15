@@ -54,8 +54,10 @@ class Indochine01 extends Group {
     this.objects = [ this.mountains, this.floor ]
 
     this.needFirstDrown = true
-    this.limit = this.journey.duration - 1.2
+    this.limit = this.journey.duration - 2
     this.depth = 0.75
+
+    this.lastDrown = setTimeout( this.drown, this.limit * 1000 )
 
     this.initPostProcessing()
     this.setupTimelines()
@@ -112,7 +114,7 @@ class Indochine01 extends Group {
 
     this.surfaceAmbientSoundId = this.surfaceAmbientSound.play()
 
-    this.surfaceSound.fade( 0, 1, 500, this.surfaceSoundId )
+    // this.surfaceSound.fade( 0, 1, 500, this.surfaceSoundId )
     this.surfaceAmbientSound.fade( 0, 1, 500, this.surfaceAmbientSoundId )
 
     this.firstDrown()
@@ -172,7 +174,7 @@ class Indochine01 extends Group {
     this.underwaterSoundId = this.underwaterSound.play()
     this.underwaterAmbientSoundId = this.underwaterAmbientSound.play()
 
-    setTimeout( () => {
+    this.firstDrownTimeout = setTimeout( () => {
 
       Actions.tutoDisplay( true )
       this.drown()
@@ -199,14 +201,11 @@ class Indochine01 extends Group {
     this.drownTl.timeScale( this.depth )
     this.drownTl.play()
 
-    this.surfaceSound.fade( 1, 0, 250, this.surfaceSoundId )
-    this.underwaterSound.fade( 0, 0.5, 900, this.underwaterSoundId )
+    this.surfaceSound.fade( 1, 0, 900, this.surfaceSoundId )
+    this.surfaceAmbientSound.fade( 1, 0, 900, this.surfaceAmbientSoundId )
 
+    this.underwaterSound.fade( 0, 1, 900, this.underwaterSoundId )
     this.underwaterAmbientSound.fade( 0, 0.5, 900, this.underwaterAmbientSoundId )
-
-    if(!this.end){
-      this.surfaceAmbientSound.fade( 1, 0, 250, this.surfaceAmbientSoundId )
-    }
 
   }
 
@@ -219,7 +218,7 @@ class Indochine01 extends Group {
     this.drownTl.reverse()
 
     this.underwaterSound.fade( 1, 0, 1000, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0.5, 0, 1000, this.underwaterAmbientSoundId )
+    this.underwaterAmbientSound.fade( 1, 0, 1000, this.underwaterAmbientSoundId )
 
     this.surfaceSound.fade( 0, 1, 1300, this.surfaceSoundId )
     this.surfaceAmbientSound.fade( 0, 1, 1300, this.surfaceAmbientSoundId )
@@ -264,7 +263,7 @@ class Indochine01 extends Group {
 
   fadeOut() {
 
-    this.drown()
+    // this.drown()
     this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
     this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
     this.scene.passes.push( this.vignettePass )
@@ -284,6 +283,7 @@ class Indochine01 extends Group {
     this.scene.setupPostProcessing( this.passes )
     this.drownTl.clear()
     this.fadeOutTl.clear()
+    clearTimeout( this.firstDrownTimeout )
 
     AudioManager.stop( '01_01_voice_surface' )
     this.surfaceSound.fade( 1, 0, 500, this.surfaceSoundId )
@@ -322,11 +322,11 @@ class Indochine01 extends Group {
 
     }
 
-    this.end = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
-    if(this.end){
-      this.depth = 0.1
-      this.drown()
-    }
+    // this.end = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
+    // if(this.end){
+    //   this.depth = 0.1
+    //   this.drown()
+    // }
 
   }
 

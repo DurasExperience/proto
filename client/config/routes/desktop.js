@@ -25,10 +25,8 @@ export default (
   <Switch>
     <Route exact path="/" component={ Home } />
     <PropsRoute path="/indochine/01" component={ Layout } data={ Chapters.indochine }/>
-    <PropsRoute path="/indochine/02" component={ Layout } data={ Chapters.indochine } />
     <PropsRoute path="/troubles/01" component={ Layout } data={ Chapters.resistance } />
     <PropsRoute path="/notoriete/01" component={ Layout } data={ Chapters.notoriete } />
     <PropsRoute path="/duras-song" component={ Layout } data={ Chapters.durasSong } />
-    <Route component={ NotFound } />
   </Switch>
 )

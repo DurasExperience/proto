@@ -313,7 +313,7 @@ class Troubles01 extends Group {
     clearTimeout( this.messTimeout )
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
-    // Actions.changeSubpage( '/indochine/02' )
+    Actions.changeSubpage( '/duras-song' )
 
   }
 
