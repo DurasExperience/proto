@@ -205,7 +205,7 @@ class Indochine01 extends Group {
     this.surfaceAmbientSound.fade( 1, 0, 900, this.surfaceAmbientSoundId )
 
     this.underwaterSound.fade( 0, 1, 900, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0, 0.5, 900, this.underwaterAmbientSoundId )
+    this.underwaterAmbientSound.fade( 0, 1, 900, this.underwaterAmbientSoundId )
 
   }
 
@@ -287,10 +287,10 @@ class Indochine01 extends Group {
 
     AudioManager.stop( '01_01_voice_surface' )
     this.surfaceSound.fade( 1, 0, 500, this.surfaceSoundId )
-    this.surfaceAmbientSound.fade( 1, 0.5, 500, this.surfaceAmbientSoundId )
+    this.surfaceAmbientSound.fade( 0, 1, 500, this.surfaceAmbientSoundId )
 
-    this.underwaterSound.fade( 0.5, 0, 500, this.underwaterSoundId )
-    this.underwaterAmbientSound.fade( 0.5, 0, 500, this.underwaterAmbientSoundId )
+    this.underwaterSound.fade( 1, 0, 500, this.underwaterSoundId )
+    this.underwaterAmbientSound.fade( 1, 0, 500, this.underwaterAmbientSoundId )
 
     setTimeout( () => {
       this.surfaceSound.stop()
@@ -303,7 +303,8 @@ class Indochine01 extends Group {
 
   clearAmbientSound(){
 
-    this.surfaceAmbientSound.fade( 1, 0, 2500, this.surfaceAmbientSoundId )
+    this.surfaceAmbientSound.fade( 1, 0, 300, this.surfaceAmbientSoundId )
+    Store.on( EventsConstants.END_AMBIENT, this.clearAmbientSound )
 
     // setTimeout( () => {
     //

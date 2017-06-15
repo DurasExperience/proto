@@ -52,6 +52,7 @@ class Layout extends Page {
     if ( Config.mobileConnect ) Store.socketRoom.on( 'pinch', this.onPinch )
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
     this.setupSound()
+    console.log( 'mounted' )
 
   }
 
@@ -93,7 +94,7 @@ class Layout extends Page {
     this.first = false
     TweenMax.to( this.refs.parent, 0.5, { opacity: 0, onComplete: () => {
 
-      this.transitionSound.fade( 0.25, 0, 500, this.transitionSoundId )
+      if ( this.transitionSound ) this.transitionSound.fade( 0.25, 0, 500, this.transitionSoundId )
       setTimeout( Actions.startChapter )
       this.setState({ render: false })
 

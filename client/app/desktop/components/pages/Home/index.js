@@ -29,7 +29,7 @@ class Home extends Page {
     this.mVideo.addTo( this.refs.videoContainer )
     this.mVideo.load( '/assets/videos/intro.mp4', () => {
 
-      this.mVideo.play( 80 )
+      this.mVideo.play( 0 )
 
     })
 
