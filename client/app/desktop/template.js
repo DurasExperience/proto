@@ -36,7 +36,7 @@ class AppTemplate extends React.Component {
 
   initLoader() {
 
-    this.loader = new AssetsLoader()
+    this.loader = new AssetsLoader( 'desktop' )
     this.loader.load()
 
   }

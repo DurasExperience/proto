@@ -8,11 +8,12 @@ import { TextureLoader } from 'three'
 
 class AssetsLoader {
 
-  constructor() {
+  constructor( device ) {
 
     this.promises = []
     this.resources = []
-    this.totalProgress = ressources.length
+    this.resourcesToLoad = ressources[ device ]
+    this.totalProgress = this.resourcesToLoad.length
     this.currentProgress = 0
 
     const getLoader = type => {
@@ -35,7 +36,7 @@ class AssetsLoader {
 
     }
 
-    ressources.map( ressource => {
+    this.resourcesToLoad.map( ressource => {
 
       const { type, id, url, options } = ressource
 

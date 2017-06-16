@@ -8,7 +8,6 @@ class Loader extends React.Component {
   constructor() {
 
     super()
-
     this.progress = 0
     this.tweenProgress = 0
     this.canTween = true
