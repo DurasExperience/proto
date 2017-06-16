@@ -5,6 +5,8 @@ import EventsConstants from './../../flux/constants/EventsConstants'
 import routes from './../../config/routes/mobile'
 import Loader from './components/base/Loader'
 import Wrapper from './components/base/Wrapper'
+import Header from './components/ui/Header'
+import InfosFooter from './components/ui/InfosFooter'
 
 class AppTemplate extends React.Component {
 
@@ -22,6 +24,8 @@ class AppTemplate extends React.Component {
         <Wrapper>
           <Loader />
           { routes }
+          <InfosFooter />
+          <Header />
         </Wrapper>
       </Router>
     )
