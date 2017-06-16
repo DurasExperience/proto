@@ -24,7 +24,7 @@ class SynchroSuccess extends React.Component {
     this.tlIn.add( () => { this.animTl.play() }, 0.1 )
     this.tlIn.to( this.refs.title, 0.5, { opacity: 1, ease: Sine.easeOut }, 0.3 )
     this.tlIn.to( this.refs.subtitle, 0.5, { opacity: 1, ease: Sine.easeOut }, 0.6 )
-    // this.tlIn.add( () => { Actions.changePage( '/indochine' ) }, 3 )
+    this.tlIn.add( () => { Actions.changePage( '/indochine' ) }, 2 )
 
   }
 

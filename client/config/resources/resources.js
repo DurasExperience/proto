@@ -155,8 +155,8 @@ export default {
   mobile: [
     {
       type: 'image',
-      id: '01_metaball',
-      url: '/assets/images/01/metaball.png'
+      id: '01_metaballs',
+      url: '/assets/images/01/metaballs.png'
     },
   ]
 }

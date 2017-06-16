@@ -3,6 +3,7 @@ import Page from './../../base/Page'
 import Hammer from 'hammerjs'
 import debounce from 'lodash.debounce'
 import Store from './../../../../../flux/store/mobile'
+import EventsConstants from './../../../../../flux/constants/EventsConstants'
 
 class Indochine extends Page {
 
@@ -10,6 +11,7 @@ class Indochine extends Page {
 
     super( props )
     this.history = props.history
+    this.onWindowResize = this.onWindowResize.bind( this )
 
   }
 
@@ -20,6 +22,13 @@ class Indochine extends Page {
     hammer.get( 'pinch' ).set({ enable: true  })
     hammer.get( 'rotate' ).set({ enable: true })
     hammer.on( 'pinchend', debounce( () => this.pinched(), 1000 ) )
+    const scale = Math.min( Store.Size.w / 800, Store.Size.h / 800 )
+    dom.style( this.refs.interaction, {
+      transform: `scale3d(${ scale }, ${ scale }, ${ scale })`
+    } )
+    TweenMax.to( this.refs.interaction, 1.25, { backgroundPosition: '-62400px 0', ease: SteppedEase.config(78), repeat: -1 } )
+
+    Store.on( EventsConstants.WINDOW_RESIZE, this.onWindowResize )
 
   }
 
@@ -43,9 +52,19 @@ class Indochine extends Page {
   render() {
 
     return(
-      <div className="page" ref="parent">
+      <div className="page page--indochine" ref="parent">
+        <div className="interaction" ref="interaction"></div>
       </div>
     )
+
+  }
+
+  onWindowResize() {
+
+    const scale = Math.min( Store.Size.w / 800, Store.Size.h / 800 )
+    dom.style( this.refs.interaction, {
+      transform: `scale(${ scale })`
+    } )
 
   }
 
