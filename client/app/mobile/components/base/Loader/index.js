@@ -47,9 +47,10 @@ class Loader extends React.Component {
 
   onResourceReady() {
 
-    TweenMax.to( this.refs.parent, 2, { opacity: 0, ease: Sine.easeIn, onComplete: () => {
+    TweenMax.to( this.refs.parent, 1, { opacity: 0, ease: Sine.easeIn, delay: 1, onComplete: () => {
 
       this.refs.parent.style.display = 'none'
+      Actions.startApp()
 
     } })
 

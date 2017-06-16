@@ -1,42 +1,66 @@
-// @import './../../../../../style/common.styl'
+@import './../../../../../style/common.styl'
 
-// h1
-//     position absolute
-//     top 50%
-//     left 50%
-//     width 100%
-//     text-align center
-//     transform translate(-50%, -50%)
-//     margin 0
-//     font-size 500%
+.page--home
+  padding 0 10%
+  box-sizing border-box
 
-//   p
-//     position absolute
-//     top 50%
-//     left 0
-//     width 100%
-//     text-align center
-//     transform translateY(-50%)
-//     margin 0
-//     display none
+  h3
+    font-size $MOBILE_TITLE_FONT_SIZE
+    font-family 'Didot'
+    text-align left
+    width 100%
+    margin-bottom 1.5rem
+    opacity 0
 
-//   form
-//     position absolute
-//     top 50%
-//     left 5%
-//     transform translateY(-50%)
-//     width 90%
+  p
+    font-weight 300
+    font-size 0.875rem
+    line-height 1.5rem
+    opacity 0
 
-//   input
-//     width 24%
-//     height 15vh
-//     box-sizing border-box
-//     text-align center
-//     background-color #ececec
-//     font-size 300%
+    &.info
+      padding 0 5%
 
-//   button
-//     width 100%
-//     margin-top 2vh
-//     height 5vh
-//     background-color #ececec
+    &.error
+      color #FC8080
+      opacity 1
+      &--inactive
+        display none
+
+  .form-holder
+    padding 2rem 5%
+    width 100%
+    box-sizing border-box
+
+  .inputs-holder
+    display flex
+    flex-flow row nowrap
+    justify-content space-between
+    align-items center
+
+  input
+    width 25%
+    height 14vh
+    margin 0 5px
+    box-sizing border-box
+    text-align center
+    background-color transparentify( $WHITE, 0.1 )
+    font-size 3rem
+    border none
+    color $WHITE
+    text-align center
+    padding 0
+    opacity 0
+
+    &:first-child
+      margin-left 0
+
+    &:last-child
+      margin-right 0
+
+  // button
+  //   width 100%
+  //   margin-top 2vh
+  //   height 5vh
+  //   background-color #ececec
+
