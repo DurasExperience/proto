@@ -70,7 +70,7 @@ class Layout extends Page {
     if ( this.state.render ) {
       return(
         <div className="page" ref="parent">
-        {(this.first == true  ? <div className="page__gradient"></div> : null)}
+          {(this.first == true  ? <div className="page__gradient"></div> : null)}
           <div className="page--layout">
             {(this.first == true  ? <Chapter chapterText={this.props}/> : null)}
             {(this.tuto == true  ? <Tuto tutoText={this.props} />: null)}

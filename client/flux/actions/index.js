@@ -161,6 +161,14 @@ const Actions = {
       item: state
     })
 
+  },
+  generateRoomID( id ){
+
+    Dispatcher.dispatch({
+      type: EventsConstants.GENERATE_ROOMID,
+      item: id
+    })
+
   }
 
 }

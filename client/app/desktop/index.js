@@ -3,15 +3,17 @@ import AppTemplate from './template'
 import InitialState from '../../config/states/initialState'
 import Store from './../../flux/store/desktop'
 import Config from './../../config'
+import Actions from './../../flux/actions/'
 
 export default class App {
 
   constructor(){
 
-    if ( Config.mobileConnect ) {
-      
-      this.socket = io( Config.apiUrl )
+    if ( !Config.mobileConnect ) {
+
+      //this.socket = io( Config.apiUrl )
       this.roomID = Math.random().toString().slice( 2, 6 )
+      Actions.generateRoomID( this.roomID )
 
     }
 

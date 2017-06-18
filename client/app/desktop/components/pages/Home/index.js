@@ -6,6 +6,8 @@ import Actions from './../../../../../flux/actions/index'
 import bodymovin from 'bodymovin'
 import miniVideo from 'mini-video'
 import Synchro from './../../ui/Synchro'
+import _ from 'underscore'
+import throttle from 'lodash.throttle'
 
 class Home extends Page {
 
@@ -15,6 +17,7 @@ class Home extends Page {
     this.history = props.history
     this.video = true
     this.synchro = false
+    this.skipVideo = this.skipVideo.bind(this)
 
   }
 
@@ -34,21 +37,33 @@ class Home extends Page {
     })
 
     this.mVideo.on('ended', () =>{
-      // this.video = false
-      // this.synchro = true
-      // this.setState({ render: true })
-      console.log( 'ended' )
-      Actions.changePage('/indochine/01')
+      this.videoEnded()
     })
+
+    this.mouseEvent()
+  }
+
+  skipVideo(){
+
+    this.mVideo.pause()
+    this.videoEnded()
 
   }
 
+  videoEnded(){
+
+    this.removeListeners()
+    this.video = false
+    this.synchro = true
+    this.setState({ render: true })
+
+  }
 
   initSources(){
 
     // this.video = ( Store.getResource('intro') )
-    //this.phone = Store.getResource('phone')
-    //console.log( this.video, this.phone )
+    // this.phone = Store.getResource('phone')
+    // console.log( this.video, this.phone )
 
   }
 
@@ -67,6 +82,35 @@ class Home extends Page {
 
   }
 
+  mouseEvent(){
+
+    let that = this
+    this.skipThrottled = _.throttle(() =>{
+
+      TweenMax.to( that.refs.skip, 0.3, { opacity: 1 })
+      setTimeout(() => {
+
+        if(that.refs.skip != null){
+
+          TweenMax.to( that.refs.skip, 0.3, { opacity: 0 })
+
+        }
+
+      }, 4000)
+
+    }, 5200, { 'trailing': false, 'leading': true })
+
+    window.addEventListener("mousemove", this.skipThrottled)
+
+  }
+
+  removeListeners(){
+
+    window.removeEventListener("mousemove", this.skipThrottled);
+
+
+  }
+
   setupAnimations(){
 
     super.setupAnimations()
@@ -80,6 +124,7 @@ class Home extends Page {
 
     return(
       <div className="page" ref="parent" id="Home">
+        {(this.video == true ? <div className="video-skip" ref="skip"  onClick={this.skipVideo}> skip </div>: null)}
         {(this.video == true  ? <div className="video-container" ref="videoContainer"></div>: null)}
         {(this.synchro == true  ? <Synchro />: null)}
       </div>

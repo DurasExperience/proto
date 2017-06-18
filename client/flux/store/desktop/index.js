@@ -13,7 +13,8 @@ const Store = assign({}, EventEmitter2.prototype, {
   Device:  { orientation: DeviceConstants.PORTRAIT },
   Resources: {},
   getResource: ( id ) => Store.Resources[ id ],
-  Routes: { oldRoute: undefined, newRoute: undefined }
+  Routes: { oldRoute: undefined, newRoute: undefined },
+  roomID: { id:0, w:0, x:0, y:0, z:0 }
 
 })
 
@@ -21,6 +22,7 @@ Store.dispatchToken = Dispatcher.register(( payload ) => {
 
   const actionType = payload.type
   const item = payload.item
+  let num = String()
 
   switch ( actionType ) {
     case EventsConstants.WINDOW_RESIZE:
@@ -49,6 +51,15 @@ Store.dispatchToken = Dispatcher.register(( payload ) => {
       break
     case EventsConstants.CHANGE_SUBPAGE:
       if( Store.Routes.newRoute === item ) break
+      Store.emit( actionType, item )
+      break
+    case EventsConstants.GENERATE_ROOMID:
+      Store.roomID.id = item
+      num = item.toString().split('')
+      Store.roomID.w = num[0]
+      Store.roomID.x = num[1]
+      Store.roomID.y = num[2]
+      Store.roomID.z = num[3]
       Store.emit( actionType, item )
       break
     default:
