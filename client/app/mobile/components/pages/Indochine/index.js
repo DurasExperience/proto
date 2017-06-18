@@ -41,8 +41,10 @@ class Indochine extends Page {
     dom.style( this.refs.interaction, {
       transform: `scale3d(${ scale }, ${ scale }, ${ scale })`
     } )
-    TweenMax.to( this.refs.interaction, 0.5, { opacity: 1, delay: 1 } )
-    this.spriteTween = TweenMax.to( this.refs.interaction, 1.25, { backgroundPosition: '-62400px 0', ease: SteppedEase.config(78), repeat: -1 } )
+    this.spriteTween = TweenMax.to( this.refs.interaction, 1.25, { backgroundPosition: '-62400px 0', ease: SteppedEase.config(78), repeat: -1, paused: true } )
+    TweenMax.to( this.refs.interaction, 0.5, { opacity: 1, delay: 1,onComplete: () => {
+      this.spriteTween.play()
+    } } )
 
     Store.on( EventsConstants.WINDOW_RESIZE, this.onWindowResize )
 
@@ -62,7 +64,11 @@ class Indochine extends Page {
     if ( this.PINCH_STARTED ) return
     if ( this.FIRST_PINCH ) {
 
-      TweenMax.set( this.refs.interaction, { opacity: 0 } )
+      // TweenMax.set( this.refs.interaction, { opacity: 0 } )
+      dom.style( this.refs.interaction, {
+        display: 'none',
+        opacity: 0
+      } )
       this.spriteTween.kill()
       this.FIRST_PINCH = false
       setTimeout( Actions.startChapter() )

@@ -16,15 +16,15 @@ class SynchroSuccess extends React.Component {
     TweenMax.set( this.refs.line, { transformOrigin: '50% 50%' } )
 
     this.animTl = new TimelineMax({ paused: true, repeat: -1, yoyo: true })
-    this.animTl.fromTo( this.refs.phone, 2, { rotation: -5 }, { rotation: 5 }, 0 )
-    this.animTl.fromTo( this.refs.line, 2, { rotation: -5 }, { rotation: 5 }, 0 )
+    this.animTl.fromTo( this.refs.phone, 1, { rotation: -5 }, { rotation: 5 }, 0 )
+    this.animTl.fromTo( this.refs.line, 1, { rotation: -5 }, { rotation: 5 }, 0 )
 
     this.tlIn = new TimelineMax({ paused: true })
     this.tlIn.to( this.refs.animation, 0.5, { opacity: 1, ease: Sine.easeOut }, 0 )
     this.tlIn.add( () => { this.animTl.play() }, 0.1 )
     this.tlIn.to( this.refs.title, 0.5, { opacity: 1, ease: Sine.easeOut }, 0.3 )
     this.tlIn.to( this.refs.subtitle, 0.5, { opacity: 1, ease: Sine.easeOut }, 0.6 )
-    this.tlIn.add( () => { Actions.changePage( '/indochine' ) }, 2 )
+    this.tlIn.add( () => { Actions.changePage( '/indochine' ) }, 3 )
 
   }
 
