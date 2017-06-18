@@ -15,9 +15,12 @@ class Synchro extends React.Component {
 
   componentDidMount() {
 
-    Store.socketRoom.on( 'synchronisedMobile', this.startExperience )
-    this.transitionIn()
-    this.initNumbers()
+    if ( Config.mobileConnect ) {
+      Store.socketRoom.on( 'synchronisedMobile', this.startExperience )
+      this.transitionIn()
+      this.initNumbers()
+    }
+    else this.startExperience()
 
   }
 
