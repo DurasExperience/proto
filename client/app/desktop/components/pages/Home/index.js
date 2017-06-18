@@ -19,8 +19,23 @@ class Home extends Page {
       video : true,
       synchro : false
     }
-    this.showSynchro = this.showSynchro.bind( this )
-    this.skipVideo = this.skipVideo.bind( this )
+    
+    this.bind()
+
+  }
+
+  bind() {
+
+    [ 'showSynchro', 'skipVideo', 'startVideo' ]
+      .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
+
+    super.bind()
+
+  }
+
+  componentWillMount() {
+
+    Store.on( EventsConstants.RESOURCES_READY, this.startVideo )
 
   }
 
@@ -33,15 +48,18 @@ class Home extends Page {
       volume: 1
     })
     this.mVideo.addTo( this.refs.videoContainer )
-    this.mVideo.load( '/assets/videos/intro.mp4', () => {
-
-      this.mVideo.play( 80 )
-
-    })
+    this.mVideo.load( '/assets/videos/intro.mp4', null )
 
     this.mVideo.on('ended', this.showSynchro )
 
     this.mouseEvent()
+
+  }
+
+  startVideo() {
+
+    this.mVideo.play( 80 )
+
   }
 
   skipVideo(){
@@ -81,6 +99,7 @@ class Home extends Page {
 
   }
 
+  // TODO Make it cleaner
   mouseEvent(){
 
     let that = this

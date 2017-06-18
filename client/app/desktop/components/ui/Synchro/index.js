@@ -37,6 +37,8 @@ class Synchro extends React.Component {
 
   startExperience(){
 
+    // TODO start app here in prod
+    // Actions.startApp()
     Actions.changePage('/indochine/01')
 
   }
