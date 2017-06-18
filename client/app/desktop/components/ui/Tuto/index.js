@@ -7,7 +7,7 @@ class Tuto extends React.Component {
 
     return(
       <div className="tuto">
-        <div className="text"> Écartez les obstacles de la vie de Marguerite en les repoussant avec vos doigts.</div>
+        <div className="text"> </div>
         <div className="animation"> </div>
       </div>
     )
