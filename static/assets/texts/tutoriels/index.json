@@ -1,19 +1,15 @@
 {
   "indochine": {
-    "anim": "",
+    "anim": "chap1-tuto",
     "text": "Écartez les obstacles de la vie de Marguerite en les repoussant avec vos doigts."
   },
   "resistance": {
-    "anim": "",
-    "text": ""
+    "anim": "chap2-tuto",
+    "text": "Appuyez longuement sur votre smartphone pour observer la vie à travers les yeux d’une artiste tourmentée."
   },
   "notoriete": {
-    "anim": "",
-    "text": ""
-  },
-  "durasSong": {
-    "anim": "",
-    "text": ""
+    "anim": "chap3-tuto",
+    "text": "Retournez votre smartphone pour basculer entre les savoir-faire de Marguerite."
   }
 }
 `
