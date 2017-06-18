@@ -48,7 +48,7 @@ class Home extends Page {
       volume: 1
     })
     this.mVideo.addTo( this.refs.videoContainer )
-    this.mVideo.load( '/assets/videos/intro.mp4', null )
+    this.mVideo.load( '/assets/videos/intro.mp4', () => false )
 
     this.mVideo.on('ended', this.showSynchro )
 

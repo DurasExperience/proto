@@ -1,5 +1,6 @@
 import './SynchroSuccess.styl'
 import Actions from './../../../../../../flux/actions/index'
+// import Gyroscope from './../../../../events/Gyroscope'
 
 class SynchroSuccess extends React.Component {
 
@@ -25,6 +26,8 @@ class SynchroSuccess extends React.Component {
     this.tlIn.to( this.refs.title, 0.5, { opacity: 1, ease: Sine.easeOut }, 0.3 )
     this.tlIn.to( this.refs.subtitle, 0.5, { opacity: 1, ease: Sine.easeOut }, 0.6 )
     this.tlIn.add( () => { Actions.changePage( '/indochine' ) }, 3 )
+
+    // Gyroscope.init()
 
   }
 

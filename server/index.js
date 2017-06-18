@@ -21,6 +21,9 @@ io.on( 'connection', ( socket ) => {
       
       console.log( `Connected to room n°${id}` )
       newRoom.socket.emit( 'synchronisedDesktop' )
+      roomSocket.on( 'MOBILE_GYRO_MOVE', ( val ) => {
+        newRoom.socket.emit( 'GYRO_MOVE', val ) 
+      } )
       roomSocket.on( 'MOBILE_PINCH_START', () => {
         console.log( 'pinch start' )
         newRoom.socket.emit( 'PINCH_START' ) 
