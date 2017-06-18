@@ -108,8 +108,10 @@ class Background extends Object3D {
 
     this.heartbeatTl = new TimelineMax({ paused: true, repeat: 2 })
     this.heartbeatTl.to( this.uniforms.alpha, 0.3, { value: 1 }, 0.1 )
-    this.heartbeatTl.to( this.uniforms.size, 0.5, { value: 150, ease: Bounce.easeInOut }, 0.1 )
-    this.heartbeatTl.to( this.uniforms.alpha, 0.5, { value: 0 }, 0.6 )
+    this.heartbeatTl.to( this.uniforms.amplitude, 0.2, { value: 20 , ease: Bounce.easeInOut }, 0.1 )
+    this.heartbeatTl.to( this.uniforms.size, 0.5, { value: 250 , ease: Bounce.easeInOut }, 0.1 )
+    this.heartbeatTl.to( this.uniforms.alpha, 0.5, { value: this.config.alpha }, 0.6 )
+    this.heartbeatTl.to( this.uniforms.amplitude, 0.2, { value: this.config.amplitude , ease: Bounce.easeInOut }, 0.6 )
     this.heartbeatTl.to( this.uniforms.size, 0.5, { value: this.config.size, ease: Bounce.easeInOut }, 0.6 )
 
   }

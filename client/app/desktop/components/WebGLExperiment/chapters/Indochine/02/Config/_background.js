@@ -3,7 +3,7 @@ import { Color } from 'three'
 export default {
   color1: new Color( 0xdd312b ),
   color2: new Color( 0x360d47 ),
-  alpha: 0,
+  alpha: 0.4,
   scale: {
     x: 150,
     y: 150,
