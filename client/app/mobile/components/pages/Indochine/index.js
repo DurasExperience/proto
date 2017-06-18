@@ -3,6 +3,7 @@ import Page from './../../base/Page'
 import Hammer from 'hammerjs'
 import debounce from 'lodash.debounce'
 import Store from './../../../../../flux/store/mobile'
+import Actions from './../../../../../flux/actions'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 
 class Indochine extends Page {
@@ -11,22 +12,37 @@ class Indochine extends Page {
 
     super( props )
     this.history = props.history
-    this.onWindowResize = this.onWindowResize.bind( this )
+    this.bind()
+    this.FIRST_PINCH = true
+    this.PINCH_STARTED = false
 
+  }
+
+  bind() {
+
+    [ 'onWindowResize', 'onPinchStart', 'onPinchMove', 'onPinchEnd' ]
+      .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
+      
+    super.bind()
+    
   }
 
   componentDidMount() {
 
     super.componentDidMount()
-    const hammer = new Hammer( this.refs.parent )
-    hammer.get( 'pinch' ).set({ enable: true  })
-    hammer.get( 'rotate' ).set({ enable: true })
-    hammer.on( 'pinchend', debounce( () => this.pinched(), 1000 ) )
+    this.hammer = new Hammer( this.refs.parent )
+    this.hammer.get( 'pinch' ).set({ enable: true  })
+    this.hammer.get( 'rotate' ).set({ enable: true })
+    this.hammer.on( 'pinchstart', this.onPinchStart )
+    this.hammer.on( 'pinchmove', this.onPinchMove )
+    this.hammer.on( 'pinchend', this.onPinchEnd )
+
     const scale = Math.min( Store.Size.w / 800, Store.Size.h / 800 )
     dom.style( this.refs.interaction, {
       transform: `scale3d(${ scale }, ${ scale }, ${ scale })`
     } )
-    TweenMax.to( this.refs.interaction, 1.25, { backgroundPosition: '-62400px 0', ease: SteppedEase.config(78), repeat: -1 } )
+    TweenMax.to( this.refs.interaction, 0.5, { opacity: 1, delay: 1 } )
+    this.spriteTween = TweenMax.to( this.refs.interaction, 1.25, { backgroundPosition: '-62400px 0', ease: SteppedEase.config(78), repeat: -1 } )
 
     Store.on( EventsConstants.WINDOW_RESIZE, this.onWindowResize )
 
@@ -41,11 +57,48 @@ class Indochine extends Page {
 
   }
 
-  pinched( event ){
+  onPinchStart( event ){
 
-    // console.log( 'pinch', event)
-    console.log( Store.socketRoom.socket )
-    Store.socketRoom.socket.emit( 'mobilePinch', 'test' )
+    if ( this.PINCH_STARTED ) return
+    if ( this.FIRST_PINCH ) {
+
+      TweenMax.set( this.refs.interaction, { opacity: 0 } )
+      this.spriteTween.kill()
+      this.FIRST_PINCH = false
+      setTimeout( Actions.startChapter() )
+
+    }
+    this.PINCH_STARTED = true
+    TweenMax.to( this.refs.pointer1, 1, { scale: 1, ease: Expo.easeOut } )
+    TweenMax.to( this.refs.pointer2, 1, { scale: 1, ease: Expo.easeOut } )
+    console.log( 'pinch start' )
+    Store.socketRoom.socket.emit( 'MOBILE_PINCH_START' )
+
+  }
+
+  onPinchEnd( event ){
+
+    if ( !this.PINCH_STARTED ) return
+    TweenMax.to( this.refs.pointer1, 1, { scale: 0, ease: Expo.easeOut } )
+    TweenMax.to( this.refs.pointer2, 1, { scale: 0, ease: Expo.easeOut } )
+    this.PINCH_STARTED = false
+    console.log( 'pinch end' )
+    Store.socketRoom.socket.emit( 'MOBILE_PINCH_END' )
+
+  }
+
+  onPinchMove( event ) {
+
+    if ( !this.PINCH_STARTED ) return
+    dom.style( this.refs.pointer1, {
+      top: event.pointers[ 0 ].clientY + 'px',
+      left: event.pointers[ 0 ].clientX + 'px'
+    } )
+
+    dom.style( this.refs.pointer2, {
+      top: event.pointers[ 1 ].clientY + 'px',
+      left: event.pointers[ 1 ].clientX + 'px'
+    } )
 
   }
 
@@ -54,6 +107,8 @@ class Indochine extends Page {
     return(
       <div className="page page--indochine" ref="parent">
         <div className="interaction" ref="interaction"></div>
+        <div className="pinch-pointer" ref="pointer1"></div>
+        <div className="pinch-pointer" ref="pointer2"></div>
       </div>
     )
 
@@ -72,6 +127,16 @@ class Indochine extends Page {
 
     super.didTransitionOutComplete()
     this.history.push( this.nextPath )
+
+  }
+
+  componentWillUnmount() {
+
+    this.hammer.off( 'pinchstart', this.onPinchStart)
+    this.hammer.off( 'pinchmove', this.onPinchMove )
+    this.hammer.off( 'pinchend', this.onPinchEnd )
+    Store.off( EventsConstants.WINDOW_RESIZE, this.onWindowResize )
+    super.componentWillUnmount()
 
   }
 

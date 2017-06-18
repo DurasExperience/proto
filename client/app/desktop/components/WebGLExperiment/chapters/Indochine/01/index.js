@@ -54,8 +54,7 @@ class Indochine01 extends Group {
     this.objects = [ this.mountains, this.floor ]
 
     this.needFirstDrown = true
-    this.limit = this.journey.duration - 2
-    this.depth = 0.75
+    this.limit = this.journey.duration - 5
 
     this.initPostProcessing()
     this.setupTimelines()
@@ -72,18 +71,24 @@ class Indochine01 extends Group {
 
   addListeners() {
 
-    if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
+    if ( GlobalConfig.mobileConnect ) {
+      Store.socketRoom.on( EventsConstants.PINCH_START, this.ascend )
+      Store.socketRoom.on( EventsConstants.PINCH_END, this.drown )
+    }
     else {
       Store.on( EventsConstants.SPACE_DOWN, this.ascend )
       Store.on( EventsConstants.SPACE_UP, this.drown )
-      Store.on( EventsConstants.END_AMBIENT, this.clearAmbientSound )
     }
+    Store.on( EventsConstants.END_AMBIENT, this.clearAmbientSound )
 
   }
 
   removeListeners() {
 
-    if ( GlobalConfig.mobileConnect ) Store.socketRoom.off( 'pinch', this.reverse )
+    if ( GlobalConfig.mobileConnect ) {
+      Store.socketRoom.off( EventsConstants.PINCH_START, this.ascend )
+      Store.socketRoom.off( EventsConstants.PINCH_END, this.drown )
+    }
     else {
       Store.off( EventsConstants.SPACE_DOWN, this.ascend )
       Store.off( EventsConstants.SPACE_UP, this.drown )
@@ -193,12 +198,12 @@ class Indochine01 extends Group {
 
   drown() {
 
+    console.log( 'drown' )
     // const disableDrown = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
     // if( disableDrown ) return
-
     if ( this.scene.passes.length === this.initPassesLength ) this.scene.passes.push( this.godrayPass )
 
-    this.drownTl.timeScale( this.depth )
+    this.drownTl.timeScale( 0.75 )
     this.drownTl.play()
 
     this.surfaceSound.fade( 1, 0, 900, this.surfaceSoundId )
@@ -211,6 +216,7 @@ class Indochine01 extends Group {
 
   ascend() {
 
+    console.log( 'ascend', this.level )
     const disableAscend = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
     if( disableAscend ) return
 

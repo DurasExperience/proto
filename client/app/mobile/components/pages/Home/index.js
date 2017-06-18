@@ -4,6 +4,7 @@ import SynchroSuccess from './SynchroSuccess'
 import io from 'socket.io-client'
 import Store from './../../../../../flux/store/mobile'
 import Config from './../../../../../config'
+import GlobalConfig from './../../../../../config'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 
 class Home extends Page {
@@ -16,9 +17,14 @@ class Home extends Page {
       synchro : false
     }
   
-    this.socket = io( Config.apiUrl )
+    if ( GlobalConfig.mobileConnect ) {
+
+      this.socket = io( Config.apiUrl )
+
+    }
     this.connectionSubmitted = this.connectionSubmitted.bind( this )
     this.playAnim = this.playAnim.bind( this )
+    this.nextFocus = this.nextFocus.bind( this )
     Store.on( EventsConstants.APP_START, this.playAnim )
 
   }
@@ -49,17 +55,30 @@ class Home extends Page {
 
   }
 
+  nextFocus( currentField, nextField ) {
+
+    if ( currentField.value === '' ) return
+    nextField.focus()
+
+  }
+
   connectionSubmitted( e ) {
 
     e.preventDefault()
 
     const id = this.refs.field_1.value + this.refs.field_2.value + this.refs.field_3.value + this.refs.field_4.value
-    if( id.length < 4 ) return
-    TweenMax.to( this.refs.synchronisation, 0.5, { opacity: 0, ease: Sine.easeOut, onComplete: () => {
-      this.setState({
-        synchro: true
-      })
-    } } )
+    if ( id.length < 4 ) return
+    if ( !GlobalConfig.mobileConnect ) {
+
+      TweenMax.to( this.refs.synchronisation, 0.5, { opacity: 0, ease: Sine.easeOut, onComplete: () => {
+        this.setState({
+          synchro: true
+        })
+      } } )
+
+      return false
+
+    }
     this.socket.emit( 'join', id, ( authorized ) => {
 
       if( authorized === true ) {
@@ -70,11 +89,11 @@ class Home extends Page {
           Store.socketRoom = {
             socket: socketRoom
           }
-          // TweenMax.to( this.refs.synchronisation, 0.5, { opacity: 0, ease: Sine.easeOut, onComplete: () => {
-          //   this.setState({
-          //     synchro: true
-          //   })
-          // } } )
+          TweenMax.to( this.refs.synchronisation, 0.5, { opacity: 0, ease: Sine.easeOut, onComplete: () => {
+            this.setState({
+              synchro: true
+            })
+          } } )
         })
 
       } else {
@@ -104,10 +123,10 @@ class Home extends Page {
           <div className="form-holder">
             <form action="">
               <div className="inputs-holder">
-                <input ref="field_1" type="number" step="1" min="0" max="9" maxLength="1" onChange={ () => { this.refs.field_2.focus() } } />
-                <input ref="field_2" type="number" step="1" min="0" max="9" maxLength="1" onChange={ () => { this.refs.field_3.focus() } } />
-                <input ref="field_3" type="number" step="1" min="0" max="9" maxLength="1" onChange={ () => { this.refs.field_4.focus() } } />
-                <input ref="field_4" type="number" step="1" min="0" max="9" maxLength="1" onChange={ this.connectionSubmitted } />
+                <input ref="field_1" type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" maxLength="1" onChange={ () => { this.nextFocus( this.refs.field_1, this.refs.field_2 ) } } />
+                <input ref="field_2" type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" maxLength="1" onChange={ () => { this.nextFocus( this.refs.field_2, this.refs.field_3 ) } } />
+                <input ref="field_3" type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" maxLength="1" onChange={ () => { this.nextFocus( this.refs.field_3, this.refs.field_4 ) } } />
+                <input ref="field_4" type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" maxLength="1" onChange={ this.connectionSubmitted } />
               </div>
               <br/>
             </form>

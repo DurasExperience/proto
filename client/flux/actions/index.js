@@ -130,14 +130,6 @@ const Actions = {
     })
 
   },
-  onMobilePinch() {
-
-    Dispatcher.dispatch({
-      type: EventsConstants.MOBILE_ON_PINCH,
-      item: undefined
-    })
-
-  },
   startChapter() {
 
     Dispatcher.dispatch({

@@ -34,6 +34,7 @@ export default class App {
   createRoom(){
 
     const roomID = this.roomID
+    console.info( roomID )
     this.socket.emit( 'createRoom', this.roomID, () => {
 
       const socketRoom = io( Config.apiUrl + `/${roomID}` )

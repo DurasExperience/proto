@@ -21,11 +21,13 @@ io.on( 'connection', ( socket ) => {
       
       console.log( `Connected to room n°${id}` )
       newRoom.socket.emit( 'synchronisedDesktop' )
-      roomSocket.on( 'mobilePinch', () => {
-
-        console.log( 'pinch' )
-        newRoom.socket.emit( 'pinch' )
-
+      roomSocket.on( 'MOBILE_PINCH_START', () => {
+        console.log( 'pinch start' )
+        newRoom.socket.emit( 'PINCH_START' ) 
+      } )
+      roomSocket.on( 'MOBILE_PINCH_END', () => {
+        console.log( 'pinch end' )
+        newRoom.socket.emit( 'PINCH_END' ) 
       } )
 
     })

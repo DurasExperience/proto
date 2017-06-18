@@ -16,14 +16,14 @@ class InfosFooter extends React.Component {
       nextText: ''
     }
     this.routeChanged = this.routeChanged.bind( this )
-    // this.nextState.text = this.state.nextText
-    // this.swapTl.play( 0 )
+    this.chapterStarted = this.chapterStarted.bind( this )
 
   }
 
   componentDidMount() {
 
     Store.on( EventsConstants.ROUTE_CHANGED, this.routeChanged )
+    Store.on( EventsConstants.START_CHAPTER, this.chapterStarted )
     
     this.swapTl = new TimelineMax({
       paused: true,
@@ -74,6 +74,13 @@ class InfosFooter extends React.Component {
         this.nextState.nextText = ''
 
     }
+    this.swapTl.play( 0 )
+
+  }
+
+  chapterStarted() {
+
+    this.nextState.text = this.state.nextText
     this.swapTl.play( 0 )
 
   }
