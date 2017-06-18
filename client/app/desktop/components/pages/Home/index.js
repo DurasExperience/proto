@@ -15,9 +15,12 @@ class Home extends Page {
 
     super( props )
     this.history = props.history
-    this.video = true
-    this.synchro = false
-    this.skipVideo = this.skipVideo.bind(this)
+    this.state = {
+      video : true,
+      synchro : false
+    }
+    this.showSynchro = this.showSynchro.bind( this )
+    this.skipVideo = this.skipVideo.bind( this )
 
   }
 
@@ -32,13 +35,11 @@ class Home extends Page {
     this.mVideo.addTo( this.refs.videoContainer )
     this.mVideo.load( '/assets/videos/intro.mp4', () => {
 
-      this.mVideo.play( 85 )
+      this.mVideo.play( 80 )
 
     })
 
-    this.mVideo.on('ended', () =>{
-      this.videoEnded()
-    })
+    this.mVideo.on('ended', this.showSynchro )
 
     this.mouseEvent()
   }
@@ -46,24 +47,22 @@ class Home extends Page {
   skipVideo(){
 
     this.mVideo.pause()
-    this.videoEnded()
+    this.showSynchro()
 
   }
 
-  videoEnded(){
+  showSynchro() {
 
     this.removeListeners()
-    this.video = false
-    this.synchro = true
-    this.setState({ render: true })
+    TweenMax.to( this.refs.videoContainer, 1, { opacity: 0, onComplete: () => {
 
-  }
+      this.setState({
+        video: false,
+        synchro: true
+      })
+      this.mVideo.clear()
 
-  initSources(){
-
-    // this.video = ( Store.getResource('intro') )
-    // this.phone = Store.getResource('phone')
-    // console.log( this.video, this.phone )
+    } } )
 
   }
 
@@ -108,7 +107,6 @@ class Home extends Page {
 
     window.removeEventListener("mousemove", this.skipThrottled);
 
-
   }
 
   setupAnimations(){
@@ -124,9 +122,9 @@ class Home extends Page {
 
     return(
       <div className="page" ref="parent" id="Home">
-        {(this.video == true ? <div className="video-skip" ref="skip"  onClick={this.skipVideo}> skip </div>: null)}
-        {(this.video == true  ? <div className="video-container" ref="videoContainer"></div>: null)}
-        {(this.synchro == true  ? <Synchro />: null)}
+        { this.state.video ? <div className="video-skip" ref="skip" onClick={ this.skipVideo }>skip</div> : null }
+        { this.state.video ? <div className="video-container" ref="videoContainer"></div> : null }
+        { this.state.synchro  ? <Synchro /> : null }
       </div>
     )
 

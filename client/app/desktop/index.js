@@ -9,9 +9,9 @@ export default class App {
 
   constructor(){
 
-    if ( !Config.mobileConnect ) {
+    if ( Config.mobileConnect ) {
 
-      //this.socket = io( Config.apiUrl )
+      this.socket = io( Config.apiUrl )
       this.roomID = Math.random().toString().slice( 2, 6 )
       Actions.generateRoomID( this.roomID )
 
@@ -38,18 +38,8 @@ export default class App {
     this.socket.emit( 'createRoom', this.roomID, () => {
 
       const socketRoom = io( Config.apiUrl + `/${roomID}` )
+      Store.socketRoomId = roomID
       Store.socketRoom = socketRoom
-      socketRoom.on( 'synchronisedMobile', () => {
-
-        console.log( 'synchronisedMobile' )
-        //todo show mobile connected
-
-      })
-      socketRoom.on( 'pinch', () => {
-
-        console.log( 'desktop pinch' )
-
-      })
 
     })
 
