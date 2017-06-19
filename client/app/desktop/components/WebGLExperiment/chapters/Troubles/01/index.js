@@ -335,7 +335,7 @@ class Troubles01 extends Group {
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
     if ( GlobalConfig.mobileConnect ) Store.socketRoom.emit( EventsConstants.CHANGE_CHAPTER )
-    Actions.changePage( '/duras-song' )
+    Actions.changePage( '/notoriete/01' )
 
   }
 

@@ -137,12 +137,18 @@ class WebGLExperiment extends React.Component {
         this.currentChapter = new Troubles01( this.scene, this.controlsContainer )
         break
 
+      case '/notoriete/01':
+        this.currentChapter = undefined
+        break
+
       case '/duras-song':
         this.currentChapter = new DurasSong( this.scene, this.controlsContainer )
         break
 
     }
 
+    if ( this.currentChapter === undefined ) return
+    
     this.currentChapter.start()
     this.scene.add( this.currentChapter )
 

@@ -133,8 +133,8 @@ export default {
     ///////// Chapitre 3.0
     {
       type: 'audio',
-      id: '03_musique',
-      url: '/assets/sounds/03/MUSIQUE.mp3',
+      id: '03_ambient',
+      url: '/assets/sounds/03/ambient.mp3',
       options: {
         loop: false,
         volume: 0
@@ -143,7 +143,7 @@ export default {
     {
       type: 'audio',
       id: '03_voice',
-      url: '/assets/sounds/03/VOIX.mp3',
+      url: '/assets/sounds/03/voice.mp3',
       options: {
         loop: false,
         volume: 0

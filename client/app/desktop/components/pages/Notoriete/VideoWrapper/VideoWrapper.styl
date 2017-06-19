@@ -1,0 +1,20 @@
+@import './../../../../../../style/common.styl'
+
+.video-wrapper
+  @extends .full
+  z-index -1
+
+  .video__black,
+  .video__white
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+
+  video
+    width 100%
+    position absolute
+    top 50%
+    transform translateY( -50% )
+    
