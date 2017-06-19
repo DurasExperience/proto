@@ -13,12 +13,21 @@ class Loader extends React.Component {
 
   }
 
+  componentDidMount() {
+
+    this.spriteTween = TweenMax.to( this.refs.sprite, 2, { backgroundPosition: '-18375px 0', ease: SteppedEase.config(84), repeat: -1, paused: true } )
+    TweenMax.to( this.refs.sprite, 0.5, { opacity: 1, onComplete: () => {
+      this.spriteTween.play()
+    } } )
+
+  }
+
   render() {
 
     return(
 
       <div className="loader" ref="parent">
-        <img src="/assets/images/loader.gif" alt=""/>
+        <div className="loader__sprite" ref="sprite"></div>
       </div>
 
     )
