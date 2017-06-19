@@ -38,23 +38,26 @@ class BaseScene extends Scene {
     this.initLights()
     this.initPostProcessing()
     this.addGUI()
-    // this.onGyroMove = this.onGyroMove.bind( this )
-    // if ( GlobalConfig.mobileConnect ) {
-    //   Store.on( EventsConstants.APP_START, () => {
-    //     Store.socketRoom.on( 'GYRO_MOVE', this.onGyroMove )
-    //   } )
-    // }
+    this.onGyroMove = this.onGyroMove.bind( this )
+    this.initialRotation = {
+      y: this.camera.rotation.y
+    }
+    if ( GlobalConfig.mobileConnect ) {
+      Store.on( EventsConstants.APP_START, () => {
+        Store.socketRoom.on( 'GYRO_MOVE', this.onGyroMove )
+      } )
+    }
 
   }
 
   onGyroMove( val ) {
 
-    console.log( val )
     const rX = val.x / 100
-    const rY = val.y / 100
-    console.log( rX, rY )
-    this.camera.rotation.y += rX
-    this.camera.rotation.z += rY
+    // console.log( rX )
+    TweenMax.to( this.camera.rotation, 0.3, {
+      y: this.initialRotation.y + rX * 1.5,
+      ease: Sine.easeOut
+    } )
     
   }
 

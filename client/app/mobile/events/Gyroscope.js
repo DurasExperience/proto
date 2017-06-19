@@ -7,6 +7,10 @@ class Gyroscope {
 
     this.DELTA_TIME = 0
     this.SPEED = 0.01
+    this.VALUES = {
+      x: 0,
+      y: 0
+    }
 
   }
 
@@ -14,12 +18,13 @@ class Gyroscope {
 
     console.log( gyro )
     gyro.calibrate()
+    gyro.frequency = 300
     gyro.startTracking( ( e ) => {
-      const val = {
-        x: Math.floor( e.x ),
-        y: Math.floor( e.y )
+      const rX = Math.floor( e.x )
+      if ( rX !== this.VALUES.x ) {
+        this.VALUES.x = rX
+        Store.socketRoom.socket.emit( 'MOBILE_GYRO_MOVE', this.VALUES )
       }
-      Store.socketRoom.socket.emit( 'MOBILE_GYRO_MOVE', val )
     } )
     // this.loop = loop( this.update )
     // this.loop.start()

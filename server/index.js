@@ -26,9 +26,10 @@ io.on( 'connection', ( socket ) => {
         console.log( '1 change chapter' )
         newRoom.socket.emit( 'MOBILE_CHANGE_CHAPTER' ) 
       } )
-      // roomSocket.on( 'MOBILE_GYRO_MOVE', ( val ) => {
-      //   newRoom.socket.emit( 'GYRO_MOVE', val ) 
-      // } )
+      roomSocket.on( 'MOBILE_GYRO_MOVE', ( val ) => {
+        // console.log( val )
+        newRoom.socket.emit( 'GYRO_MOVE', val ) 
+      } )
       roomSocket.on( 'MOBILE_PINCH_START', () => {
         newRoom.socket.emit( 'PINCH_START' ) 
       } )

@@ -40,6 +40,8 @@ class DurasSong extends Group {
       this.controlsContainer.rotation.x = this.config.camera.rotation.x
       this.controlsContainer.rotation.y = this.config.camera.rotation.y
       this.controlsContainer.rotation.z = this.config.camera.rotation.z
+      this.scene.initialRotation.x = this.config.camera.rotation.x
+      this.scene.initialRotation.z = this.config.camera.rotation.z
 
     } else {
       this.scene.camera.position.x = this.config.camera.position.x
@@ -48,6 +50,8 @@ class DurasSong extends Group {
       this.scene.camera.rotation.x = this.config.camera.rotation.x
       this.scene.camera.rotation.y = this.config.camera.rotation.y
       this.scene.camera.rotation.z = this.config.camera.rotation.z
+      this.scene.initialRotation.x = this.config.camera.rotation.x
+      this.scene.initialRotation.z = this.config.camera.rotation.z
 
     }
 

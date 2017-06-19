@@ -39,6 +39,8 @@ class Walk extends AudioSpline {
       this.controlsContainer.rotation.x = this.config.camera.rotation.x
       this.controlsContainer.rotation.y = this.config.camera.rotation.y
       this.controlsContainer.rotation.z = this.config.camera.rotation.z
+      this.scene.initialRotation.y = this.config.camera.rotation.y
+      
 
     } else {
       this.scene.camera.position.x = this.config.camera.position.x
@@ -47,6 +49,8 @@ class Walk extends AudioSpline {
       this.scene.camera.rotation.x = this.config.camera.rotation.x
       this.scene.camera.rotation.y = this.config.camera.rotation.y
       this.scene.camera.rotation.z = this.config.camera.rotation.z
+      this.scene.initialRotation.y = this.config.camera.rotation.y
+      
 
     }
     super.init()
