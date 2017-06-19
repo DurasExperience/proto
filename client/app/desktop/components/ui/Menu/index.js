@@ -45,7 +45,7 @@ class Menu extends React.Component {
         <div className="navigation__chapter">
           <ul ref="chapters" className="navigation__list">
             <li>
-              <NavLink to="/indochine/01" title="indochine" activeClassName={ this.state.currentRoute === ( '/indochine/01' || '/indochine/02' )  ? 'chapter__active' : 'chapter__inactive' }/>
+              <NavLink to="/indochine/01" title="indochine" activeClassName={ (this.state.currentRoute === '/indochine/01' || this.state.currentRoute === '/indochine/02') ? 'chapter__active' : 'chapter__inactive' }/>
             </li>
             <li>
               <NavLink to="/troubles/01" title="troubles" activeClassName={ this.state.currentRoute === '/troubles/01' ? 'chapter__active' : 'chapter__inactive' }/>
