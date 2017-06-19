@@ -36,7 +36,7 @@ class Menu extends React.Component {
 
   render() {
     return(
-      <div className="navigation">
+      <div className="navigation" ref="navigation">
 
         <div className="navigation__about">
           <NavLink ref="about" activeClassName="about" to="/a-propos" title="à propos" />

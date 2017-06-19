@@ -19,9 +19,7 @@ class Layout extends Page {
     this.history = props.history
     this.first = true
     this.tuto = false
-    this.layout = true
     this.onPinch = this.onPinch.bind( this )
-    this.showLayout = this.showLayout.bind( this )
     this.tutoDisplayer = this.tutoDisplayer.bind( this )
 
     this.state = {
@@ -29,13 +27,6 @@ class Layout extends Page {
     }
 
     Store.on( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )
-
-  }
-
-  mouseEvent(){
-
-    let throttled = _.throttle(this.showLayout, 500, { 'trailing': false, 'leading': true });
-    window.addEventListener("mousemove", throttled);
 
   }
 
@@ -58,7 +49,6 @@ class Layout extends Page {
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
     this.setupSound()
     console.log( 'mounted' )
-    this.mouseEvent()
 
   }
 
@@ -78,8 +68,6 @@ class Layout extends Page {
         <div className="page" ref="parent">
           {(this.first == true  ? <div className="page__gradient"></div> : null)}
           <div className="page--layout">
-            <SoundLevel/>
-            <Menu activeChapter={this} />
             {(this.first == true  ? <Chapter chapterText={this.props}/> : null)}
             {(this.tuto == true  ? <Tuto tutoText={this.props.tutoText} tutoAnim={this.props.tutoAnim} />: null)}
           </div>
@@ -134,26 +122,6 @@ class Layout extends Page {
 
   }
 
-  showLayout(){
-
-    if ( !this.first && this.layout ) {
-
-      this.layout = false
-      this.setState({ render: true })
-
-      TweenMax.to( this.refs.parent, 0.2, { opacity: 1, visibility: "visible", onComplete: () => {
-
-        setTimeout( () => {
-
-          this.setState( { render: false } )
-          this.layout = true
-
-        }, 5000)
-
-      } })
-    }
-
-  }
 
 }
 
