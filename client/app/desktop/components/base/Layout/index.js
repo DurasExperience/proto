@@ -2,6 +2,8 @@ import './Layout.styl'
 import Page from './../../base/Page'
 import Chapter from './../../ui/Chapter'
 import Tuto from './../../ui/Tuto'
+import Menu from './../../ui/Menu'
+import SoundLevel from './../../ui/SoundLevel'
 import Store from './../../../../../flux/store/desktop/index'
 import Actions from './../../../../../flux/actions'
 import EventsConstants from './../../../../../flux/constants/EventsConstants.js'
@@ -17,6 +19,7 @@ class Layout extends Page {
     this.history = props.history
     this.first = true
     this.tuto = false
+    this.layout = true
     this.onPinch = this.onPinch.bind( this )
     this.showLayout = this.showLayout.bind( this )
     this.tutoDisplayer = this.tutoDisplayer.bind( this )
@@ -24,15 +27,16 @@ class Layout extends Page {
     this.state = {
       render: true
     }
-    // this.mouseEvent()
 
     Store.on( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )
+
+    this.mouseEvent()
 
   }
 
   mouseEvent(){
 
-    let throttled = _.throttle(this.showLayout, 5200, { 'trailing': false, 'leading': true });
+    let throttled = _.throttle(this.showLayout, 500, { 'trailing': false, 'leading': true });
     window.addEventListener("mousemove", throttled);
 
   }
@@ -72,8 +76,10 @@ class Layout extends Page {
         <div className="page" ref="parent">
           {(this.first == true  ? <div className="page__gradient"></div> : null)}
           <div className="page--layout">
+            <SoundLevel/>
+            <Menu activeChapter={this} />
             {(this.first == true  ? <Chapter chapterText={this.props}/> : null)}
-            {(this.tuto == true  ? <Tuto tutoText={this.props} />: null)}
+            {(this.tuto == true  ? <Tuto tutoText={this.props.tutoText} tutoAnim={this.props.tutoAnim} />: null)}
           </div>
         </div>
       )
@@ -125,8 +131,9 @@ class Layout extends Page {
 
   showLayout(){
 
-    if ( !this.first ) {
+    if ( !this.first && this.layout ) {
 
+      this.layout = false
       this.setState({ render: true })
 
       TweenMax.to( this.refs.parent, 0.2, { opacity: 1, visibility: "visible", onComplete: () => {
@@ -134,6 +141,7 @@ class Layout extends Page {
         setTimeout( () => {
 
           this.setState( { render: false } )
+          this.layout = true
 
         }, 5000)
 

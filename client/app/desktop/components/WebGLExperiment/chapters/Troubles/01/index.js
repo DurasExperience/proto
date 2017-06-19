@@ -105,6 +105,8 @@ class Troubles01 extends Group {
   play() {
 
     Store.off( EventsConstants.START_CHAPTER, this.play )
+    setTimeout(() => { Actions.tutoDisplay( true ) }, 1000)
+
     this.addListeners()
     this.walk.start()
     this.walk.play()
@@ -191,7 +193,7 @@ class Troubles01 extends Group {
     this.swapTl.to( this.buildings.position, 1.5, { y: -1000, ease: Expo.easeIn }, 0 )
     this.swapTl.to( this.buildings.mesh.uniforms.alpha, 1.5, { value: 0 }, 0.1 )
 
-    
+
     this.fadeOutTl = new TimelineMax({ paused: true, onComplete: this.clearGroup })
     this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut }, 0 )
 
@@ -331,7 +333,7 @@ class Troubles01 extends Group {
 
 
   update( time ) {
-    
+
     for ( let obj of this.objects ) {
 
       obj.update( time )

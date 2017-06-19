@@ -14,7 +14,8 @@ const Store = assign({}, EventEmitter2.prototype, {
   Resources: {},
   getResource: ( id ) => Store.Resources[ id ],
   Routes: { oldRoute: undefined, newRoute: undefined },
-  roomID: { id:0, w:0, x:0, y:0, z:0 }
+  roomID: { id:0, w:0, x:0, y:0, z:0 },
+  sound: true
 
 })
 
@@ -60,6 +61,10 @@ Store.dispatchToken = Dispatcher.register(( payload ) => {
       Store.roomID.x = num[1]
       Store.roomID.y = num[2]
       Store.roomID.z = num[3]
+      Store.emit( actionType, item )
+      break
+    case EventsConstants.MUTE_ALL:
+      Store.sound = Store.sound ? false : Store.sound ? false : true;
       Store.emit( actionType, item )
       break
     default:

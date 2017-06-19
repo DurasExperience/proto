@@ -161,6 +161,14 @@ const Actions = {
       item: id
     })
 
+  },
+  muteAll( ){
+
+    Dispatcher.dispatch({
+      type: EventsConstants.MUTE_ALL,
+      item: undefined
+    })
+
   }
 
 }

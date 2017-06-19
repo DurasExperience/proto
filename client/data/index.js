@@ -24,6 +24,19 @@ export default {
       subtitle: 'Portrait d’une écriture',
       text: 'À l’occasion du centenaire de la naissance de Marguerite Duras (1914-1996), la Bibliothèque publique d’Information et l’Institut Mémoires de l’édition contemporaine s’associent pour présenter l’exposition Duras Song consacrée à cette figure majeure de la littérature du XXe siècle.'
     }
+  },
+  tutoriels: {
+    indochine: {
+      tutoAnim: "chap1-tuto",
+      tutoText: "Écartez les obstacles de la vie de Marguerite en les repoussant avec vos doigts."
+    },
+    resistance: {
+      tutoAnim: "chap2-tuto",
+      tutoText: "Appuyez longuement sur votre smartphone pour observer la vie à travers les yeux d’une artiste tourmentée."
+    },
+    notoriete: {
+      tutoAnim: "chap3-tuto",
+      tutoText: "Retournez votre smartphone pour basculer entre les savoir-faire de Marguerite."
+    }
   }
-
 }

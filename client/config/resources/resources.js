@@ -51,11 +51,11 @@ export default {
       id: '01_mountains',
       url: '/assets/models/01/01/mountains.awd'
     },
-    // {
-    //   type: 'json',
-    //   id: 'chap1-tuto',
-    //   url: '/assets/bodymovin/desktop/chap1-tuto.json'
-    // },
+    {
+      type: 'json',
+      id: 'chap1-tuto',
+      url: '/assets/bodymovin/desktop/chap1-tuto.json'
+    },
     ///////// Chapitre 1.2
     {
       type: 'model',
@@ -119,11 +119,11 @@ export default {
         volume: 0
       }
     },
-    // {
-    //   type: 'json',
-    //   id: 'chap2-tuto',
-    //   url: '/assets/bodymovin/desktop/chap2-tuto.json'
-    // },
+    {
+      type: 'json',
+      id: 'chap2-tuto',
+      url: '/assets/bodymovin/desktop/chap2-tuto.json'
+    },
     ///////// Chapitre 2.2
     {
       type: 'model',
@@ -149,11 +149,11 @@ export default {
         volume: 0
       }
     },
-    // {
-    //   type: 'json',
-    //   id: 'chap3-tuto',
-    //   url: '/assets/bodymovin/desktop/chap3-tuto.json'
-    // },
+    {
+      type: 'json',
+      id: 'chap3-tuto',
+      url: '/assets/bodymovin/desktop/chap3-tuto.json'
+    },
     ///////// Chapitre 4
     {
       type: 'model',
