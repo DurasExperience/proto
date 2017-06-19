@@ -184,7 +184,7 @@ class Indochine02 extends Group {
     this.fadeOutTl.clear()
     this.handWoman.clear()
     this.handMan.clear()
-    Store.socketRoom.emit( EventsConstants.CHANGE_CHAPTER )
+    if ( GlobalConfig.mobileConnect ) Store.socketRoom.emit( EventsConstants.CHANGE_CHAPTER )
     Actions.endAmbient()
     Actions.changeSubpage( '/troubles/01' )
 
