@@ -28,9 +28,7 @@ class Layout extends Page {
       render: true
     }
 
-    Store.on( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )
-
-    this.mouseEvent()
+    Store.on( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )    
 
   }
 
@@ -60,6 +58,7 @@ class Layout extends Page {
     else dom.event.on( this.refs.parent, 'click', this.onPinch )
     this.setupSound()
     console.log( 'mounted' )
+    this.mouseEvent()
 
   }
 
