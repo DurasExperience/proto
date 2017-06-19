@@ -19,13 +19,14 @@ class AppTemplate extends React.Component {
     this.initLoader()
     this.fadeIn = this.fadeIn.bind(this)
     this.hidden = true
+    this.firstFade = false
 
   }
 
   componentDidMount(){
 
     this.addListeners()
-
+    this.fadeOut()
   }
 
   addListeners(){
@@ -33,27 +34,35 @@ class AppTemplate extends React.Component {
     let throttled = _.throttle(this.fadeIn, 700, { 'trailing': false, 'leading': true });
     Store.on(EventsConstants.MOUSE_MOVE, throttled)
 
+    setTimeout(()=>{ if(Store.Routes.newRoute != "/" ) this.firstFade = true }, 300)
+
+    Store.on(EventsConstants.CHANGE_PAGE, (newRoute, oldRoute)=>{
+      if(newRoute != "/") this.firstFade = true
+    })
+
   }
 
   fadeIn(){
 
-    this.hidden = false
+    if(this.firstFade){
+      this.hidden = false
 
-    TweenMax.to( this.refs.soundLevel.refs.sound, 0.5, { opacity: 1 })
-    TweenMax.to( this.refs.menu.refs.navigation, 0.5, { opacity: 1 })
-    setTimeout(()=>{
+      TweenMax.to( this.refs.soundLevel.refs.sound, 0.5, { opacity: 1 })
+      TweenMax.to( this.refs.menu.refs.navigation, 0.5, { opacity: 1 })
+      setTimeout(()=>{
 
-      if(this.hidden)this.fadeOut()
-      this.hidden = true
+        if(this.hidden)this.fadeOut()
+        this.hidden = true
 
-    }, 3800)
+      }, 3800)
+    }
 
   }
 
   fadeOut(){
 
-    TweenMax.to( this.refs.soundLevel.refs.sound, 0.5, { opacity: 0 })
-    TweenMax.to( this.refs.menu.refs.navigation, 0.5, { opacity: 0 })
+    TweenMax.to( this.refs.soundLevel.refs.sound, 0.3, { opacity: 0 })
+    TweenMax.to( this.refs.menu.refs.navigation, 0.3, { opacity: 0 })
 
   }
 

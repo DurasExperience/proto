@@ -19,7 +19,7 @@ class Home extends Page {
       video : true,
       synchro : false
     }
-    
+
     this.bind()
 
   }
@@ -99,7 +99,6 @@ class Home extends Page {
 
   }
 
-  // TODO Make it cleaner
   mouseEvent(){
 
     let that = this
