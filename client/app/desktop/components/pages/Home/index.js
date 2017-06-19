@@ -58,7 +58,7 @@ class Home extends Page {
 
   startVideo() {
 
-    this.mVideo.play( 80 )
+    this.mVideo.play( 45 )
 
   }
 

@@ -60,8 +60,8 @@ class InfosFooter extends React.Component {
         break
 
       case '/troubles':
-        this.nextState.text = '02'
-        this.nextState.nextText = ''
+        this.nextState.text = 'Appuyez longuement sur votre smartphone pour commencer'
+        this.nextState.nextText = 'Observez la vie à travers les yeux d’une artiste tourmentée'
         break
 
       case '/notoriete':

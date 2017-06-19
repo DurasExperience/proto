@@ -21,16 +21,27 @@ io.on( 'connection', ( socket ) => {
       
       console.log( `Connected to room n°${id}` )
       newRoom.socket.emit( 'synchronisedDesktop' )
-      roomSocket.on( 'MOBILE_GYRO_MOVE', ( val ) => {
-        newRoom.socket.emit( 'GYRO_MOVE', val ) 
+      
+      roomSocket.on( 'CHANGE_CHAPTER', () => {
+        console.log( '1 change chapter' )
+        newRoom.socket.emit( 'MOBILE_CHANGE_CHAPTER' ) 
       } )
+      // roomSocket.on( 'MOBILE_GYRO_MOVE', ( val ) => {
+      //   newRoom.socket.emit( 'GYRO_MOVE', val ) 
+      // } )
       roomSocket.on( 'MOBILE_PINCH_START', () => {
-        console.log( 'pinch start' )
         newRoom.socket.emit( 'PINCH_START' ) 
       } )
       roomSocket.on( 'MOBILE_PINCH_END', () => {
-        console.log( 'pinch end' )
         newRoom.socket.emit( 'PINCH_END' ) 
+      } )
+      roomSocket.on( 'MOBILE_PRESS_START', () => {
+        console.log( 'press start' )
+        newRoom.socket.emit( 'PRESS_START' ) 
+      } )
+      roomSocket.on( 'MOBILE_PRESS_END', () => {
+        console.log( 'press end' )
+        newRoom.socket.emit( 'PRESS_END' ) 
       } )
 
     })

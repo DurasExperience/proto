@@ -20,7 +20,7 @@ class Indochine extends Page {
 
   bind() {
 
-    [ 'onWindowResize', 'onPinchStart', 'onPinchMove', 'onPinchEnd' ]
+    [ 'onWindowResize', 'onPinchStart', 'onPinchMove', 'onPinchEnd', 'changeChapter' ]
       .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
       
     super.bind()
@@ -47,6 +47,7 @@ class Indochine extends Page {
     } } )
 
     Store.on( EventsConstants.WINDOW_RESIZE, this.onWindowResize )
+    Store.socketRoom.socket.on( 'MOBILE_CHANGE_CHAPTER', this.changeChapter )
 
   }
 
@@ -77,7 +78,6 @@ class Indochine extends Page {
     this.PINCH_STARTED = true
     TweenMax.to( this.refs.pointer1, 1, { scale: 1, ease: Expo.easeOut } )
     TweenMax.to( this.refs.pointer2, 1, { scale: 1, ease: Expo.easeOut } )
-    console.log( 'pinch start' )
     Store.socketRoom.socket.emit( 'MOBILE_PINCH_START' )
 
   }
@@ -88,7 +88,6 @@ class Indochine extends Page {
     TweenMax.to( this.refs.pointer1, 1, { scale: 0, ease: Expo.easeOut } )
     TweenMax.to( this.refs.pointer2, 1, { scale: 0, ease: Expo.easeOut } )
     this.PINCH_STARTED = false
-    console.log( 'pinch end' )
     Store.socketRoom.socket.emit( 'MOBILE_PINCH_END' )
 
   }
@@ -126,6 +125,12 @@ class Indochine extends Page {
     dom.style( this.refs.interaction, {
       transform: `scale(${ scale })`
     } )
+
+  }
+
+  changeChapter() {
+
+    Actions.changePage( '/troubles' )
 
   }
 

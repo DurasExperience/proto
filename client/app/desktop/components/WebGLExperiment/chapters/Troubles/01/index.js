@@ -74,7 +74,10 @@ class Troubles01 extends Group {
 
   addListeners() {
 
-    if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( 'pinch', this.reverse )
+    if ( GlobalConfig.mobileConnect ) {
+      Store.socketRoom.on( EventsConstants.PRESS_START, this.mess )
+      Store.socketRoom.on( EventsConstants.PRESS_END, this.clean )
+    }
     else {
       Store.on( EventsConstants.SPACE_DOWN, this.mess )
       Store.on( EventsConstants.SPACE_UP, this.clean )
@@ -84,7 +87,10 @@ class Troubles01 extends Group {
 
   removeListeners() {
 
-    if ( GlobalConfig.mobileConnect ) Store.socketRoom.off( 'pinch', this.reverse )
+    if ( GlobalConfig.mobileConnect ) {
+      Store.socketRoom.off( EventsConstants.PRESS_START, this.mess )
+      Store.socketRoom.off( EventsConstants.PRESS_END, this.clean )
+    }
     else {
       Store.off( EventsConstants.SPACE_DOWN, this.mess )
       Store.off( EventsConstants.SPACE_UP, this.clean )
