@@ -28,7 +28,7 @@ class Layout extends Page {
       render: true
     }
 
-    Store.on( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )    
+    Store.on( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )
 
   }
 
