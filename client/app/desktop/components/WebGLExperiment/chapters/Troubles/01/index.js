@@ -254,6 +254,7 @@ class Troubles01 extends Group {
     // this.scene.passes.push( this.vignettePass )
     this.forceMessTl = new TimelineMax()
     this.forceMessTl.to( this.vignettePass.params, 1, { boost: 0, ease: Sine.easeOut } )
+    this.forceMessTl.to( this.rails.mesh.position, 0.5, { z: this.rails.mesh.position.z - 1000 } )
     this.forceMessTl.add( () => {
       this.mess()
       this.STATE = 'forceMess'

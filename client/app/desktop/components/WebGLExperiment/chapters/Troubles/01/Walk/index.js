@@ -29,7 +29,7 @@ class Walk extends AudioSpline {
     this.points = [
       new Vector3( 0, 400, 0 ),
       new Vector3( 0, 400, -6500 ),
-      new Vector3( 0, 400, -13000 )
+      new Vector3( 0, 400, -15000 )
     ]
     if ( GlobalConfig.debug ) {
 
