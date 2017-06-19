@@ -28,6 +28,7 @@ class Indochine01 extends Group {
     this.scene = scene
     this.config = Config.indochine_01
     this.level = 'surface'
+    this.disableDrown = false
 
     this.bind()
 
@@ -122,7 +123,10 @@ class Indochine01 extends Group {
     this.surfaceAmbientSound.fade( 0, 1, 500, this.surfaceAmbientSoundId )
 
     this.firstDrown()
-    this.lastDrown = setTimeout( this.drown, this.limit * 1000 )
+    this.lastDrown = setTimeout( () => {
+      this.drown()
+      this.disableDrown = true
+    }, this.limit * 1000 )
 
   }
 
@@ -199,8 +203,7 @@ class Indochine01 extends Group {
   drown() {
 
     console.log( 'drown' )
-    // const disableDrown = Math.ceil( this.journey.time * this.journey.duration ) > this.limit
-    // if( disableDrown ) return
+    if( this.disableDrown ) return
     if ( this.scene.passes.length === this.initPassesLength ) this.scene.passes.push( this.godrayPass )
 
     this.drownTl.timeScale( 0.75 )
