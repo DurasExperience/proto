@@ -20,7 +20,7 @@ class Troubles extends Page {
 
   bind() {
 
-    [ 'onPressStart', 'onPressEnd' ]
+    [ 'onPressStart', 'onPressEnd', 'changeChapter' ]
       .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
       
     super.bind()
@@ -36,6 +36,7 @@ class Troubles extends Page {
     TweenMax.to( this.refs.pointer, 1, { opacity: 1, onComplete: () => {
       this.animTl.play()
     } } )
+    Store.socketRoom.socket.on( 'MOBILE_CHANGE_CHAPTER', this.changeChapter )
 
   }
 
@@ -106,6 +107,12 @@ class Troubles extends Page {
         </div>
       </div>
     )
+
+  }
+
+  changeChapter() {
+
+    Actions.changePage( '/duras-song' )
 
   }
 

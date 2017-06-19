@@ -334,7 +334,8 @@ class Troubles01 extends Group {
     clearTimeout( this.messTimeout )
     this.passes = []
     this.scene.setupPostProcessing( this.passes )
-    Actions.changeSubpage( '/duras-song' )
+    if ( GlobalConfig.mobileConnect ) Store.socketRoom.emit( EventsConstants.CHANGE_CHAPTER )
+    Actions.changePage( '/duras-song' )
 
   }
 

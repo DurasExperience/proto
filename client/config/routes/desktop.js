@@ -1,5 +1,6 @@
 import Home from './../../app/desktop/components/pages/Home'
 import Layout from './../../app/desktop/components/base/Layout'
+import Layout2 from './../../app/desktop/components/base/Layout2'
 import NotFound from './../../app/desktop/components/pages/NotFound'
 import { Route, Switch } from 'react-router-dom'
 import { chapters as Chapters } from './../../data'
@@ -14,6 +15,7 @@ const PropsRoute = ({ path, component, data, tuto }) => {
     <Route path={path} render={ (props) => {
       const finalProps = Object.assign(data, tuto, props );
       if(Config.layout){
+        console.log( component, finalProps )
         return React.createElement(component, finalProps)
       }else{
         return false
@@ -28,6 +30,6 @@ export default (
     <PropsRoute path="/indochine/01" component={ Layout } data={ Chapters.indochine } tuto={ Tutoriels.indochine }/>
     <PropsRoute path="/troubles/01" component={ Layout } data={ Chapters.resistance } tuto={ Tutoriels.resistance } />
     <PropsRoute path="/notoriete/01" component={ Layout } data={ Chapters.notoriete } tuto={ Tutoriels.notoriete } />
-    <PropsRoute path="/duras-song" component={ Layout } data={ Chapters.durasSong } />
+    <PropsRoute path="/duras-song" component={ Layout2 } data={ Chapters.durasSong } />
   </Switch>
 )

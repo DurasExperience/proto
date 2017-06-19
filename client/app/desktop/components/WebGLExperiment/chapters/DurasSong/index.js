@@ -22,7 +22,7 @@ class DurasSong extends Group {
   constructor( scene, controlsContainer ) {
 
     super()
-    this.name = 'indochine-02'
+    this.name = 'duras-song'
     this.scene = scene
     this.controlsContainer = controlsContainer
     this.config = Config
@@ -69,6 +69,7 @@ class DurasSong extends Group {
 
   start() {
 
+    console.log('start')
     this.scene.setupPostProcessing( this.passes )
     this.addGUI()
     this.fadeIn()
@@ -77,6 +78,7 @@ class DurasSong extends Group {
 
   initPostProcessing() {
 
+    console.log( 'init pp' )
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
     this.vignettePass = new VignettePass( {
       boost: this.config.postProcessing.vignettePass.boost,

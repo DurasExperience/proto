@@ -44,6 +44,7 @@ class BaseScene extends Scene {
     }
     if ( GlobalConfig.mobileConnect ) {
       Store.on( EventsConstants.APP_START, () => {
+        if ( Store.socketRoom === undefined ) return
         Store.socketRoom.on( 'GYRO_MOVE', this.onGyroMove )
       } )
     }

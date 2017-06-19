@@ -69,6 +69,11 @@ class ChapterHeader extends React.Component {
         this.nextState.title = 'Notoriété'
         break
 
+      case '/duras-song':
+        this.nextState.index = '04'
+        this.nextState.title = 'Duras Song'
+        break
+
       default:
         this.nextState.index = ''
         this.nextState.title = ''

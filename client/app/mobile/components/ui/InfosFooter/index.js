@@ -69,6 +69,11 @@ class InfosFooter extends React.Component {
         this.nextState.nextText = 'Notoriété'
         break
 
+      case '/duras-song':
+        this.nextState.text = ''
+        this.nextState.nextText = ''
+        break
+
       default:
         this.nextState.text = ''
         this.nextState.nextText = ''
