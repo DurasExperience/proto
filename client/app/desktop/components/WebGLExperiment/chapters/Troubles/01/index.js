@@ -111,7 +111,6 @@ class Troubles01 extends Group {
   play() {
 
     Store.off( EventsConstants.START_CHAPTER, this.play )
-    setTimeout(() => { Actions.tutoDisplay( true ) }, 1000)
 
     this.addListeners()
     this.walk.start()
@@ -125,6 +124,9 @@ class Troubles01 extends Group {
     this.messTimeout = setTimeout( this.forceMess, this.limit * 1000 )
     this.linesSplinesTlIn.play()
 
+    setTimeout(() => {
+      Actions.tutoDisplay( true )
+    }, 1000)
 
   }
 

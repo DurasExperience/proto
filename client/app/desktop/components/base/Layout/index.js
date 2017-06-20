@@ -19,6 +19,7 @@ class Layout extends Page {
     this.history = props.history
     this.first = true
     this.tuto = false
+
     this.onPinch = this.onPinch.bind( this )
     this.tutoDisplayer = this.tutoDisplayer.bind( this )
 
@@ -63,6 +64,7 @@ class Layout extends Page {
 
   render() {
 
+    console.log("state", this.state.render);
     if ( this.state.render ) {
       return(
         <div className="page" ref="parent">
@@ -80,6 +82,7 @@ class Layout extends Page {
   didTransitionOutComplete() {
 
     super.didTransitionOutComplete()
+    Store.off( EventsConstants.TUTO_DISPLAY, this.tutoDisplayer )
     this.history.push( this.nextPath )
 
   }
