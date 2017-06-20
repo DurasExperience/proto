@@ -32,7 +32,6 @@ class Troubles extends Page {
     super.componentDidMount()
     this.hammer = new Hammer( this.refs.parent )
     this.hammer.on( 'press', this.onPressStart )
-    this.hammer.on( 'pressup', this.onPressEnd )
     TweenMax.to( this.refs.pointer, 1, { opacity: 1, onComplete: () => {
       this.animTl.play()
     } } )
@@ -81,10 +80,11 @@ class Troubles extends Page {
     this.animTl.restart()
     console.log( 'press start' )
     Store.socketRoom.socket.emit( 'MOBILE_PRESS_START' )
+    this.pressTimeout = setTimeout( this.onPressEnd, 1500 )
 
   }
 
-  onPressEnd( event ){
+  onPressEnd(  ){
 
     console.log( 'press end' )
     Store.socketRoom.socket.emit( 'MOBILE_PRESS_END' )
@@ -113,7 +113,7 @@ class Troubles extends Page {
   changeChapter() {
 
     this.hammer.off( 'press', this.onPressStart )
-    this.hammer.off( 'pressup', this.onPressEnd )
+    clearTimeout( this.pressTimeout )
     Store.socketRoom.socket.off( 'MOBILE_CHANGE_CHAPTER', this.changeChapter )
     Actions.changePage( '/notoriete' )
 
