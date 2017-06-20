@@ -70,7 +70,7 @@ class InfosFooter extends React.Component {
         break
 
       case '/duras-song':
-        this.nextState.text = 'Une exposition proposée par la BPI'
+        this.nextState.text = ''
         this.nextState.nextText = ''
         break
 
