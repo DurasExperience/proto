@@ -1,4 +1,4 @@
-import './troubles.styl'
+import './DurasSong.styl'
 import Page from './../../base/Page'
 import Hammer from 'hammerjs'
 import debounce from 'lodash.debounce'
@@ -7,7 +7,7 @@ import Actions from './../../../../../flux/actions'
 import EventsConstants from './../../../../../flux/constants/EventsConstants'
 import SVGComponent from './../../ui/SVGComponent/index'
 
-class Troubles extends Page {
+class DurasSong extends Page {
 
   constructor( props ) {
 
@@ -56,4 +56,4 @@ class Troubles extends Page {
 
 }
 
-export default Troubles
+export default DurasSong
