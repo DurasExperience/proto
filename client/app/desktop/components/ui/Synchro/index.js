@@ -69,7 +69,7 @@ class Synchro extends React.Component {
         <div className="synchro__holder">
           <h2 ref="title"> Synchronisation</h2>
           <div className="text">
-            <p ref="text">L’utilisation de votre smartphone est nécessaire pour controler l’expérience. Pour le synchroniser à votre ordinateur,  rendez-vous sur Experience-Duras.fr et saisissez le code suivant : </p>
+            <p ref="text">L’utilisation de votre smartphone est nécessaire tout au long de l’expérience. Pour le synchroniser à votre ordinateur, rendez-vous sur Experience-Duras.fr et saisissez le code suivant : </p>
             <div ref="numbers" className="numbers">
               <input ref="number_1" readOnly></input>
               <input ref="number_2" readOnly></input>

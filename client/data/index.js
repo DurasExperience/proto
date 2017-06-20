@@ -28,7 +28,7 @@ export default {
   tutoriels: {
     indochine: {
       tutoAnim: "chap1-tuto",
-      tutoText: "Écartez les obstacles de la vie de Marguerite en les repoussant avec vos doigts."
+      tutoText: "Rassemblez vos forces pour affronter les épreuves de la vie de Marguerite"
     },
     resistance: {
       tutoAnim: "chap2-tuto",

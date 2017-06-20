@@ -56,21 +56,21 @@ class InfosFooter extends React.Component {
 
       case '/indochine':
         this.nextState.text = 'Reproduisez ce geste pour commencer'
-        this.nextState.nextText = 'Écartez les obstacles de la vie de Marguerite'
+        this.nextState.nextText = 'Rassemblez vos forces'
         break
 
       case '/troubles':
-        this.nextState.text = 'Appuyez longuement sur votre smartphone pour commencer'
+        this.nextState.text = 'Appuyez longuement pour commencer'
         this.nextState.nextText = 'Observez la vie à travers les yeux d’une artiste tourmentée'
         break
 
       case '/notoriete':
-        this.nextState.text = '03'
-        this.nextState.nextText = 'Notoriété'
+        this.nextState.text = 'Retournez votre téléphone pour commencer'
+        this.nextState.nextText = 'Basculez entre les savoir-faire de Marguerite'
         break
 
       case '/duras-song':
-        this.nextState.text = ''
+        this.nextState.text = 'Une exposition proposée par la BPI'
         this.nextState.nextText = ''
         break
 
