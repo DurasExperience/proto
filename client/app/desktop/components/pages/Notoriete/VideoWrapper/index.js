@@ -108,15 +108,14 @@ class VideoWrapper extends React.Component {
 
   changeChapter() {
 
-    this.voice.fade( 1, 0, 300, this.voiceId )
-    this.ambient.fade( 1, 0, 300, this.ambientId )
+    this.voice.fade( 1, 0, 500, this.voiceId )
+    this.ambient.fade( 1, 0, 1000, this.ambientId )
     clearTimeout( this.tutoTimeout )
     if ( GlobalConfig.mobileConnect ){
       Store.socketRoom.off( EventsConstants.ROTATE, this.swap )
       Store.socketRoom.emit( EventsConstants.CHANGE_CHAPTER )
     }
     else Store.off( EventsConstants.SPACE_UP, this.swap )
-    
     Actions.changePage( '/duras-song' )
 
   }

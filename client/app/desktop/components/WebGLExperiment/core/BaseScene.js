@@ -56,7 +56,7 @@ class BaseScene extends Scene {
     const rX = val.x / 100
     // console.log( rX )
     TweenMax.to( this.camera.rotation, 0.3, {
-      y: this.initialRotation.y + rX * 1.5,
+      y: this.initialRotation.y + rX,
       ease: Sine.easeOut
     } )
     

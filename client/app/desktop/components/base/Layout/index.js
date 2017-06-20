@@ -64,7 +64,7 @@ class Layout extends Page {
 
   render() {
 
-    console.log("state", this.state.render);
+    // console.log("state", this.state.render);
     if ( this.state.render ) {
       return(
         <div className="page" ref="parent">

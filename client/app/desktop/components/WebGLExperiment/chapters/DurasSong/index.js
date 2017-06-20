@@ -14,8 +14,6 @@ import BoxBlurPass from 'avdp-wagner/src/passes/box-blur/BoxBlurPass'
 import VignettePass from 'avdp-wagner/src/passes/vignette/VignettePass'
 import ZoomBlurPass from 'avdp-wagner/src/passes/zoom-blur/ZoomBlurPass'
 import MultiPassBloomPass from 'avdp-wagner/src/passes/bloom/MultiPassBloomPass'
-import BlendPass from 'avdp-wagner/src/passes/blend/BlendPass'
-import GodrayPass from 'avdp-wagner/src/passes/godray/godraypass'
 
 class DurasSong extends Group {
 
@@ -32,36 +30,13 @@ class DurasSong extends Group {
     this.add( this.beaubourg )
     this.objects = [ this.beaubourg ]
 
-    if ( GlobalConfig.debug ) {
-
-      this.controlsContainer.position.x = this.config.camera.position.x
-      this.controlsContainer.position.y = this.config.camera.position.y
-      this.controlsContainer.position.z = this.config.camera.position.z
-      this.controlsContainer.rotation.x = this.config.camera.rotation.x
-      this.controlsContainer.rotation.y = this.config.camera.rotation.y
-      this.controlsContainer.rotation.z = this.config.camera.rotation.z
-      this.scene.initialRotation.x = this.config.camera.rotation.x
-      this.scene.initialRotation.z = this.config.camera.rotation.z
-
-    } else {
-      this.scene.camera.position.x = this.config.camera.position.x
-      this.scene.camera.position.y = this.config.camera.position.y
-      this.scene.camera.position.z = this.config.camera.position.z
-      this.scene.camera.rotation.x = this.config.camera.rotation.x
-      this.scene.camera.rotation.y = this.config.camera.rotation.y
-      this.scene.camera.rotation.z = this.config.camera.rotation.z
-      this.scene.initialRotation.x = this.config.camera.rotation.x
-      this.scene.initialRotation.z = this.config.camera.rotation.z
-
-    }
-
     this.initPostProcessing()
 
   }
 
   bind() {
 
-    [ 'resize', 'update', 'fadeOut', 'clearGroup' ]
+    [ 'resize', 'update' ]
       .forEach( ( fn ) => this[ fn ] = this[ fn ].bind( this ) )
 
   }
@@ -69,16 +44,47 @@ class DurasSong extends Group {
 
   start() {
 
-    console.log('start')
+    if ( GlobalConfig.debug ) {
+
+      this.controlsContainer.position.x = 0
+      this.controlsContainer.position.y = 0
+      this.controlsContainer.position.z = 0
+      this.controlsContainer.rotation.x = 0
+      this.controlsContainer.rotation.y = 0
+      this.controlsContainer.rotation.z = 0
+      this.controlsContainer.position.x = this.config.camera.position.x
+      this.controlsContainer.position.y = this.config.camera.position.y
+      this.controlsContainer.position.z = this.config.camera.position.z
+      this.controlsContainer.rotation.x = this.config.camera.rotation.x
+      this.controlsContainer.rotation.y = this.config.camera.rotation.y
+      this.controlsContainer.rotation.z = this.config.camera.rotation.z
+      this.scene.initialRotation.y = this.config.camera.rotation.y
+
+    } else {
+
+      this.controlsContainer.position.x = 0
+      this.controlsContainer.position.y = 0
+      this.controlsContainer.position.z = 0
+      this.controlsContainer.rotation.x = 0
+      this.controlsContainer.rotation.y = 0
+      this.controlsContainer.rotation.z = 0
+      this.scene.camera.position.x = this.config.camera.position.x
+      this.scene.camera.position.y = this.config.camera.position.y
+      this.scene.camera.position.z = this.config.camera.position.z
+      this.scene.camera.rotation.x = this.config.camera.rotation.x
+      this.scene.camera.rotation.y = this.config.camera.rotation.y
+      this.scene.camera.rotation.z = this.config.camera.rotation.z
+      this.scene.initialRotation.y = this.config.camera.rotation.y
+
+    }
     this.scene.setupPostProcessing( this.passes )
-    this.addGUI()
+    // this.addGUI()
     this.fadeIn()
 
   }
 
   initPostProcessing() {
 
-    console.log( 'init pp' )
     this.boxBlurPass = new BoxBlurPass( this.config.postProcessing.boxBlurPass.x, this.config.postProcessing.boxBlurPass.y )
     this.vignettePass = new VignettePass( {
       boost: this.config.postProcessing.vignettePass.boost,
@@ -114,36 +120,9 @@ class DurasSong extends Group {
   fadeIn() {
 
     this.fadeInTl = new TimelineMax()
-    this.fadeInTl.fromTo( this.vignettePass.params, 2, { boost: 0 }, { boost: 1, ease: Sine.easeOut } )
+    this.fadeInTl.fromTo( this.vignettePass.params, 3, { boost: 0 }, { boost: 1, delay: 1, ease: Sine.easeOut } )
 
   }
-
-  fadeOut() {
-
-    this.vignettePass.params.boost = this.config.postProcessing.vignettePass.boost
-    this.vignettePass.params.reduction = this.config.postProcessing.vignettePass.reduction
-    this.fadeOutTl = new TimelineMax({ onComplete: this.clearGroup })
-    this.fadeOutTl.to( this.vignettePass.params, 2, { boost: 0, ease: Sine.easeOut } )
-
-  }
-
-  clearGroup() {
-
-    // this.removeListeners()
-    this.fadeInTl.clear()
-    this.fadeOut.clear()
-    this.remove( this.beaubourg )
-    for ( let i = this.children.length - 1; i >= 0; i--) {
-      const child = this.children[ i ]
-      this.remove( child )
-      ClearObject3D( child )
-    }
-    this.passes = []
-    this.scene.setupPostProcessing( this.passes )
-    this.objects = []
-
-  }
-
 
   update( time ) {
 
