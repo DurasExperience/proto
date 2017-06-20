@@ -130,6 +130,11 @@ class Indochine extends Page {
 
   changeChapter() {
 
+    this.hammer.off( 'pinchstart', this.onPinchStart )
+    this.hammer.off( 'pinchmove', this.onPinchMove )
+    this.hammer.off( 'pinchend', this.onPinchEnd )
+    Store.off( EventsConstants.WINDOW_RESIZE, this.onWindowResize )
+    Store.socketRoom.socket.off( 'MOBILE_CHANGE_CHAPTER', this.changeChapter )
     Actions.changePage( '/troubles' )
 
   }

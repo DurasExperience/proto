@@ -165,6 +165,16 @@ export default {
       type: 'json',
       id: 'phone',
       url: '/assets/bodymovin/mobile/data.json'
+    },
+    {
+      type: 'video',
+      id: '03_video_black',
+      url: '/assets/videos/ch3_black.mp4'
+    },
+    {
+      type: 'video',
+      id: '03_video_white',
+      url: '/assets/videos/ch3_white.mp4'
     }
   ],
   mobile: [

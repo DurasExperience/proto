@@ -44,6 +44,10 @@ io.on( 'connection', ( socket ) => {
         console.log( 'press end' )
         newRoom.socket.emit( 'PRESS_END' ) 
       } )
+      roomSocket.on( 'MOBILE_ROTATE', () => {
+        console.log( 'rotate' )
+        newRoom.socket.emit( 'ROTATE' ) 
+      } )
 
     })
 

@@ -144,6 +144,7 @@ class Home extends Page {
   didTransitionOutComplete() {
 
     super.didTransitionOutComplete()
+    Store.off( EventsConstants.APP_START, this.playAnim )
     this.history.push( this.nextPath )
 
   }

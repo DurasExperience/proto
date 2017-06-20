@@ -112,7 +112,10 @@ class Troubles extends Page {
 
   changeChapter() {
 
-    Actions.changePage( '/duras-song' )
+    this.hammer.off( 'press', this.onPressStart )
+    this.hammer.off( 'pressup', this.onPressEnd )
+    Store.socketRoom.socket.off( 'MOBILE_CHANGE_CHAPTER', this.changeChapter )
+    Actions.changePage( '/notoriete' )
 
   }
 

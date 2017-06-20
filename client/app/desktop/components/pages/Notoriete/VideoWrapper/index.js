@@ -1,5 +1,4 @@
 import './VideoWrapper.styl'
-import miniVideo from 'mini-video'
 import AudioManager from './../../../../../../helpers/AudioManager'
 import GlobalConfig from './../../../../../../config'
 import Store from './../../../../../../flux/store/desktop'
@@ -17,28 +16,18 @@ class VideoWrapper extends React.Component {
 
   componentDidMount() {
 
-    this.blackVideo = miniVideo({
-      autoplay: false,
-      loop: false,
-      volume: 1
-    })
-    this.blackVideo.addTo( this.refs.videoBlack )
-    this.blackVideo.load( '/assets/videos/ch3_black.mp4', () => false )
+    this.blackVideo = Store.getResource( '03_video_black' )
+    this.whiteVideo = Store.getResource( '03_video_white' )
 
-    this.whiteVideo = miniVideo({
-      autoplay: false,
-      loop: false,
-      volume: 1
-    })
-    this.whiteVideo.addTo( this.refs.videoWhite )
-    this.whiteVideo.load( '/assets/videos/ch3_white.mp4', () => false )
-
+    this.refs.videoBlack.appendChild( this.blackVideo )
+    this.refs.videoWhite.appendChild( this.whiteVideo )
+    
     this.bind()
     this.setupTimeline()
 
     this.SIDE = 'black'
 
-    this.blackVideo.on('ended', this.changeChapter )
+    dom.event.on( this.blackVideo, 'ended', this.changeChapter )
 
   }
 
@@ -51,7 +40,7 @@ class VideoWrapper extends React.Component {
 
   addListeners() {
 
-    if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( EventsConstants.PRESS_START, this.swap )
+    if ( GlobalConfig.mobileConnect ) Store.socketRoom.on( EventsConstants.ROTATE, this.swap )
     else Store.on( EventsConstants.SPACE_UP, this.swap )
 
   }
@@ -121,9 +110,13 @@ class VideoWrapper extends React.Component {
 
     this.voice.fade( 1, 0, 300, this.voiceId )
     this.ambient.fade( 1, 0, 300, this.ambientId )
-    this.blackVideo.clear()
-    this.whiteVideo.clear()
     clearTimeout( this.tutoTimeout )
+    if ( GlobalConfig.mobileConnect ){
+      Store.socketRoom.off( EventsConstants.ROTATE, this.swap )
+      Store.socketRoom.emit( EventsConstants.CHANGE_CHAPTER )
+    }
+    else Store.off( EventsConstants.SPACE_UP, this.swap )
+    
     Actions.changePage( '/duras-song' )
 
   }

@@ -17,7 +17,7 @@ class Notoriete extends Page {
     this.history = props.history
     this.first = true
     this.tuto = false
-    this.onPinch = this.onPinch.bind( this )
+    this.onRotate = this.onRotate.bind( this )
     this.tutoDisplayer = this.tutoDisplayer.bind( this )
 
     this.state = {
@@ -40,8 +40,8 @@ class Notoriete extends Page {
   componentDidMount() {
 
     super.componentDidMount()
-    if ( Config.mobileConnect ) Store.socketRoom.on( EventsConstants.PINCH_END, this.onPinch )
-    else dom.event.on( this.refs.parent, 'click', this.onPinch )
+    if ( Config.mobileConnect ) Store.socketRoom.on( EventsConstants.ROTATE, this.onRotate )
+    else dom.event.on( this.refs.parent, 'click', this.onRotate )
     this.setupSound()
     console.log( 'mounted' )
 
@@ -78,14 +78,14 @@ class Notoriete extends Page {
 
   }
 
-  onPinch() {
+  onRotate() {
 
     console.log( 'pinch' )
     if ( !this.first ) return
     this.first = false
     if ( this.transitionSound ) this.transitionSound.fade( 0.25, 0, 500, this.transitionSoundId )
-    if ( Config.mobileConnect ) Store.socketRoom.off( EventsConstants.PINCH_END, this.onPinch )
-    else dom.event.off( this.refs.parent, 'click', this.onPinch )
+    if ( Config.mobileConnect ) Store.socketRoom.off( EventsConstants.ROTATE, this.onRotate )
+    else dom.event.off( this.refs.parent, 'click', this.onRotate )
     this.refs.videoWrapper.start()
     this.setState({ render: false })
 
