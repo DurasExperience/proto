@@ -76,22 +76,6 @@ class Chapter extends React.Component {
                 </g>
             </SVGComponent>
           </div>
-          <div className="page--layout__icon">
-            
-            <SVGComponent width="22px" height="22px" viewBox="0 0 22 22">
-              <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-                <g id="14-Chapitre-4-:-BPI" transform="translate(-553.000000, -848.000000)">
-                  <g id="Group" transform="translate(554.000000, 815.000000)">
-                    <g id="insta" transform="translate(0.000000, 34.000000)">
-                      <circle id="Oval" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" cx="10" cy="10" r="4.6195122"></circle>
-                      <ellipse id="Oval" fill="#FFFFFF" cx="16.4758537" cy="4.92219516" rx="1.21000004" ry="1.21000004"></ellipse>
-                      <rect id="Rectangle-path" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" x="0" y="0" width="20" height="20" rx="5"></rect>
-                    </g>
-                </g>
-                </g>
-              </g>
-            </SVGComponent>
-          </div>
         </div>
       </div>
     )
